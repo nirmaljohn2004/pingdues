@@ -6,6 +6,8 @@ export type GroupPayment = {
   amount: string
   status: Status
   due?: string
+  collectSchedule?: string
+  startDate?: string
 }
 
 export type Member = {
@@ -22,6 +24,7 @@ export type Member = {
   joined: string
   memberGroups?: string[]
   groupPayments?: Record<string, GroupPayment>  // per-group payment info
+  groupStatus?: Record<string, 'Active' | 'On Gap'> // Active or On Gap status per group
   alternatePhone?: string
   admissionNo?: string
   dob?: string
@@ -73,9 +76,23 @@ export const seedMembers: Member[] = [
   },
 ]
 
+export interface GroupReminder {
+  id: string
+  stage: 1 | 2 | 3
+  title: string
+  dayOfMonth: number // 1..28
+  time: string // e.g. "09:00 AM"
+  channel: 'WhatsApp' | 'SMS' | 'All'
+  enabled: boolean
+  messageTemplate?: string
+  lastSentAt?: string
+  quotaConsumed?: boolean
+}
+
 export interface GroupDetails {
   id: string
   name: string
+  groupImage?: string // image URL or base64 data URI
   billingType: 'One-time' | 'Recurring'
   feeAmount: string
   recursEvery?: string // e.g. 'Monthly', 'Quarterly', 'Yearly'
@@ -84,17 +101,68 @@ export interface GroupDetails {
   endDate?: string
   createdOn: string
   description?: string
+  acceptInstallments?: boolean
+  reminders?: GroupReminder[]
 }
 
 export const seedGroups: GroupDetails[] = [
-  { id: '1', name: 'Standard monthly', billingType: 'Recurring', feeAmount: '₹1,800', recursEvery: 'Monthly', dueDate: '1st of every month', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Standard gym access plan' },
-  { id: '2', name: 'Premium monthly', billingType: 'Recurring', feeAmount: '₹2,400', recursEvery: 'Monthly', dueDate: '1st of every month', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Includes personal trainer & spa access' },
-  { id: '3', name: 'Student monthly', billingType: 'Recurring', feeAmount: '₹900', recursEvery: 'Monthly', dueDate: '5th of every month', startDate: '01 Feb 2024', createdOn: '01 Feb 2024', description: 'Discounted rate for students with ID' },
-  { id: '4', name: 'Annual membership', billingType: 'Recurring', feeAmount: '₹15,000', recursEvery: 'Yearly', dueDate: '01 Jan every year', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Full year access with 2 months free' },
-  { id: '5', name: 'Coaching centre', billingType: 'One-time', feeAmount: '₹1,200', dueDate: 'On admission', startDate: '15 Jan 2024', createdOn: '15 Jan 2024', description: 'Specialized group coaching sessions' },
+  {
+    id: '1', name: 'Standard monthly', billingType: 'Recurring', feeAmount: '₹1,800', recursEvery: 'Monthly', dueDate: '1st of every month', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Standard gym access plan',
+    reminders: [
+      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 1, time: '09:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, friendly reminder that your monthly fee of {amount} for {group} is due today.' },
+      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 5, time: '10:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your monthly fee of {amount} for {group} is currently pending. Please pay at your earliest.' },
+      { id: 'rem-3', stage: 3, title: '3rd & Final Reminder (Urgent Warning)', dayOfMonth: 10, time: '06:00 PM', channel: 'WhatsApp', enabled: true, messageTemplate: 'URGENT: Hi {name}, fee of {amount} for {group} is overdue. Please complete payment immediately.' }
+    ]
+  },
+  {
+    id: '2', name: 'Premium monthly', billingType: 'Recurring', feeAmount: '₹2,400', recursEvery: 'Monthly', dueDate: '1st of every month', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Includes personal trainer & spa access',
+    reminders: [
+      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 1, time: '09:30 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your monthly fee of {amount} for {group} is due today.' },
+      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 7, time: '11:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your monthly fee of {amount} for {group} is pending.' },
+      { id: 'rem-3', stage: 3, title: '3rd & Final Reminder (Urgent Warning)', dayOfMonth: 12, time: '05:00 PM', channel: 'WhatsApp', enabled: false, messageTemplate: 'URGENT: Hi {name}, fee of {amount} is overdue. Please pay now.' }
+    ]
+  },
+  {
+    id: '3', name: 'Student monthly', billingType: 'Recurring', feeAmount: '₹900', recursEvery: 'Monthly', dueDate: '5th of every month', startDate: '01 Feb 2024', createdOn: '01 Feb 2024', description: 'Discounted rate for students with ID',
+    reminders: [
+      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 5, time: '09:00 AM', channel: 'WhatsApp', enabled: true },
+      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 10, time: '10:00 AM', channel: 'WhatsApp', enabled: true },
+      { id: 'rem-3', stage: 3, title: '3rd & Final Reminder (Urgent Warning)', dayOfMonth: 15, time: '06:00 PM', channel: 'WhatsApp', enabled: true }
+    ]
+  },
+  { id: '4', name: 'Annual membership', billingType: 'Recurring', feeAmount: '₹15,000', recursEvery: 'Yearly', dueDate: '01 Jan every year', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Full year access with 2 months free', reminders: [] },
+  { id: '5', name: 'Coaching centre', billingType: 'One-time', feeAmount: '₹1,200', dueDate: 'On admission', startDate: '15 Jan 2024', createdOn: '15 Jan 2024', description: 'Specialized group coaching sessions', reminders: [] },
 ]
 
-export type ModalType = 'add' | 'edit-member' | 'details' | 'remove' | 'payment' | 'reminder' | 'bulk-remind' | 'new-payment' | 'edit-payment' | 'remove-payment' | 'add-group' | 'edit-group' | 'add-members-to-group' | 'group-details' | 'invoice' | null
+export interface UserProfile {
+  name: string
+  email: string
+  phone: string
+  gymName: string
+  gstin?: string
+  address?: string
+  kycStatus: 'Verified' | 'Pending' | 'Not Started'
+  panNo?: string
+  aadhaarNo?: string
+  bankAccount?: string
+  ifscCode?: string
+}
+
+export const initialUserProfile: UserProfile = {
+  name: 'Riya Kapoor',
+  email: 'riya.kapoor@pulseclub.in',
+  phone: '+91 98765 12345',
+  gymName: 'Pulse Club Gym & Fitness',
+  gstin: '27AAAAA0000A1Z5',
+  address: 'Plot 42, Sector 18, Business Hub, Mumbai, MH',
+  kycStatus: 'Verified',
+  panNo: 'ABCDE1234F',
+  aadhaarNo: 'XXXX-XXXX-9821',
+  bankAccount: 'HDFC Bank • •••• 4912',
+  ifscCode: 'HDFC0001234'
+}
+
+export type ModalType = 'add' | 'edit-member' | 'details' | 'remove' | 'payment' | 'reminder' | 'bulk-remind' | 'new-payment' | 'edit-payment' | 'remove-payment' | 'add-group' | 'edit-group' | 'add-members-to-group' | 'group-details' | 'invoice' | 'profile-settings' | null
 
 export interface TransactionItem {
   id: string
@@ -122,6 +190,9 @@ interface AppState {
   setActiveTab: (tab: string) => void
   setMenuOpen: (open: boolean) => void
 
+  userProfile: UserProfile
+  updateUserProfile: (updated: Partial<UserProfile>) => void
+
   members: Member[]
   groups: string[]
   groupDetailsList: GroupDetails[]
@@ -132,6 +203,12 @@ interface AppState {
   updateGroup: (id: string, updated: Partial<GroupDetails>) => void
   deleteGroup: (id: string) => void
   updateMember: (id: number, updated: Partial<Member>) => void
+  toggleMemberGroupStatus: (memberId: number, groupName: string) => void
+
+  addOrUpdateGroupReminder: (groupId: string, reminder: GroupReminder) => void
+  deleteGroupReminder: (groupId: string, reminderId: string) => void
+  toggleGroupReminder: (groupId: string, reminderId: string) => void
+  triggerGroupReminderNow: (groupId: string, reminderId: string) => void
 
   modal: ModalType
   selectedMember: Member | null
@@ -159,6 +236,11 @@ export const useStore = create<AppState>((set) => ({
   menuOpen: false,
   setActiveTab: (tab) => set({ activeTab: tab }),
   setMenuOpen: (open) => set({ menuOpen: open }),
+
+  userProfile: initialUserProfile,
+  updateUserProfile: (updated) => set((state) => ({
+    userProfile: { ...state.userProfile, ...updated }
+  })),
 
   members: seedMembers,
   groups: ['Standard monthly', 'Premium monthly', 'Student monthly', 'Annual membership', 'Coaching centre'],
@@ -222,6 +304,54 @@ export const useStore = create<AppState>((set) => ({
     }
   }),
 
+  addOrUpdateGroupReminder: (groupId, reminder) => set((state) => ({
+    groupDetailsList: state.groupDetailsList.map(g => {
+      if (g.id !== groupId) return g
+      const existingReminders = g.reminders || []
+      const exists = existingReminders.some(r => r.id === reminder.id)
+      
+      if (!exists && existingReminders.length >= 3) {
+        return g
+      }
+
+      const updatedReminders = exists
+        ? existingReminders.map(r => r.id === reminder.id ? reminder : r)
+        : [...existingReminders, reminder]
+
+      return { ...g, reminders: updatedReminders }
+    })
+  })),
+
+  deleteGroupReminder: (groupId, reminderId) => set((state) => ({
+    groupDetailsList: state.groupDetailsList.map(g => {
+      if (g.id !== groupId) return g
+      return { ...g, reminders: (g.reminders || []).filter(r => r.id !== reminderId) }
+    })
+  })),
+
+  toggleGroupReminder: (groupId, reminderId) => set((state) => ({
+    groupDetailsList: state.groupDetailsList.map(g => {
+      if (g.id !== groupId) return g
+      return {
+        ...g,
+        reminders: (g.reminders || []).map(r => r.id === reminderId ? { ...r, enabled: !r.enabled } : r)
+      }
+    })
+  })),
+
+  triggerGroupReminderNow: (groupId, reminderId) => set((state) => ({
+    groupDetailsList: state.groupDetailsList.map(g => {
+      if (g.id !== groupId) return g
+      const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      return {
+        ...g,
+        reminders: (g.reminders || []).map(r =>
+          r.id === reminderId ? { ...r, quotaConsumed: true, lastSentAt: `Today, ${timeNow}` } : r
+        )
+      }
+    })
+  })),
+
   modal: null,
   selectedMember: null,
   selectedGroup: null,
@@ -277,6 +407,24 @@ export const useStore = create<AppState>((set) => ({
     const updatedSelected = state.selectedMember && state.selectedMember.id === id ? { ...state.selectedMember, ...updated } : state.selectedMember
     return { members: updatedMembers, selectedMember: updatedSelected }
   }),
+
+  toggleMemberGroupStatus: (memberId, groupName) => set((state) => ({
+    members: state.members.map(m => {
+      if (m.id === memberId) {
+        const currentGroupStatus = m.groupStatus || {}
+        const current = currentGroupStatus[groupName] || 'Active'
+        const next = current === 'Active' ? 'On Gap' : 'Active'
+        return {
+          ...m,
+          groupStatus: {
+            ...currentGroupStatus,
+            [groupName]: next
+          }
+        }
+      }
+      return m
+    })
+  })),
 
   toast: '',
   setToast: (toast) => set({ toast }),

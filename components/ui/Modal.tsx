@@ -1,10 +1,11 @@
 import { X } from 'lucide-react'
 
-export function Modal({ children, close }: { children: React.ReactNode; close: () => void }) {
+export function Modal({ children, close, style, className }: { children: React.ReactNode; close: () => void; style?: React.CSSProperties; className?: string }) {
   return (
     <div className="modal-backdrop" onClick={close}>
       <section 
-        className="modal" 
+        className={`modal ${className || ''}`}
+        style={style}
         role="dialog" 
         aria-modal="true" 
         onClick={(event) => event.stopPropagation()}

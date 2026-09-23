@@ -45,12 +45,12 @@ const inputStyle: React.CSSProperties = {
 
 function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: '1px solid #f8fafc' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '170px', flexShrink: 0, color: '#94a3b8' }}>
+    <div className="member-detail-info-row" style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: '1px solid #f8fafc' }}>
+      <div className="member-detail-info-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '170px', flexShrink: 0, color: '#94a3b8' }}>
         {icon}
         <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>{label}</span>
       </div>
-      <span style={{ fontSize: '13px', fontWeight: 600, color: value === '--' ? '#cbd5e1' : '#0f172a' }}>{value || '--'}</span>
+      <span className="member-detail-info-val" style={{ fontSize: '13px', fontWeight: 600, color: value === '--' ? '#cbd5e1' : '#0f172a' }}>{value || '--'}</span>
     </div>
   )
 }
@@ -400,7 +400,7 @@ export default function MemberModals() {
         {modal === 'details' && selectedMember && (
           <>
             {/* ── Header ── */}
-            <div style={{
+            <div className="member-detail-modal-header" style={{
               display: 'flex', alignItems: 'center', gap: '16px',
               padding: '28px 32px 24px', borderBottom: '1px solid #f1f5f9',
             }}>
@@ -410,42 +410,43 @@ export default function MemberModals() {
               >
                 {selectedMember.initials}
               </div>
-              <div style={{ flex: 1 }}>
+              <div className="member-detail-modal-title" style={{ flex: 1, minWidth: 0 }}>
                 <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>{selectedMember.name}</h2>
                 <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>{selectedMember.phone}</span>
               </div>
-              <button
-                onClick={() => setModal('edit-member')}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '7px 14px', borderRadius: '8px',
-                  border: '1px solid #e5e7eb', background: '#f8fafc',
-                  fontSize: '12px', fontWeight: 600, color: '#334155',
-                  cursor: 'pointer', transition: 'all 0.15s ease',
-                  marginRight: '6px',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#0f172a' }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#334155' }}
-              >
-                <Edit3 size={14} /> Edit Details
-              </button>
-              <button
-                onClick={closeModal}
-                aria-label="Close"
-                style={{
-                  border: '1px solid #e5e7eb', background: '#fff', borderRadius: '8px',
-                  width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: '#64748b', transition: 'all 0.15s ease', flexShrink: 0,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#f8f9fc'; e.currentTarget.style.color = '#0f172a' }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#64748b' }}
-              >
-                <X size={15} />
-              </button>
+              <div className="member-detail-modal-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  onClick={() => setModal('edit-member')}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '6px',
+                    padding: '7px 14px', borderRadius: '8px',
+                    border: '1px solid #e5e7eb', background: '#f8fafc',
+                    fontSize: '12px', fontWeight: 600, color: '#334155',
+                    cursor: 'pointer', transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#0f172a' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#334155' }}
+                >
+                  <Edit3 size={14} /> Edit Details
+                </button>
+                <button
+                  onClick={closeModal}
+                  aria-label="Close"
+                  style={{
+                    border: '1px solid #e5e7eb', background: '#fff', borderRadius: '8px',
+                    width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer', color: '#64748b', transition: 'all 0.15s ease', flexShrink: 0,
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#f8f9fc'; e.currentTarget.style.color = '#0f172a' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#64748b' }}
+                >
+                  <X size={15} />
+                </button>
+              </div>
             </div>
 
             {/* ── Tabs ── */}
-            <div style={{ display: 'flex', gap: '28px', padding: '0 32px', borderBottom: '1px solid #f1f5f9' }}>
+            <div className="member-detail-modal-tabs" style={{ display: 'flex', gap: '28px', padding: '0 32px', borderBottom: '1px solid #f1f5f9' }}>
               {(['member', 'transaction'] as const).map(t => (
                 <button
                   key={t}
@@ -463,7 +464,7 @@ export default function MemberModals() {
               ))}
             </div>
 
-            <div style={{ padding: '28px 32px 32px' }}>
+            <div className="member-detail-modal-content" style={{ padding: '28px 32px 32px' }}>
 
               {/* ── MEMBER DETAILS TAB ── */}
               {detailsTab === 'member' && (
@@ -537,7 +538,7 @@ export default function MemberModals() {
               {detailsTab === 'transaction' && (
                 <>
                   {/* Summary cards */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '32px' }}>
+                  <div className="member-tx-summary-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '32px' }}>
                     <div style={{ border: '1px solid #fee2e2', borderBottom: '3px solid #ef4444', borderRadius: '12px', padding: '18px 16px' }}>
                       <span style={{ display: 'block', fontSize: '11px', color: '#94a3b8', fontWeight: 600, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Due</span>
                       <strong style={{ fontSize: '24px', color: '#0f172a', fontWeight: 700, letterSpacing: '-0.03em' }}>
@@ -622,13 +623,13 @@ export default function MemberModals() {
                   </div>
 
                   {/* Search + filter */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <div style={{ position: 'relative' }}>
+                  <div className="member-tx-filter-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <div style={{ position: 'relative', flex: 1, maxWidth: '260px' }}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                       <input
                         type="text"
                         placeholder="Search transactions…"
-                        style={{ ...inputStyle, paddingLeft: '36px', width: '260px' }}
+                        style={{ ...inputStyle, paddingLeft: '36px', width: '100%' }}
                         onFocus={e => { e.target.style.borderColor = '#be123c'; e.target.style.boxShadow = '0 0 0 3px rgba(190,18,60,0.1)' }}
                         onBlur={e => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none' }}
                       />
@@ -656,9 +657,10 @@ export default function MemberModals() {
                         return (
                           <div
                             key={i}
+                            className="member-tx-row-card"
                             style={{ borderRadius: '12px', background: bgColor, border: `1px solid ${borderColor}`, overflow: 'hidden' }}
                           >
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px' }}>
+                            <div className="member-tx-row-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                 <div style={{ width: 36, height: 36, borderRadius: '10px', flexShrink: 0, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                   {isRowPaid
@@ -675,7 +677,7 @@ export default function MemberModals() {
                                   <small style={{ color: '#94a3b8', fontSize: '11px' }}>{tx.due}</small>
                                 </div>
                               </div>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                              <div className="member-tx-row-actions" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                 <div style={{ textAlign: 'right' }}>
                                   <strong style={{ display: 'block', fontSize: '16px', fontWeight: 700, color: amtColor, letterSpacing: '-0.02em' }}>{tx.amount}</strong>
                                   <span style={{ display: 'inline-block', marginTop: '3px', fontSize: '9px', fontWeight: 700, padding: '2px 7px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.06em', background: badgeBg, color: badgeColor }}>
@@ -689,6 +691,7 @@ export default function MemberModals() {
                                       e.stopPropagation()
                                       setModal('new-payment')
                                     }}
+                                    className="member-tx-pay-btn"
                                     style={{
                                       padding: '7px 14px',
                                       borderRadius: '8px',

@@ -136,7 +136,7 @@ export function RecordPaymentModal() {
         </div>
 
         {/* Select Group & Amount */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className="record-pay-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -156,7 +156,8 @@ export function RecordPaymentModal() {
                 fontWeight: 600,
                 color: '#0f172a',
                 background: selectedMemberId === '' ? '#f8fafc' : '#fff',
-                outline: 'none'
+                outline: 'none',
+                width: '100%'
               }}
             >
               {memberGroupsList.map(g => {
@@ -188,7 +189,8 @@ export function RecordPaymentModal() {
                 fontSize: '13px',
                 fontWeight: 600,
                 color: '#0f172a',
-                outline: 'none'
+                outline: 'none',
+                width: '100%'
               }}
             />
           </div>
@@ -198,7 +200,7 @@ export function RecordPaymentModal() {
         {/* Payment Method Selector */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <label style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>Payment Mode *</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+          <div className="record-pay-modes" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             
             <button
               type="button"
@@ -309,7 +311,7 @@ export function RecordPaymentModal() {
         </div>
 
         {/* Actions */}
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '10px', paddingTop: '16px', borderTop: '1px solid #f1f5f9' }}>
+        <div className="record-pay-actions" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '10px', paddingTop: '16px', borderTop: '1px solid #f1f5f9' }}>
           <button
             type="button"
             className="secondary-button"

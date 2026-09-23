@@ -109,7 +109,7 @@ export default function Overview() {
             action={<button className="settings-link" onClick={() => setActiveTab('Collections')}>View collections <ArrowUpRight /></button>} 
           />
           <div className="collection-summary">
-            <div className="donut" style={{ background: `conic-gradient(#635bff 0 ${collectionRate}%, #ebeafe ${collectionRate}% 100%)`}}>
+            <div className="donut" style={{ background: `conic-gradient(#be123c 0 ${collectionRate}%, #ffe4e6 ${collectionRate}% 100%)`}}>
               <div><strong>{collectionRate}<span>%</span></strong><small>collected</small></div>
             </div>
             <div className="legend">
@@ -214,14 +214,14 @@ export default function Overview() {
         const maxTotal = Math.max(...groupData.map(d => d.total), 1)
 
         return (
-          <section className="panel" style={{ marginTop: '24px', padding: '28px 32px' }}>
+          <section className="panel overview-comparison-panel" style={{ marginTop: '24px', padding: '28px 32px' }}>
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
+            <div className="overview-comparison-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
               <div>
                 <h2 style={{ margin: '0 0 4px', fontSize: '17px', fontWeight: 700, color: '#0f172a' }}>Group Revenue Comparison</h2>
                 <p style={{ margin: 0, fontSize: '13px', color: '#94a3b8' }}>Collected vs pending amount across all active groups</p>
               </div>
-              <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div className="overview-comparison-legend" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ width: 10, height: 10, borderRadius: '3px', background: '#059669' }} />
                   <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 500 }}>Collected</span>
@@ -240,12 +240,12 @@ export default function Overview() {
             ) : (
               <>
                 {/* Recharts horizontal grouped bar */}
-                <div style={{ height: Math.max(groupData.length * 60 + 40, 200) }}>
+                <div className="overview-comparison-chart-wrap" style={{ height: Math.max(groupData.length * 60 + 40, 200) }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       layout="vertical"
                       data={groupData}
-                      margin={{ top: 0, right: 20, left: 10, bottom: 0 }}
+                      margin={{ top: 0, right: 10, left: -10, bottom: 0 }}
                       barGap={4}
                     >
                       <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.25} />
@@ -257,14 +257,14 @@ export default function Overview() {
                       />
                       <YAxis
                         type="category" dataKey="name"
-                        width={130}
+                        width={90}
                         axisLine={false} tickLine={false}
-                        tick={{ fontSize: 12, fill: '#475569', fontWeight: 600 }}
+                        tick={{ fontSize: 11, fill: '#475569', fontWeight: 600 }}
                       />
                       <Tooltip
                         cursor={{ fill: 'rgba(0,0,0,0.03)' }}
-                        formatter={(value: number, name: string) => [
-                          `₹${Number(value).toLocaleString('en-IN')}`,
+                        formatter={(value: any, name: any) => [
+                          `₹${Number(value || 0).toLocaleString('en-IN')}`,
                           name === 'collected' ? 'Collected' : 'Pending',
                         ]}
                         contentStyle={{ borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
@@ -277,12 +277,12 @@ export default function Overview() {
                 </div>
 
                 {/* Summary cards per group */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px', marginTop: '28px', paddingTop: '24px', borderTop: '1px solid #f1f5f9' }}>
+                <div className="overview-group-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px', marginTop: '28px', paddingTop: '24px', borderTop: '1px solid #f1f5f9' }}>
                   {groupData.map((g, i) => {
                     const barColors = ['#be123c', '#7c3aed', '#059669', '#d97706', '#0284c7', '#db2777']
                     const c = barColors[i % barColors.length]
                     return (
-                      <div key={g.name} style={{ padding: '16px', borderRadius: '12px', border: '1px solid #f1f5f9', background: '#fafafa' }}>
+                      <div key={g.name} className="overview-group-card" style={{ padding: '16px', borderRadius: '12px', border: '1px solid #f1f5f9', background: '#fafafa' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                           <div style={{ width: 28, height: 28, borderRadius: '8px', background: c + '18', color: c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '11px', flexShrink: 0 }}>
                             {g.name.charAt(0).toUpperCase()}

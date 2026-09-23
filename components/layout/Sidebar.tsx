@@ -1,10 +1,10 @@
-import { Hexagon, ChevronDown, LayoutDashboard, Users, Layers, CircleDollarSign, Bell, Settings2, LogOut } from 'lucide-react'
+import { Hexagon, ChevronDown, LayoutDashboard, Users, Layers, CircleDollarSign, Bell } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
-const navItems = ['Overview', 'Members', 'Groups', 'Collections', 'Reminders', 'Settings']
+const navItems = ['Overview', 'Members', 'Groups', 'Collections']
 
 export default function Sidebar() {
-  const { menuOpen, setMenuOpen, activeTab, setActiveTab, setIsAuthenticated } = useStore()
+  const { menuOpen, setMenuOpen, activeTab, setActiveTab } = useStore()
 
   return (
     <>
@@ -30,10 +30,8 @@ export default function Sidebar() {
               {item === 'Overview' ? <LayoutDashboard /> : 
                item === 'Members' ? <Users /> : 
                item === 'Groups' ? <Layers /> : 
-               item === 'Collections' ? <CircleDollarSign /> : 
-               item === 'Reminders' ? <Bell /> : <Settings2 />}
+               <CircleDollarSign />}
               {item}
-              {item === 'Reminders' && <b>2</b>}
             </button>
           ))}
         </nav>
@@ -42,16 +40,6 @@ export default function Sidebar() {
           <div className="help-card">
             <Bell />
             <div><strong>Need a hand?</strong><small>We are here to help.</small></div>
-          </div>
-          
-          <div 
-            className="profile" 
-            onClick={() => setIsAuthenticated(false)} 
-            style={{ cursor: 'pointer', transition: 'background 0.2s ease' }}
-          >
-            <div className="profile-avatar">RK</div>
-            <div><strong>Riya Kapoor</strong><small style={{ color: '#be123c', fontWeight: 600 }}>Log out</small></div>
-            <LogOut size={18} color="#be123c" />
           </div>
         </div>
       </aside>

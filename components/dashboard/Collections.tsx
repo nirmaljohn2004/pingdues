@@ -106,7 +106,7 @@ export default function Collections() {
       <section className="panel collection-table" style={{ padding: '0', overflow: 'hidden' }}>
         
         {/* Toolbar & Filter Controls */}
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', background: '#fafafa', display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="collection-toolbar" style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', background: '#fafafa', display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', justifyContent: 'space-between' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#0f172a' }}>Completed Payments & Invoices</h3>
@@ -172,6 +172,7 @@ export default function Collections() {
               return (
                 <div
                   key={txn.id}
+                  className="collection-txn-row"
                   onClick={() => openInvoice(txn)}
                   style={{
                     display: 'flex',
@@ -186,7 +187,7 @@ export default function Collections() {
                   onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
                   onMouseLeave={e => e.currentTarget.style.background = '#fff'}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', width: '260px' }}>
+                  <div className="collection-txn-col collection-txn-member" style={{ display: 'flex', alignItems: 'center', gap: '14px', width: '260px' }}>
                     <div style={{
                       width: 38, height: 38, borderRadius: '10px',
                       background: isPaid ? '#e6f8ef' : isOverdue ? '#fef2f2' : '#fff7ed',
@@ -202,12 +203,12 @@ export default function Collections() {
                     </div>
                   </div>
 
-                  <div style={{ width: '150px' }}>
+                  <div className="collection-txn-col" style={{ width: '150px' }}>
                     <span style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155' }}>{txn.txnNumber}</span>
                     <small style={{ color: '#94a3b8', fontSize: '11px' }}>{txn.date}</small>
                   </div>
 
-                  <div style={{ width: '130px' }}>
+                  <div className="collection-txn-col" style={{ width: '130px' }}>
                     <strong style={{ display: 'block', fontSize: '15px', fontWeight: 800, color: '#0f172a' }}>{txn.amount}</strong>
                     <small style={{ color: '#64748b', fontSize: '11px' }}>{txn.paymentMethod}</small>
                   </div>
@@ -217,7 +218,7 @@ export default function Collections() {
                   </div>
                   
                   {/* Action Buttons */}
-                  <div style={{ display: 'flex', gap: '8px' }} onClick={e => e.stopPropagation()}>
+                  <div className="collection-txn-actions" style={{ display: 'flex', gap: '8px' }} onClick={e => e.stopPropagation()}>
                     <button
                       onClick={() => openInvoice(txn)}
                       style={{
