@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { Plus, Search, Users, X, Check, Edit3, Trash2, Calendar, CreditCard, Clock, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, UserPlus, Info, LayoutDashboard, Receipt, TrendingUp, DollarSign, PieChart as PieChartIcon, Bell } from 'lucide-react'
 import { useStore, GroupDetails, Member, GroupReminder } from '@/store/useStore'
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { CustomSelect } from '@/components/ui/CustomSelect'
 
 export default function GroupsTab() {
   const { groups, groupDetailsList, members, setMembers, setModal, setSelectedGroup, deleteGroup, toggleMemberGroupStatus, addOrUpdateGroupReminder, deleteGroupReminder, toggleGroupReminder, triggerGroupReminderNow, notify } = useStore()
@@ -1166,30 +1167,27 @@ export default function GroupsTab() {
                         <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
                           Day of Month (1 - 28)
                         </label>
-                        <select
-                          value={remDay}
-                          onChange={e => setRemDay(Number(e.target.value))}
-                          style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#fff' }}
-                        >
-                          {Array.from({ length: 28 }, (_, i) => i + 1).map(d => (
-                            <option key={d} value={d}>Day {d} of month</option>
-                          ))}
-                        </select>
+                        <CustomSelect
+                          value={String(remDay)}
+                          onChange={val => setRemDay(Number(val))}
+                          width="100%"
+                          options={Array.from({ length: 28 }, (_, i) => i + 1).map(d => ({
+                            value: String(d),
+                            label: `Day ${d} of month`
+                          }))}
+                        />
                       </div>
 
                       <div>
                         <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
                           Send Time
                         </label>
-                        <select
+                        <CustomSelect
                           value={remTime}
-                          onChange={e => setRemTime(e.target.value)}
-                          style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#fff' }}
-                        >
-                          {['08:00 AM', '09:00 AM', '09:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM'].map(t => (
-                            <option key={t} value={t}>{t}</option>
-                          ))}
-                        </select>
+                          onChange={setRemTime}
+                          width="100%"
+                          options={['08:00 AM', '09:00 AM', '09:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM']}
+                        />
                       </div>
                     </div>
 
@@ -1197,22 +1195,25 @@ export default function GroupsTab() {
                       <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
                         Delivery Channel
                       </label>
-                      <select
+                      <CustomSelect
                         value={remChannel}
-                        onChange={e => setRemChannel(e.target.value as any)}
-                        style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#fff' }}
-                      >
-                        <option value="WhatsApp">WhatsApp Message</option>
-                        <option value="SMS">SMS Notification</option>
-                        <option value="All">WhatsApp & SMS Both</option>
-                      </select>
+                        onChange={val => setRemChannel(val as any)}
+                        width="100%"
+                        options={[
+                          { value: 'WhatsApp', label: 'WhatsApp Message' },
+                          { value: 'SMS', label: 'SMS Notification' },
+                          { value: 'All', label: 'WhatsApp & SMS Both' }
+                        ]}
+                      />
                     </div>
 
                     <div style={{
                       padding: '10px 12px', background: '#f8fafc', borderRadius: '8px',
-                      border: '1px solid #e2e8f0', fontSize: '11px', color: '#64748b'
+                      border: '1px solid #e2e8f0', fontSize: '11px', color: '#64748b',
+                      display: 'flex', alignItems: 'center', gap: '8px'
                     }}>
-                      🔔 <b>Next Cycle Schedule:</b> Day {remDay} of every month at {remTime}.
+                      <Bell size={13} color="#be123c" style={{ flexShrink: 0 }} />
+                      <span><b>Next Cycle Schedule:</b> Day {remDay} of every month at {remTime}.</span>
                     </div>
                   </div>
 
@@ -1253,9 +1254,11 @@ export default function GroupsTab() {
 
                 <div style={{
                   background: '#fff7ed', border: '1px solid #ffedd5', borderRadius: '10px',
-                  padding: '12px 14px', marginBottom: '16px', fontSize: '12px', color: '#9a3412', lineHeight: '1.4'
+                  padding: '12px 14px', marginBottom: '16px', fontSize: '12px', color: '#9a3412', lineHeight: '1.4',
+                  display: 'flex', alignItems: 'flex-start', gap: '8px'
                 }}>
-                  ⚠️ <b>Monthly Quota Warning:</b> Dispatching this reminder now will consume <b>1 monthly quota</b> for <b>{confirmSendReminder.groupName}</b>. This quota cannot be restored for this month.
+                  <AlertCircle size={15} color="#ea580c" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span><b>Monthly Quota Warning:</b> Dispatching this reminder now will consume <b>1 monthly quota</b> for <b>{confirmSendReminder.groupName}</b>. This quota cannot be restored for this month.</span>
                 </div>
 
                 <div style={{
@@ -1376,85 +1379,57 @@ export default function GroupsTab() {
           return (
             <div
               key={group.id}
+              className="group-tile-card"
               onClick={() => {
                 setExpandedGroupId(group.id)
                 setActiveGroupTab('overview')
               }}
-              style={{
-                background: '#fff',
-                borderRadius: '16px',
-                border: '1px solid #e2e8f0',
-                padding: '24px',
-                display: 'flex',
-                flexDirection: 'column',
-                justify: 'space-between',
-                gap: '16px',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.03)',
-                transition: 'all 0.2s ease',
-                cursor: 'pointer',
-                position: 'relative'
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.07)'
-                e.currentTarget.style.borderColor = '#be123c'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'none'
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.03)'
-                e.currentTarget.style.borderColor = '#e2e8f0'
-              }}
             >
-              {/* Tile Header: Avatar Badge, Name, Type, Actions */}
+              {/* Tile Header: Clean Icon/Image Avatar, Name, Schedule Badge, Actions */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                     {group.groupImage ? (
                       <img
                         src={group.groupImage}
                         alt={group.name}
                         style={{
-                          width: 48, height: 48, borderRadius: '14px',
+                          width: 44, height: 44, borderRadius: '10px',
                           objectFit: 'cover', flexShrink: 0,
-                          border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.04)'
+                          border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
                         }}
                       />
                     ) : (
-                      <div style={{
-                        width: 48, height: 48, borderRadius: '14px',
-                        background: bgColor, color: textColor,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontWeight: 700, fontSize: '20px', flexShrink: 0,
-                      }}>
+                      <div
+                        className="group-avatar-badge"
+                        style={{ background: bgColor, color: textColor }}
+                      >
                         {group.name.charAt(0).toUpperCase()}
                       </div>
                     )}
 
                     <div>
-                      <h3 style={{ margin: 0, fontSize: '17px', fontWeight: 700, color: '#0f172a' }}>{group.name}</h3>
-                      <span style={{
-                        fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '12px',
-                        background: isRecurring ? '#eff6ff' : '#fef3c7',
-                        color: isRecurring ? '#1d4ed8' : '#b45309',
-                        display: 'inline-block', marginTop: '4px'
-                      }}>
-                        {group.billingType} {group.recursEvery ? `(${group.recursEvery})` : ''}
+                      <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.25 }}>
+                        {group.name}
+                      </h3>
+                      <span className={`group-badge-pill ${isRecurring ? 'recurring' : 'one-time'}`} style={{ marginTop: '5px' }}>
+                        {group.billingType} {group.recursEvery ? `· ${group.recursEvery}` : ''}
                       </span>
                     </div>
                   </div>
 
-                  {/* Edit / Delete actions */}
+                  {/* Actions */}
                   <div style={{ display: 'flex', gap: '6px' }} onClick={e => e.stopPropagation()}>
                     <button
                       onClick={() => { setSelectedGroup(group); setModal('edit-group') }}
                       title="Edit group details"
                       style={{
-                        border: '1px solid #e2e8f0', background: '#f8fafc', color: '#475569',
+                        border: '1px solid #e2e8f0', background: '#fff', color: '#475569',
                         width: 32, height: 32, borderRadius: '8px', cursor: 'pointer',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'all 0.15s ease'
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#be123c'; e.currentTarget.style.color = '#be123c' }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#0f172a'; e.currentTarget.style.color = '#0f172a' }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#475569' }}
                     >
                       <Edit3 size={14} />
@@ -1477,43 +1452,43 @@ export default function GroupsTab() {
                 </div>
 
                 {group.description && (
-                  <p style={{ margin: '0 0 16px', fontSize: '12px', color: '#64748b', lineHeight: '1.5' }}>
+                  <p style={{ margin: '0 0 16px', fontSize: '13px', color: '#475569', lineHeight: '1.5' }}>
                     {group.description}
                   </p>
                 )}
 
-                {/* Summary Metrics Box inside Tile */}
-                <div style={{
-                  display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px',
-                  background: '#f8fafc', padding: '14px', borderRadius: '12px',
-                  border: '1px solid #f1f5f9', marginBottom: '16px'
-                }}>
+                {/* Structured Metrics Card */}
+                <div className="group-tile-metrics-box">
                   <div>
-                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Fee Amount</span>
-                    <strong style={{ display: 'block', fontSize: '18px', color: '#0f172a', fontWeight: 700, marginTop: '2px' }}>{group.feeAmount}</strong>
-                    <small style={{ color: '#94a3b8', fontSize: '10px' }}>{group.dueDate || '1st of month'}</small>
+                    <span className="metric-label">Fee Amount</span>
+                    <strong className="metric-val">{group.feeAmount}</strong>
+                    <span className="metric-sub">{group.dueDate || '1st of every month'}</span>
                   </div>
 
                   <div>
-                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Enrolled Roster</span>
-                    <strong style={{ display: 'block', fontSize: '18px', color: '#059669', fontWeight: 700, marginTop: '2px' }}>
-                      {groupMembers.length} member{groupMembers.length !== 1 ? 's' : ''}
+                    <span className="metric-label">Enrolled Members</span>
+                    <strong className="metric-val" style={{ color: '#0f172a' }}>
+                      {groupMembers.length}
                     </strong>
-                    <small style={{ color: '#94a3b8', fontSize: '10px' }}>₹{monthlyEst.toLocaleString('en-IN')}/mo value</small>
+                    <span className="metric-sub">₹{monthlyEst.toLocaleString('en-IN')}/mo volume</span>
                   </div>
                 </div>
 
-                {/* Payment Status Summary Bar */}
-                <div style={{ marginBottom: '14px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', marginBottom: '6px' }}>
-                    <span style={{ color: '#475569', fontWeight: 600 }}>Payment Status</span>
-                    <div style={{ display: 'flex', gap: '10px', fontSize: '11px', fontWeight: 700 }}>
-                      <span style={{ color: '#059669' }}>{totalPaid} Paid</span>
-                      <span style={{ color: '#d97706' }}>{totalPending} Pending</span>
+                {/* Progress Bar & Breakdown */}
+                <div style={{ marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', marginBottom: '8px' }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>Payment Status</span>
+                    <div style={{ display: 'flex', gap: '8px', fontSize: '11px', fontWeight: 600 }}>
+                      <span style={{ color: '#059669', background: '#ecfdf5', padding: '2px 8px', borderRadius: '4px' }}>
+                        {totalPaid} paid
+                      </span>
+                      <span style={{ color: '#b45309', background: '#fef3c7', padding: '2px 8px', borderRadius: '4px' }}>
+                        {totalPending} pending
+                      </span>
                     </div>
                   </div>
 
-                  <div style={{ width: '100%', height: 6, borderRadius: 3, background: '#e2e8f0', overflow: 'hidden' }}>
+                  <div style={{ width: '100%', height: 6, borderRadius: 3, background: '#f1f5f9', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
                     <div style={{
                       height: '100%',
                       width: groupMembers.length > 0 ? `${Math.round((totalPaid / groupMembers.length) * 100)}%` : '0%',
@@ -1524,24 +1499,24 @@ export default function GroupsTab() {
                   </div>
                 </div>
 
-                {/* Member Avatars Preview */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid #f1f5f9' }}>
-                  <span style={{ fontSize: '12px', color: '#be123c', fontWeight: 600 }}>
-                    Click tile to view details →
+                {/* Footer: Member Roster Thumbnails & Action Link */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '14px', borderTop: '1px solid #f1f5f9' }}>
+                  <span className="group-tile-link-arrow">
+                    Manage group →
                   </span>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     {groupMembers.slice(0, 4).map((m, i) => (
                       <div
                         key={m.id}
                         className={`member-avatar ${m.color}`}
-                        style={{ width: 26, height: 26, fontSize: 10, marginLeft: i > 0 ? -6 : 0, border: '2px solid #fff', zIndex: 4 - i }}
+                        style={{ width: 28, height: 28, fontSize: 10, marginLeft: i > 0 ? -6 : 0, border: '2px solid #fff', boxShadow: '0 1px 2px rgba(0,0,0,0.06)', zIndex: 4 - i }}
                         title={m.name}
                       >
                         {m.initials}
                       </div>
                     ))}
                     {groupMembers.length > 4 && (
-                      <div style={{ width: 26, height: 26, borderRadius: 8, background: '#f1f5f9', color: '#64748b', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: -6, border: '2px solid #fff' }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 8, background: '#f1f5f9', color: '#475569', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: -6, border: '2px solid #fff', boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
                         +{groupMembers.length - 4}
                       </div>
                     )}
@@ -1621,30 +1596,27 @@ export default function GroupsTab() {
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
                       Day of Month (1 - 28)
                     </label>
-                    <select
-                      value={remDay}
-                      onChange={e => setRemDay(Number(e.target.value))}
-                      style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#fff' }}
-                    >
-                      {Array.from({ length: 28 }, (_, i) => i + 1).map(d => (
-                        <option key={d} value={d}>Day {d} of month</option>
-                      ))}
-                    </select>
+                    <CustomSelect
+                      value={String(remDay)}
+                      onChange={val => setRemDay(Number(val))}
+                      width="100%"
+                      options={Array.from({ length: 28 }, (_, i) => i + 1).map(d => ({
+                        value: String(d),
+                        label: `Day ${d} of month`
+                      }))}
+                    />
                   </div>
 
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
                       Send Time
                     </label>
-                    <select
+                    <CustomSelect
                       value={remTime}
-                      onChange={e => setRemTime(e.target.value)}
-                      style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#fff' }}
-                    >
-                      {['08:00 AM', '09:00 AM', '09:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM'].map(t => (
-                        <option key={t} value={t}>{t}</option>
-                      ))}
-                    </select>
+                      onChange={setRemTime}
+                      width="100%"
+                      options={['08:00 AM', '09:00 AM', '09:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM']}
+                    />
                   </div>
                 </div>
 
@@ -1652,22 +1624,25 @@ export default function GroupsTab() {
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
                     Delivery Channel
                   </label>
-                  <select
+                  <CustomSelect
                     value={remChannel}
-                    onChange={e => setRemChannel(e.target.value as any)}
-                    style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#fff' }}
-                  >
-                    <option value="WhatsApp">WhatsApp Message</option>
-                    <option value="SMS">SMS Notification</option>
-                    <option value="All">WhatsApp & SMS Both</option>
-                  </select>
+                    onChange={val => setRemChannel(val as any)}
+                    width="100%"
+                    options={[
+                      { value: 'WhatsApp', label: 'WhatsApp Message' },
+                      { value: 'SMS', label: 'SMS Notification' },
+                      { value: 'All', label: 'WhatsApp & SMS Both' }
+                    ]}
+                  />
                 </div>
 
                 <div style={{
                   padding: '10px 12px', background: '#f8fafc', borderRadius: '8px',
-                  border: '1px solid #e2e8f0', fontSize: '11px', color: '#64748b'
+                  border: '1px solid #e2e8f0', fontSize: '11px', color: '#64748b',
+                  display: 'flex', alignItems: 'center', gap: '8px'
                 }}>
-                  🔔 <b>Recurring Schedule:</b> This reminder will automatically send every month on Day {remDay} at {remTime} for members in this group.
+                  <Bell size={13} color="#be123c" style={{ flexShrink: 0 }} />
+                  <span><b>Recurring Schedule:</b> This reminder will automatically send every month on Day {remDay} at {remTime} for members in this group.</span>
                 </div>
               </div>
 

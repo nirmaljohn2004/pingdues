@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { Copy, Plus, Search, Filter, FileText, Download, CheckCircle2, Clock, AlertCircle, Receipt, Calendar, RefreshCw } from 'lucide-react'
 import { useStore, Member, TransactionItem } from '@/store/useStore'
 import { StatusBadge } from '@/components/ui/StatusBadge'
+import { CustomSelect } from '@/components/ui/CustomSelect'
 
 export default function Collections() {
   const { members, groups, setModal, setSelectedMember, setSelectedTransaction, notify } = useStore()
@@ -119,17 +120,13 @@ export default function Collections() {
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
             
             {/* Group Selector */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '6px 12px' }}>
-              <Filter size={14} color="#64748b" />
-              <select
-                value={groupFilter}
-                onChange={(e) => setGroupFilter(e.target.value)}
-                style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '12px', fontWeight: 600, color: '#334155', cursor: 'pointer' }}
-              >
-                <option value="All Groups">All Groups</option>
-                {groups.map(g => <option key={g} value={g}>{g}</option>)}
-              </select>
-            </div>
+            <CustomSelect
+              value={groupFilter}
+              onChange={setGroupFilter}
+              options={['All Groups', ...groups]}
+              icon={<Filter size={13} />}
+              width={160}
+            />
 
             {/* Search Box */}
             <div style={{ position: 'relative' }}>

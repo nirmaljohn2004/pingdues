@@ -3,13 +3,79 @@ import { Check, CircleDollarSign, Clock3, Copy, Plus, Search, Users } from 'luci
 import { useStore, Member } from '@/store/useStore'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 
-function Summary({ icon: Icon, label, value, tone }: { icon: any; label: string; value: string; tone: string }) {
+function Summary({ 
+  icon: Icon, 
+  label, 
+  value, 
+  accentColor,
+  bgLight 
+}: { 
+  icon: any
+  label: string
+  value: string
+  accentColor: string
+  bgLight: string
+}) {
   return (
-    <article className="member-summary">
-      <span className={`summary-icon ${tone}`}><Icon /></span>
+    <article 
+      style={{
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
+        borderRadius: '14px',
+        padding: '18px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '14px',
+        boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.04)',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease'
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)'
+        e.currentTarget.style.borderColor = '#cbd5e1'
+        e.currentTarget.style.boxShadow = '0 10px 20px -6px rgba(15, 23, 42, 0.08)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'none'
+        e.currentTarget.style.borderColor = '#e2e8f0'
+        e.currentTarget.style.boxShadow = '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.04)'
+      }}
+    >
+      <div style={{
+        width: '42px',
+        height: '42px',
+        borderRadius: '11px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: bgLight,
+        color: accentColor,
+        border: `1px solid ${accentColor}18`,
+        flexShrink: 0
+      }}>
+        <Icon size={20} strokeWidth={2.2} />
+      </div>
       <div>
-        <small>{label}</small>
-        <strong>{value}</strong>
+        <small style={{ 
+          display: 'block', 
+          fontSize: '11px', 
+          fontWeight: 600, 
+          color: '#64748b', 
+          textTransform: 'uppercase', 
+          letterSpacing: '0.02em',
+          marginBottom: '2px' 
+        }}>
+          {label}
+        </small>
+        <strong style={{ 
+          display: 'block', 
+          fontSize: '22px', 
+          fontWeight: 800, 
+          color: '#0f172a', 
+          letterSpacing: '-0.02em', 
+          lineHeight: 1.15 
+        }}>
+          {value}
+        </strong>
       </div>
     </article>
   )
@@ -47,10 +113,10 @@ export default function Members() {
       </div>
 
       <div className="member-summary-grid">
-        <Summary icon={Users} label="Total members" value={activeMembers.length.toString()} tone="red" />
-        <Summary icon={Check} label="Paid this month" value={activeMembers.filter((m) => m.status === 'Paid').length.toString()} tone="green" />
-        <Summary icon={Clock3} label="Fees pending" value={activeMembers.filter((m) => m.status !== 'Paid').length.toString()} tone="orange" />
-        <Summary icon={CircleDollarSign} label="Monthly value" value={`₹${monthlyValue.toLocaleString('en-IN')}`} tone="blue" />
+        <Summary icon={Users} label="Total members" value={activeMembers.length.toString()} accentColor="#be123c" bgLight="#fff1f2" />
+        <Summary icon={Check} label="Paid this month" value={activeMembers.filter((m) => m.status === 'Paid').length.toString()} accentColor="#059669" bgLight="#ecfdf5" />
+        <Summary icon={Clock3} label="Fees pending" value={activeMembers.filter((m) => m.status !== 'Paid').length.toString()} accentColor="#d97706" bgLight="#fffbeb" />
+        <Summary icon={CircleDollarSign} label="Monthly value" value={`₹${monthlyValue.toLocaleString('en-IN')}`} accentColor="#2563eb" bgLight="#eff6ff" />
       </div>
 
       <section className="panel member-directory">

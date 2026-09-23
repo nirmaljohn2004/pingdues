@@ -180,8 +180,10 @@ export interface TransactionItem {
 }
 
 interface AppState {
+  showLanding: boolean
   isAuthenticated: boolean
   authMode: 'login' | 'register'
+  setShowLanding: (show: boolean) => void
   setIsAuthenticated: (auth: boolean) => void
   setAuthMode: (mode: 'login' | 'register') => void
 
@@ -227,9 +229,11 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set) => ({
-  isAuthenticated: true,
+  showLanding: true,
+  isAuthenticated: false,
   authMode: 'login',
-  setIsAuthenticated: (auth) => set({ isAuthenticated: auth }),
+  setShowLanding: (show) => set({ showLanding: show }),
+  setIsAuthenticated: (auth) => set({ isAuthenticated: auth, showLanding: !auth }),
   setAuthMode: (mode) => set({ authMode: mode }),
 
   activeTab: 'Overview',

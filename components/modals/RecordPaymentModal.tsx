@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Modal, ModalHead } from '@/components/ui/Modal'
 import { useStore } from '@/store/useStore'
 import { CreditCard, Banknote, QrCode, CheckCircle, User, Layers, IndianRupee } from 'lucide-react'
+import { CustomSelect } from '@/components/ui/CustomSelect'
 
 export function RecordPaymentModal() {
   const { modal, setModal, selectedMember, setSelectedMember, members, groups, groupDetailsList, recordPayment, notify } = useStore()
@@ -103,36 +104,21 @@ export function RecordPaymentModal() {
           <label style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <User size={15} color="#be123c" /> Select Member <span style={{ color: '#be123c' }}>*</span>
           </label>
-          <select
-            className="form-input"
-            value={selectedMemberId}
-            onChange={(e) => setSelectedMemberId(e.target.value ? Number(e.target.value) : '')}
-            required
-            style={{
-              padding: '11px 14px',
-              borderRadius: '10px',
-              border: '1px solid #cbd5e1',
-              fontSize: '13px',
-              fontWeight: 600,
-              color: '#0f172a',
-              background: '#fff',
-              outline: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            <option value="">-- Select Gym Member --</option>
-            {members.map(m => {
+          <CustomSelect
+            value={selectedMemberId ? String(selectedMemberId) : ''}
+            onChange={(val) => setSelectedMemberId(val ? Number(val) : '')}
+            placeholder="-- Select Gym Member --"
+            width="100%"
+            options={members.map(m => {
               const pendingGroups = (m.memberGroups || (m.plan ? [m.plan] : [])).filter(g => m.groupPayments?.[g]?.status !== 'Paid')
               const isUnpaid = pendingGroups.length > 0 || m.status !== 'Paid'
               const pendingGroupText = pendingGroups.length > 0 ? ` (${pendingGroups.join(', ')})` : ''
-              
-              return (
-                <option key={m.id} value={m.id}>
-                  {m.name} • {m.phone} {isUnpaid ? `⚡ UNPAID ${m.amount || ''}${pendingGroupText}` : '✓ Fully Paid'}
-                </option>
-              )
+              return {
+                value: String(m.id),
+                label: `${m.name} · ${m.phone} · ${isUnpaid ? `Unpaid ${m.amount || ''}${pendingGroupText}` : 'Settled'}`
+              }
             })}
-          </select>
+          />
         </div>
 
         {/* Select Group & Amount */}
@@ -142,33 +128,20 @@ export function RecordPaymentModal() {
             <label style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Layers size={15} color="#be123c" /> Select Group <span style={{ color: '#be123c' }}>*</span>
             </label>
-            <select
-              className="form-input"
+            <CustomSelect
               value={selectedGroup}
-              onChange={(e) => setSelectedGroup(e.target.value)}
-              required
+              onChange={setSelectedGroup}
+              placeholder="Select Group"
               disabled={selectedMemberId === ''}
-              style={{
-                padding: '11px 14px',
-                borderRadius: '10px',
-                border: '1px solid #cbd5e1',
-                fontSize: '13px',
-                fontWeight: 600,
-                color: '#0f172a',
-                background: selectedMemberId === '' ? '#f8fafc' : '#fff',
-                outline: 'none',
-                width: '100%'
-              }}
-            >
-              {memberGroupsList.map(g => {
+              width="100%"
+              options={memberGroupsList.map(g => {
                 const gStatus = selectedMemberObj?.groupPayments?.[g]?.status || 'Pending'
-                return (
-                  <option key={g} value={g}>
-                    {g} ({gStatus === 'Paid' ? '✓ Paid' : '⚡ Due'})
-                  </option>
-                )
+                return {
+                  value: g,
+                  label: `${g} · ${gStatus === 'Paid' ? 'Settled' : 'Payment Due'}`
+                }
               })}
-            </select>
+            />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>

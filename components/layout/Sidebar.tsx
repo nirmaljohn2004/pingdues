@@ -9,9 +9,18 @@ export default function Sidebar() {
   return (
     <>
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
-        <div className="brand">
-          <div className="brand-mark"><Hexagon /></div>
-          <span>pingdues<span className="brand-dot">.</span></span>
+        <div className="brand" style={{ padding: '0 4px 20px' }}>
+          <img 
+            src="/logo.png" 
+            alt="pingdues" 
+            style={{ 
+              height: '46px', 
+              width: 'auto', 
+              maxWidth: '100%', 
+              objectFit: 'contain', 
+              display: 'block' 
+            }} 
+          />
         </div>
         
         <div className="club-switcher">

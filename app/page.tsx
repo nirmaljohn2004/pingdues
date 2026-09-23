@@ -1,6 +1,8 @@
 'use client'
 
 import { useStore } from '@/store/useStore'
+import { useEffect } from 'react'
+import LandingPage from '@/components/landing/LandingPage'
 import AuthScreen from '@/components/auth/AuthScreen'
 import Sidebar from '@/components/layout/Sidebar'
 import Topbar from '@/components/layout/Topbar'
@@ -15,7 +17,22 @@ import { RecordPaymentModal } from '@/components/modals/RecordPaymentModal'
 import { Check } from 'lucide-react'
 
 export default function Page() {
-  const { isAuthenticated, activeTab, menuOpen, toast } = useStore()
+  const { showLanding, isAuthenticated, activeTab, menuOpen, toast } = useStore()
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  if (showLanding && !isAuthenticated) {
+    return <LandingPage />
+  }
 
   if (!isAuthenticated) {
     return <AuthScreen />

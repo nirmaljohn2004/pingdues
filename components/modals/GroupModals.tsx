@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Search, UserPlus, X, Check, AlertTriangle, Upload, FileSpreadsheet, ImageIcon, Pencil, ArrowRight, ArrowLeft, Plus, CheckCircle2, Calendar, DollarSign, Clock } from 'lucide-react'
+import { Search, UserPlus, X, Check, AlertTriangle, Upload, FileSpreadsheet, ImageIcon, Pencil, ArrowRight, ArrowLeft, Plus, CheckCircle2, Calendar, DollarSign, Clock, RefreshCw, Tag } from 'lucide-react'
 import { Modal, ModalHead } from '@/components/ui/Modal'
+import { CustomSelect } from '@/components/ui/CustomSelect'
+import { DatePicker } from '@/components/ui/DatePicker'
 import { useStore, GroupDetails, Member } from '@/store/useStore'
 
 function GroupFormModal() {
@@ -252,28 +254,11 @@ function GroupFormModal() {
   return (
     <Modal
       close={closeModal}
-      style={{
-        width: 'min(820px, 96vw)',
-        maxWidth: '820px',
-        maxHeight: 'calc(100vh - 40px)',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: 0,
-        overflow: 'hidden',
-        borderRadius: '16px'
-      }}
+      className="group-modal-container"
     >
       {/* Top Header & Breadcrumbs / Title */}
-      <div style={{
-        background: '#ffffff',
-        borderBottom: '1px solid #f1f5f9',
-        padding: '18px 24px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexShrink: 0
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="group-modal-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
           <button
             type="button"
             onClick={closeModal}
@@ -285,15 +270,15 @@ function GroupFormModal() {
           >
             <ArrowLeft size={18} />
           </button>
-          <div>
-            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
+          <div style={{ minWidth: 0 }}>
+            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {modal === 'add-group' ? 'New group' : 'Edit group'}
             </h2>
           </div>
         </div>
 
         {/* Top Action buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="group-modal-header-actions">
           <button
             type="button"
             onClick={closeModal}
@@ -304,7 +289,7 @@ function GroupFormModal() {
               fontSize: '13px',
               fontWeight: 600,
               cursor: 'pointer',
-              padding: '8px 14px',
+              padding: '8px 12px',
               borderRadius: '8px'
             }}
           >
@@ -317,12 +302,13 @@ function GroupFormModal() {
               onClick={() => handleNextStep()}
               className="primary-button"
               style={{
-                padding: '8px 18px',
+                padding: '8px 16px',
                 fontSize: '13px',
-                borderRadius: '8px'
+                borderRadius: '8px',
+                whiteSpace: 'nowrap'
               }}
             >
-              Save and next <ArrowRight size={14} />
+              Save & next <ArrowRight size={14} />
             </button>
           ) : (
             <button
@@ -330,10 +316,11 @@ function GroupFormModal() {
               onClick={handleSaveAll}
               className="primary-button"
               style={{
-                padding: '8px 20px',
+                padding: '8px 16px',
                 fontSize: '13px',
                 borderRadius: '8px',
-                background: '#be123c'
+                background: '#be123c',
+                whiteSpace: 'nowrap'
               }}
             >
               {modal === 'add-group' ? 'Create Group' : 'Save Changes'}
@@ -343,16 +330,8 @@ function GroupFormModal() {
       </div>
 
       {/* Stepper Progress Bar (Matching Image 2 Reference) */}
-      <div style={{
-        background: '#ffffff',
-        borderBottom: '1px solid #f1f5f9',
-        padding: '16px 24px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexShrink: 0
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: 'min(480px, 100%)', position: 'relative' }}>
+      <div className="group-modal-stepper-wrap">
+        <div style={{ display: 'flex', alignItems: 'center', width: 'min(440px, 100%)', position: 'relative' }}>
           {/* Connector Line */}
           <div style={{
             position: 'absolute',
@@ -438,22 +417,13 @@ function GroupFormModal() {
       </div>
 
       {/* Main Body */}
-      <div style={{ padding: '24px 28px', overflowY: 'auto', flex: 1, background: '#fcfcfd' }}>
+      <div className="group-modal-body">
         {currentStep === 1 ? (
           /* ── STEP 1: BASIC DETAILS & FEE DETAILS ─────────────────────────────────── */
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '720px', margin: '0 auto' }}>
             
             {/* Top Card: Group Image & Name Title (Matching Image 2) */}
-            <div style={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              borderRadius: '14px',
-              padding: '24px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '20px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
-            }}>
+            <div className="group-modal-top-card">
               {/* Group Image Upload Placeholder */}
               <div
                 onClick={() => fileInputRef.current?.click()}
@@ -531,16 +501,17 @@ function GroupFormModal() {
               </div>
 
               {/* Title & Editable Name input */}
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, width: '100%' }}>
                 <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '6px' }}>
                   Group Name *
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
                   <input
                     type="text"
-                    placeholder="Enter group name (e.g. Morning Yoga, Powerlifting)"
+                    placeholder="Enter group name (e.g. Morning Yoga)"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    className="group-name-input"
                     style={{
                       fontSize: '20px',
                       fontWeight: 700,
@@ -557,7 +528,7 @@ function GroupFormModal() {
                     onBlur={e => (e.target.style.borderBottomColor = '#e2e8f0')}
                     autoFocus
                   />
-                  <Pencil size={16} color="#94a3b8" />
+                  <Pencil size={16} color="#94a3b8" style={{ flexShrink: 0 }} />
                 </div>
                 <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '6px' }}>
                   Click icon to upload a logo or banner picture for this group.
@@ -566,16 +537,7 @@ function GroupFormModal() {
             </div>
 
             {/* Fee Details Card */}
-            <div style={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              borderRadius: '14px',
-              padding: '24px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '20px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
-            }}>
+            <div className="group-modal-card">
               <div style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '12px' }}>
                 <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#0f172a' }}>Fee details</h3>
               </div>
@@ -585,7 +547,7 @@ function GroupFormModal() {
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '8px' }}>
                   Billing Type *
                 </label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="group-modal-billing-grid">
                   <button
                     type="button"
                     onClick={() => setBillingType('Recurring')}
@@ -605,7 +567,7 @@ function GroupFormModal() {
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    🔄 Recurring Fee (Monthly/Annual)
+                    <RefreshCw size={15} style={{ flexShrink: 0 }} /> Recurring (Monthly/Annual)
                   </button>
                   <button
                     type="button"
@@ -626,35 +588,23 @@ function GroupFormModal() {
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    🏷️ One-Time Fee (Course/Admission)
+                    <Tag size={15} style={{ flexShrink: 0 }} /> One-Time (Course/Admission)
                   </button>
                 </div>
               </div>
 
               {/* Collection Day / Due Date Schedule */}
-              <div style={{ display: 'grid', gridTemplateColumns: billingType === 'Recurring' ? '1fr 1fr' : '1fr', gap: '16px' }}>
+              <div className="group-modal-two-col">
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
                     When do you want to collect fees? *
                   </label>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                    background: '#fff'
-                  }}>
-                    <Calendar size={16} color="#64748b" />
-                    <input
-                      type="text"
-                      placeholder="e.g. 1st of every month or 5th"
-                      value={collectionDay}
-                      onChange={(e) => setCollectionDay(e.target.value)}
-                      style={{ border: 'none', outline: 'none', width: '100%', fontSize: '13px', color: '#0f172a' }}
-                    />
-                  </div>
+                  <DatePicker
+                    value={collectionDay}
+                    onChange={setCollectionDay}
+                    mode="day-of-month"
+                    placeholder="e.g. 1st of every month"
+                  />
                 </div>
 
                 {billingType === 'Recurring' && (
@@ -662,53 +612,34 @@ function GroupFormModal() {
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
                       Recurs Every
                     </label>
-                    <select
+                    <CustomSelect
                       value={recursEvery}
-                      onChange={(e) => setRecursEvery(e.target.value)}
-                      style={{
-                        width: '100%',
-                        border: '1px solid #e2e8f0',
-                        borderRadius: '8px',
-                        padding: '10px 14px',
-                        fontSize: '13px',
-                        color: '#0f172a',
-                        outline: 'none',
-                        background: '#fff'
-                      }}
-                    >
-                      <option value="Monthly">Monthly</option>
-                      <option value="Quarterly">Quarterly (3 Months)</option>
-                      <option value="Half-Yearly">Half-Yearly (6 Months)</option>
-                      <option value="Yearly">Yearly (12 Months)</option>
-                    </select>
+                      onChange={setRecursEvery}
+                      options={[
+                        { value: 'Monthly', label: 'Monthly' },
+                        { value: 'Quarterly', label: 'Quarterly (3 Months)' },
+                        { value: 'Half-Yearly', label: 'Half-Yearly (6 Months)' },
+                        { value: 'Yearly', label: 'Yearly (12 Months)' }
+                      ]}
+                      width="100%"
+                    />
                   </div>
                 )}
               </div>
 
               {/* Start Date & Deactivation Date */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="group-modal-two-col">
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
                     Group Activation Date *
                   </label>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                    background: '#fff'
-                  }}>
-                    <input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      style={{ border: 'none', outline: 'none', width: '100%', fontSize: '13px', color: '#0f172a' }}
-                    />
-                  </div>
+                  <DatePicker
+                    value={startDate}
+                    onChange={setStartDate}
+                    placeholder="Select start date..."
+                  />
                   <span style={{ fontSize: '11px', color: '#94a3b8', display: 'block', marginTop: '4px' }}>
-                    Fee collection will begin from the start date.
+                    Fee collection will begin from start date.
                   </span>
                 </div>
 
@@ -716,22 +647,11 @@ function GroupFormModal() {
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
                     Group Deactivation Date (Optional)
                   </label>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                    background: '#fff'
-                  }}>
-                    <input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      style={{ border: 'none', outline: 'none', width: '100%', fontSize: '13px', color: '#0f172a' }}
-                    />
-                  </div>
+                  <DatePicker
+                    value={endDate}
+                    onChange={setEndDate}
+                    placeholder="Ongoing (no end date)"
+                  />
                   <span style={{ fontSize: '11px', color: '#94a3b8', display: 'block', marginTop: '4px' }}>
                     Leave empty for ongoing active groups.
                   </span>
@@ -743,23 +663,14 @@ function GroupFormModal() {
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
                   Amount *
                 </label>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '10px 14px',
-                  background: '#fff',
-                  width: 'min(360px, 100%)'
-                }}>
+                <div className="group-modal-input-box" style={{ maxWidth: '360px' }}>
                   <span style={{ fontSize: '15px', fontWeight: 700, color: '#64748b' }}>₹</span>
                   <input
                     type="number"
                     placeholder="e.g. 1800"
                     value={feeAmount}
                     onChange={(e) => setFeeAmount(e.target.value)}
-                    style={{ border: 'none', outline: 'none', width: '100%', fontSize: '15px', fontWeight: 600, color: '#0f172a' }}
+                    style={{ fontSize: '15px', fontWeight: 600 }}
                   />
                 </div>
                 <span style={{ fontSize: '11px', color: '#94a3b8', display: 'block', marginTop: '4px' }}>
@@ -818,7 +729,7 @@ function GroupFormModal() {
             </div>
 
             {/* Bottom Proceed Button */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <div className="group-modal-bottom-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
               <button
                 type="button"
                 className="secondary-button"
@@ -841,7 +752,7 @@ function GroupFormModal() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', maxWidth: '760px', margin: '0 auto' }}>
             
             {/* Header info banner */}
-            <div style={{
+            <div className="group-modal-step2-header" style={{
               background: '#eff6ff',
               border: '1px solid #bfdbfe',
               borderRadius: '12px',
@@ -866,14 +777,15 @@ function GroupFormModal() {
                 fontSize: '12px',
                 fontWeight: 700,
                 color: '#1d4ed8',
-                border: '1px solid #bfdbfe'
+                border: '1px solid #bfdbfe',
+                alignSelf: 'flex-start'
               }}>
                 {selectedMemberIds.length} Selected
               </div>
             </div>
 
             {/* Search and Selection Toolbar */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '14px' }}>
+            <div className="group-modal-step2-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '14px' }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -882,7 +794,8 @@ function GroupFormModal() {
                 border: '1px solid #e2e8f0',
                 borderRadius: '8px',
                 padding: '8px 12px',
-                flex: 1
+                flex: 1,
+                width: '100%'
               }}>
                 <Search size={15} color="#94a3b8" />
                 <input
@@ -936,6 +849,7 @@ function GroupFormModal() {
                       <div
                         key={member.id}
                         onClick={() => toggleSelectMember(member.id)}
+                        className="group-modal-member-row"
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -960,14 +874,14 @@ function GroupFormModal() {
                               cursor: 'pointer'
                             }}
                           />
-                          <div className={`member-avatar ${member.color}`} style={{ width: 34, height: 34, fontSize: '11px' }}>
+                          <div className={`member-avatar ${member.color}`} style={{ width: 34, height: 34, fontSize: '11px', flexShrink: 0 }}>
                             {member.initials}
                           </div>
-                          <div>
-                            <strong style={{ fontSize: '13px', color: '#0f172a', display: 'block' }}>
+                          <div style={{ minWidth: 0 }}>
+                            <strong style={{ fontSize: '13px', color: '#0f172a', display: 'block', wordBreak: 'break-word' }}>
                               {member.name}
                             </strong>
-                            <span style={{ fontSize: '11px', color: '#64748b' }}>
+                            <span style={{ fontSize: '11px', color: '#64748b', wordBreak: 'break-word' }}>
                               {member.phone} {member.email ? `· ${member.email}` : ''}
                             </span>
                           </div>
@@ -1008,7 +922,7 @@ function GroupFormModal() {
             </div>
 
             {/* Bottom Actions */}
-            <div style={{
+            <div className="group-modal-bottom-actions" style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -1566,36 +1480,30 @@ function AddMembersToGroupModal() {
                               </div>
                             </td>
 
-                            <td style={{ padding: '10px 16px' }}>
-                              <select
+                            <td style={{ padding: '10px 16px', minWidth: '190px' }}>
+                              <CustomSelect
                                 value={config.collectSchedule}
-                                onChange={e => updateRowConfig(m.id, 'collectSchedule', e.target.value)}
-                                style={{
-                                  border: '1px solid #cbd5e1', borderRadius: '6px', padding: '6px 8px',
-                                  fontSize: '12px', color: '#0f172a', background: '#fff', width: '100%', outline: 0
-                                }}
-                              >
-                                <option value="Monthly: 1st day of month">Monthly: 1st day of month</option>
-                                <option value="Monthly: 2nd day of month">Monthly: 2nd day of month</option>
-                                <option value="Monthly: 5th day of month">Monthly: 5th day of month</option>
-                                <option value="Monthly: 10th day of month">Monthly: 10th day of month</option>
-                                <option value="Monthly: 15th day of month">Monthly: 15th day of month</option>
-                                <option value="Quarterly: 1st day of quarter">Quarterly: 1st day of quarter</option>
-                                <option value="Half-Yearly">Half-Yearly</option>
-                                <option value="Yearly">Yearly</option>
-                                <option value="On Admission">On Admission</option>
-                              </select>
+                                onChange={val => updateRowConfig(m.id, 'collectSchedule', val)}
+                                width="100%"
+                                options={[
+                                  'Monthly: 1st day of month',
+                                  'Monthly: 2nd day of month',
+                                  'Monthly: 5th day of month',
+                                  'Monthly: 10th day of month',
+                                  'Monthly: 15th day of month',
+                                  'Quarterly: 1st day of quarter',
+                                  'Half-Yearly',
+                                  'Yearly',
+                                  'On Admission'
+                                ]}
+                              />
                             </td>
 
-                            <td style={{ padding: '10px 16px' }}>
-                              <input
-                                type="date"
+                            <td style={{ padding: '10px 16px', minWidth: '150px' }}>
+                              <DatePicker
                                 value={config.startDate}
-                                onChange={e => updateRowConfig(m.id, 'startDate', e.target.value)}
-                                style={{
-                                  border: '1px solid #cbd5e1', borderRadius: '6px', padding: '5px 8px',
-                                  fontSize: '12px', color: '#0f172a', background: '#fff', outline: 0, width: '130px'
-                                }}
+                                onChange={val => updateRowConfig(m.id, 'startDate', val)}
+                                width="100%"
                               />
                             </td>
                           </tr>
@@ -1680,7 +1588,7 @@ function AddMembersToGroupModal() {
                 PERSONAL DETAILS
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="manual-member-grid-1" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>
                     Full Name <span style={{ color: '#be123c' }}>*</span>
@@ -1744,11 +1652,11 @@ function AddMembersToGroupModal() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>Date of Birth</label>
-                  <input
-                    type="date"
-                    style={inputStyle}
+                  <DatePicker
                     value={manualDob}
-                    onChange={e => setManualDob(e.target.value)}
+                    onChange={setManualDob}
+                    placeholder="YYYY-MM-DD"
+                    width="100%"
                   />
                 </div>
 
@@ -1797,7 +1705,7 @@ function AddMembersToGroupModal() {
                 GROUP FEE & COLLECTION SCHEDULE
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+              <div className="manual-member-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>
                     Due Amount (₹) <span style={{ color: '#be123c' }}>*</span>
@@ -1814,29 +1722,29 @@ function AddMembersToGroupModal() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>When do you want to collect fees?</label>
-                  <select
-                    style={inputStyle}
+                  <CustomSelect
                     value={manualCollectSchedule}
-                    onChange={e => setManualCollectSchedule(e.target.value)}
-                  >
-                    <option value="Monthly: 1st day of month">Monthly: 1st day of month</option>
-                    <option value="Monthly: 2nd day of month">Monthly: 2nd day of month</option>
-                    <option value="Monthly: 5th day of month">Monthly: 5th day of month</option>
-                    <option value="Monthly: 10th day of month">Monthly: 10th day of month</option>
-                    <option value="Quarterly: 1st day of quarter">Quarterly: 1st day of quarter</option>
-                    <option value="Half-Yearly">Half-Yearly</option>
-                    <option value="Yearly">Yearly</option>
-                    <option value="On Admission">On Admission</option>
-                  </select>
+                    onChange={setManualCollectSchedule}
+                    width="100%"
+                    options={[
+                      'Monthly: 1st day of month',
+                      'Monthly: 2nd day of month',
+                      'Monthly: 5th day of month',
+                      'Monthly: 10th day of month',
+                      'Quarterly: 1st day of quarter',
+                      'Half-Yearly',
+                      'Yearly',
+                      'On Admission'
+                    ]}
+                  />
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>Start Date</label>
-                  <input
-                    type="date"
-                    style={inputStyle}
+                  <DatePicker
                     value={manualStartDate}
-                    onChange={e => setManualStartDate(e.target.value)}
+                    onChange={setManualStartDate}
+                    width="100%"
                   />
                 </div>
               </div>

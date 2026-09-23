@@ -5,7 +5,7 @@ import { Menu, Hexagon, Bell, ChevronDown, User, ShieldCheck, LogOut, Edit3, X }
 import { useStore } from '@/store/useStore'
 
 export default function Topbar() {
-  const { setMenuOpen, members, userProfile, updateUserProfile, setIsAuthenticated, notify } = useStore()
+  const { setMenuOpen, members, userProfile, updateUserProfile, setIsAuthenticated, setShowLanding, notify } = useStore()
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false)
@@ -75,8 +75,16 @@ export default function Topbar() {
         </button>
         
         <div className="mobile-brand">
-          <div className="brand-mark"><Hexagon /></div>
-          <strong>pingdues<span className="brand-dot">.</span></strong>
+          <img 
+            src="/logo.png" 
+            alt="pingdues" 
+            style={{ 
+              height: '32px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              display: 'block' 
+            }} 
+          />
         </div>
         
         <div className="topbar-actions">
@@ -202,6 +210,7 @@ export default function Topbar() {
                     type="button"
                     onClick={() => {
                       setIsAuthenticated(false)
+                      setShowLanding(true)
                       setProfileMenuOpen(false)
                     }}
                     style={{

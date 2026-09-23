@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { X, User, Phone, Mail, Calendar, Hash, MapPin, Filter, Check, Users, Edit3 } from 'lucide-react'
+import { DatePicker } from '@/components/ui/DatePicker'
 import { useStore, Member } from '@/store/useStore'
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -197,6 +198,7 @@ export default function MemberModals() {
       style={{ padding: '20px' }}
     >
       <div
+        className="member-modal-inner"
         onClick={e => e.stopPropagation()}
         style={{
           background: '#fff',
@@ -254,11 +256,11 @@ export default function MemberModals() {
 
             {/* ── Form ── */}
             <form onSubmit={handleSaveMember}>
-              <div style={{ padding: '28px 32px' }}>
+              <div className="member-modal-content-wrap" style={{ padding: '28px 32px' }}>
 
                 {/* Personal Details */}
                 <SectionLabel>Personal Details</SectionLabel>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '28px' }}>
+                <div className="member-form-modal-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '28px' }}>
                   <FormField label="Full Name" required>
                     <input
                       style={inputStyle} type="text" value={name}
@@ -300,11 +302,10 @@ export default function MemberModals() {
                     />
                   </FormField>
                   <FormField label="Date of Birth">
-                    <input
-                      style={inputStyle} type="date" value={dob}
-                      onChange={e => setDob(e.target.value)}
-                      onFocus={e => { e.target.style.borderColor = '#be123c'; e.target.style.boxShadow = '0 0 0 3px rgba(190,18,60,0.1)' }}
-                      onBlur={e => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none' }}
+                    <DatePicker
+                      value={dob}
+                      onChange={setDob}
+                      placeholder="Select birth date..."
                     />
                   </FormField>
                   <FormField label="Guardian Name">
@@ -652,7 +653,7 @@ export default function MemberModals() {
                         const amtColor    = isRowPaid ? '#059669' : isOverdue ? '#dc2626' : '#ea580c'
                         const badgeBg     = isRowPaid ? '#dcfce7' : isOverdue ? '#fee2e2' : '#ffedd5'
                         const badgeColor  = isRowPaid ? '#16a34a' : isOverdue ? '#dc2626' : '#ea580c'
-                        const statusText  = isRowPaid ? '✓ Paid' : isOverdue ? '⚠ Overdue' : '⚡ Pending'
+                        const statusText  = isRowPaid ? 'Paid' : isOverdue ? 'Overdue' : 'Pending'
 
                         return (
                           <div

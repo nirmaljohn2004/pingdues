@@ -1,18 +1,113 @@
 import { useState, useMemo } from 'react'
-import { ArrowDownRight, ArrowUpRight, Bell, CalendarDays, Check, CircleDollarSign, Clock3, Copy, CreditCard, Layers, Send, X } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, Bell, CalendarDays, Check, CircleDollarSign, Clock3, Copy, CreditCard, Layers, X, Wallet, Percent, Hourglass, AlertCircle, TrendingUp, TrendingDown } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { StatusBadge } from '@/components/ui/StatusBadge'
+import { CustomSelect } from '@/components/ui/CustomSelect'
+import { DatePicker } from '@/components/ui/DatePicker'
 
-function Stat({ title, value, trend, icon: Icon, tone }: { title: string; value: string; trend: string; icon: any; tone: string }) {
+function Stat({ 
+  title, 
+  value, 
+  trend, 
+  icon: Icon, 
+  accentColor,
+  bgLight,
+  trendLabel
+}: { 
+  title: string
+  value: string
+  trend: string
+  icon: any
+  accentColor: string
+  bgLight: string
+  trendLabel?: string
+}) {
+  const isPositive = trend.startsWith('+')
   return (
-    <article className="stat-card">
-      <div className={`stat-icon ${tone}`}><Icon /></div>
-      <p>{title}</p>
-      <strong>{value}</strong>
-      <span className={trend[0] === '+' ? 'trend positive' : 'trend negative'}>
-        {trend[0] === '+' ? <ArrowUpRight /> : <ArrowDownRight />}{trend}
-      </span>
+    <article 
+      style={{
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
+        borderRadius: '14px',
+        padding: '22px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.04)',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+        cursor: 'default',
+        position: 'relative'
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)'
+        e.currentTarget.style.borderColor = '#cbd5e1'
+        e.currentTarget.style.boxShadow = '0 12px 24px -8px rgba(15, 23, 42, 0.08)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'none'
+        e.currentTarget.style.borderColor = '#e2e8f0'
+        e.currentTarget.style.boxShadow = '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.04)'
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <span style={{ 
+          fontSize: '12px', 
+          fontWeight: 600, 
+          color: '#64748b', 
+          letterSpacing: '0.01em',
+          textTransform: 'uppercase'
+        }}>
+          {title}
+        </span>
+        <div style={{
+          width: '36px',
+          height: '36px',
+          borderRadius: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: bgLight,
+          color: accentColor,
+          border: `1px solid ${accentColor}18`
+        }}>
+          <Icon size={18} strokeWidth={2.2} />
+        </div>
+      </div>
+
+      <div>
+        <div style={{ 
+          fontSize: '26px', 
+          fontWeight: 800, 
+          color: '#0f172a', 
+          letterSpacing: '-0.03em', 
+          lineHeight: 1.15,
+          marginBottom: '10px'
+        }}>
+          {value}
+        </div>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 600 }}>
+          <span style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '3px',
+            padding: '2px 8px',
+            borderRadius: '6px',
+            background: isPositive ? '#ecfdf5' : '#fef2f2',
+            color: isPositive ? '#059669' : '#dc2626',
+            border: isPositive ? '1px solid #a7f3d0' : '1px solid #fecaca'
+          }}>
+            {isPositive ? <TrendingUp size={12} strokeWidth={2.5} /> : <TrendingDown size={12} strokeWidth={2.5} />}
+            {trend}
+          </span>
+          {trendLabel && (
+            <span style={{ color: '#94a3b8', fontWeight: 500 }}>
+              {trendLabel}
+            </span>
+          )}
+        </div>
+      </div>
     </article>
   )
 }
@@ -27,11 +122,19 @@ function PanelHead({ title, sub, action }: { title: string; sub: string; action:
 }
 
 export default function Overview() {
-  const { members: allMembers, groups, setActiveTab, setModal, notify } = useStore()
+  const { members: allMembers, groups, setActiveTab, setModal, notify, userProfile } = useStore()
   
   const [overviewGroup, setOverviewGroup] = useState('All Groups')
   const [timeFilter, setTimeFilter] = useState('Current month')
   const [customMonth, setCustomMonth] = useState('')
+
+  // Dynamic time of day for personalized professional greeting
+  const greetingTime = useMemo(() => {
+    const hour = new Date().getHours()
+    if (hour < 12) return 'Good morning'
+    if (hour < 17) return 'Good afternoon'
+    return 'Good evening'
+  }, [])
   
   const members = overviewGroup === 'All Groups' ? allMembers : allMembers.filter(m => m.plan === overviewGroup)
   
@@ -63,42 +166,117 @@ export default function Overview() {
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">Overview</p>
-          <h1>Good morning, Admin <span className="spark">✦</span></h1>
-          <p className="subheading">Here is what is happening with your workspace today.</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '3px 10px',
+              borderRadius: '20px',
+              fontSize: '11px',
+              fontWeight: 600,
+              background: '#f1f5f9',
+              color: '#475569',
+              border: '1px solid #e2e8f0'
+            }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#059669', display: 'inline-block' }} />
+              Live Workspace · {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+            </span>
+          </div>
+          <h1 style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', color: '#0f172a' }}>
+            {greetingTime}, {userProfile?.name?.split(' ')[0] || 'Admin'}
+          </h1>
+          <p className="subheading">
+            {pendingCount === 0 
+              ? 'All member accounts are fully settled for this billing period.' 
+              : `${paidCount} paid, ${pendingCount} payment${pendingCount === 1 ? '' : 's'} awaiting settlement.`}
+          </p>
         </div>
         <div className="heading-actions">
-          <div className="month-select">
-            <Layers size={14} />
-            <select value={overviewGroup} onChange={(e) => setOverviewGroup(e.target.value)}>
-              <option value="All Groups">All Groups</option>
-              {groups.map(g => <option key={g} value={g}>{g}</option>)}
-            </select>
-          </div>
+          <CustomSelect
+            value={overviewGroup}
+            onChange={setOverviewGroup}
+            options={['All Groups', ...groups]}
+            icon={<Layers size={14} />}
+            width={160}
+          />
+
           {timeFilter === 'Custom selection' ? (
-            <div className="month-select" style={{ padding: '6px 12px' }}>
-              <input type="month" value={customMonth} onChange={(e) => setCustomMonth(e.target.value)} style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '12px', fontWeight: 500, color: '#334155' }} autoFocus />
-              <button onClick={() => setTimeFilter('Current month')} style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }} aria-label="Cancel custom selection"><X size={14} color="#94a3b8" /></button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <DatePicker
+                value={customMonth}
+                onChange={setCustomMonth}
+                placeholder="Pick date..."
+                width={160}
+              />
+              <button 
+                onClick={() => setTimeFilter('Current month')} 
+                style={{ 
+                  background: '#ffffff', 
+                  border: '1px solid #e2e8f0', 
+                  borderRadius: '8px',
+                  cursor: 'pointer', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  width: '34px',
+                  height: '34px',
+                  color: '#64748b' 
+                }} 
+                aria-label="Cancel custom selection"
+              >
+                <X size={14} />
+              </button>
             </div>
           ) : (
-            <div className="month-select">
-              <CalendarDays size={14} />
-              <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)}>
-                <option value="Current month">Current month</option>
-                <option value="Previous month">Previous month</option>
-                <option value="Custom selection">Custom selection...</option>
-              </select>
-            </div>
+            <CustomSelect
+              value={timeFilter}
+              onChange={setTimeFilter}
+              options={['Current month', 'Previous month', 'Custom selection']}
+              icon={<CalendarDays size={14} />}
+              width={160}
+            />
           )}
-          <button className="primary-button" onClick={() => setModal('bulk-remind')}><Send size={16}/> Send all immediately</button>
         </div>
       </div>
 
       <div className="stats-grid">
-        <Stat title="Collected this month" value={formattedCollected} trend="+12.8%" icon={CircleDollarSign} tone="green" />
-        <Stat title="Collection rate" value={`${collectionRate}%`} trend="+4.2%" icon={Check} tone="red" />
-        <Stat title="Pending amount" value={formattedPending} trend="-8.1%" icon={Clock3} tone="orange" />
-        <Stat title="Overdue accounts" value={overdueCount.toString()} trend="-3 this week" icon={Bell} tone="blue" />
+        <Stat 
+          title="Collected this month" 
+          value={formattedCollected} 
+          trend="+12.8%" 
+          trendLabel="vs last month"
+          icon={Wallet} 
+          accentColor="#059669" 
+          bgLight="#ecfdf5" 
+        />
+        <Stat 
+          title="Collection rate" 
+          value={`${collectionRate}%`} 
+          trend="+4.2%" 
+          trendLabel="target: 85%"
+          icon={Percent} 
+          accentColor="#be123c" 
+          bgLight="#fff1f2" 
+        />
+        <Stat 
+          title="Pending amount" 
+          value={formattedPending} 
+          trend="-8.1%" 
+          trendLabel="fewer arrears"
+          icon={Hourglass} 
+          accentColor="#d97706" 
+          bgLight="#fffbeb" 
+        />
+        <Stat 
+          title="Overdue accounts" 
+          value={overdueCount.toString()} 
+          trend="-3 this week" 
+          trendLabel="settled"
+          icon={AlertCircle} 
+          accentColor="#4f46e5" 
+          bgLight="#eef2ff" 
+        />
       </div>
 
       <div className="dashboard-grid">

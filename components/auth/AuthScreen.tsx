@@ -3,7 +3,7 @@ import { Hexagon } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function AuthScreen() {
-  const { authMode, setAuthMode, setIsAuthenticated } = useStore()
+  const { authMode, setAuthMode, setIsAuthenticated, setShowLanding } = useStore()
   const [loginOtpSent, setLoginOtpSent] = useState(false)
   const [registerOtpSent, setRegisterOtpSent] = useState(false)
 
@@ -21,11 +21,22 @@ export default function AuthScreen() {
     <div className="auth-split">
       <div className="auth-brand">
         <div className="auth-brand-content">
-          <div className="brand" style={{ color: '#fff', padding: 0 }}>
-            <div className="brand-mark" style={{ background: '#fff', color: '#be123c' }}>
-              <Hexagon />
+          <div className="brand" style={{ color: '#fff', padding: '0 0 20px', display: 'flex', alignItems: 'center' }}>
+            <div 
+              onClick={() => setShowLanding(true)}
+              style={{ background: '#fff', borderRadius: '12px', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+              title="Back to Pingdues Home"
+            >
+              <img 
+                src="/logo.png" 
+                alt="pingdues" 
+                style={{ 
+                  height: '32px', 
+                  width: 'auto', 
+                  objectFit: 'contain' 
+                }} 
+              />
             </div>
-            pingdues<span style={{ color: '#ffb3c6' }}>.</span>
           </div>
           <h1>Manage your workspace seamlessly.</h1>
           <p>Automate fee collection, track payments, and send WhatsApp reminders effortlessly.</p>
@@ -33,6 +44,15 @@ export default function AuthScreen() {
       </div>
       <div className="auth-form-container">
         <div className="auth-form-card">
+          <div style={{ marginBottom: '14px' }}>
+            <button 
+              type="button" 
+              onClick={() => setShowLanding(true)}
+              style={{ background: 'transparent', border: 'none', color: '#64748b', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer', padding: 0 }}
+            >
+              ← Back to Pingdues home
+            </button>
+          </div>
           <div className="auth-header">
             <h2>{authMode === 'login' ? 'Welcome back' : 'Create an account'}</h2>
             <p>{authMode === 'login' ? 'Enter your details to access your workspace.' : 'Set up your workspace to get started.'}</p>
