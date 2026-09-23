@@ -18,48 +18,73 @@ import {
 export default function LandingHeroMockup() {
   return (
     <div className="landing-mockup-wrapper">
-      {/* Red Hexagonal Brand 3D Shield in Background Matching Image 2 */}
+      {/* Red Hexagonal Brand 3D Shield in Background Matching Image Exactly */}
       <div className="mockup-hex-backdrop">
-        <svg viewBox="0 0 500 500" className="mockup-hex-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 600 600" className="mockup-hex-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="hexRadial" cx="60%" cy="30%" r="80%">
-              <stop offset="0%" stopColor="#e11d48" />
-              <stop offset="45%" stopColor="#be123c" />
-              <stop offset="100%" stopColor="#70092b" />
+            <radialGradient id="hexRadial" cx="50%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#d3143c" />
+              <stop offset="50%" stopColor="#9b0e2b" />
+              <stop offset="100%" stopColor="#500412" />
             </radialGradient>
-            <linearGradient id="hexInnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#be123c" />
-              <stop offset="100%" stopColor="#4c0519" />
+            <linearGradient id="innerCavity" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#43030e" />
+              <stop offset="100%" stopColor="#7a091e" />
             </linearGradient>
-            <filter id="shieldShadow" x="-20%" y="-20%" width="150%" height="150%">
-              <feDropShadow dx="-10" dy="25" stdDeviation="30" floodColor="#881337" floodOpacity="0.45" />
+            <linearGradient id="pFace" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ff2a55" />
+              <stop offset="50%" stopColor="#d3143c" />
+              <stop offset="100%" stopColor="#9b0e2b" />
+            </linearGradient>
+            <filter id="recessShadow" x="-15%" y="-15%" width="130%" height="130%">
+              <feDropShadow dx="-10" dy="20" stdDeviation="25" floodColor="#2b0007" floodOpacity="0.75" />
+            </filter>
+            <filter id="pFloatShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="-12" dy="18" stdDeviation="16" floodColor="#260005" floodOpacity="0.65" />
             </filter>
           </defs>
-          {/* Outer 3D Hexagon */}
-          <path 
-            d="M250 40 L450 155 L450 385 L250 500 L50 385 L50 155 Z" 
+
+          {/* Outer 3D Hexagon Rim with beveled edge */}
+          <polygon 
+            points="300,30 520,157 520,413 300,540 80,413 80,157" 
             fill="url(#hexRadial)" 
-            filter="url(#shieldShadow)"
+            filter="url(#recessShadow)"
           />
-          {/* Beveled Top Highlight */}
-          <path 
-            d="M250 40 L450 155 L250 200 L50 155 Z" 
+          {/* Subtle top edge highlight */}
+          <polygon 
+            points="300,30 520,157 490,175 300,65 110,175 80,157" 
             fill="#ffffff" 
-            opacity="0.12" 
+            opacity="0.22" 
           />
-          {/* Recessed Inner Hexagon Chamber */}
-          <path 
-            d="M250 120 L390 200 L390 360 L250 440 L110 360 L110 200 Z" 
-            fill="url(#hexInnerGrad)" 
-            opacity="0.95"
+
+          {/* Deep Recessed Cavity (Inner Hexagon) */}
+          <polygon 
+            points="300,105 455,195 455,375 300,465 145,375 145,195" 
+            fill="url(#innerCavity)" 
           />
-          {/* Center Brand Cutout Accent */}
-          <path 
-            d="M250 170 C290 170 320 200 320 240 C320 275 295 305 260 310 L260 370 L240 370 L240 300 C210 295 190 270 190 240 C190 200 215 170 250 170 Z" 
-            fill="#be123c"
-            opacity="0.7"
+          <polygon 
+            points="300,105 455,195 300,135 145,195" 
+            fill="#1f0106" 
+            opacity="0.85" 
           />
+
+          {/* Central 3D Embossed 'P' Emblem Floating inside cavity */}
+          <g filter="url(#pFloatShadow)" transform="translate(10, 0)">
+            {/* 3D P shape */}
+            <path 
+              d="M260 170 C345 170 380 205 380 265 C380 325 340 360 270 360 L240 360 L240 435 C240 445 230 450 220 450 L195 450 C185 450 180 442 180 435 L180 200 C180 180 195 170 225 170 Z M240 310 L265 310 C305 310 325 292 325 265 C325 238 305 220 265 220 L240 220 Z" 
+              fill="url(#pFace)" 
+            />
+            {/* Top bevel highlight on 'P' */}
+            <path 
+              d="M260 170 C345 170 380 205 380 265 C377 265 340 185 260 182 L225 182 C205 182 190 190 185 205 L180 200 C180 180 195 170 225 170 Z" 
+              fill="#ffffff" 
+              opacity="0.32" 
+            />
+          </g>
         </svg>
+
+        {/* Handwritten text slogan in cursive */}
         <div className="hex-handwritten-badge">
           <span>Collect</span>
           <span>Manage</span>
@@ -128,9 +153,9 @@ export default function LandingHeroMockup() {
                   <CheckCircle2 size={13} color="#059669" />
                 </div>
                 <span className="stat-label">Collected this month</span>
-                <div className="stat-value">₹2,400</div>
+                <div className="stat-value">₹1,20,000</div>
                 <div className="stat-trend positive">
-                  <TrendingUp size={10} /> +12.8%
+                  <TrendingUp size={10} /> +18.4%
                 </div>
               </div>
 
@@ -140,9 +165,9 @@ export default function LandingHeroMockup() {
                   <span style={{ fontSize: '11px', color: '#be123c', fontWeight: 800 }}>%</span>
                 </div>
                 <span className="stat-label">Collection rate</span>
-                <div className="stat-value">29%</div>
+                <div className="stat-value">33%</div>
                 <div className="stat-trend positive">
-                  <TrendingUp size={10} /> +4.2%
+                  <TrendingUp size={10} /> +6.2%
                 </div>
               </div>
 
@@ -152,9 +177,9 @@ export default function LandingHeroMockup() {
                   <Clock size={13} color="#ea580c" />
                 </div>
                 <span className="stat-label">Pending amount</span>
-                <div className="stat-value">₹6,000</div>
+                <div className="stat-value">₹2,40,000</div>
                 <div className="stat-trend negative">
-                  <TrendingDown size={10} /> -8.1%
+                  <TrendingDown size={10} /> -5.1%
                 </div>
               </div>
 
@@ -166,7 +191,7 @@ export default function LandingHeroMockup() {
                 <span className="stat-label">Overdue accounts</span>
                 <div className="stat-value">1</div>
                 <div className="stat-trend overdue-tag">
-                  -3 this week
+                  -2 this week
                 </div>
               </div>
             </div>
@@ -176,20 +201,20 @@ export default function LandingHeroMockup() {
               <div className="mockup-panel-title">
                 <div>
                   <strong>Collection overview</strong>
-                  <span className="mockup-sub-members">Current month · 4 members</span>
+                  <span className="mockup-sub-members">Current month · 4 dance batches</span>
                 </div>
                 <span className="view-col-link">View collections →</span>
               </div>
               <div className="mockup-donut-split">
                 <div className="mockup-mini-donut">
                   <div className="mockup-donut-circle">
-                    <span className="pct">29%</span>
+                    <span className="pct">33%</span>
                   </div>
                 </div>
                 <div className="mockup-mini-legend">
-                  <div className="leg-item"><span className="leg-dot red"></span> Paid: 1</div>
-                  <div className="leg-item"><span className="leg-dot orange"></span> Pending: 2</div>
-                  <div className="leg-item"><span className="leg-dot darkred"></span> Overdue: 1</div>
+                  <div className="leg-item"><span className="leg-dot red"></span> Paid: 1 batch</div>
+                  <div className="leg-item"><span className="leg-dot orange"></span> Pending: 2 batches</div>
+                  <div className="leg-item"><span className="leg-dot darkred"></span> Overdue: 1 batch</div>
                 </div>
               </div>
             </div>
@@ -206,7 +231,7 @@ export default function LandingHeroMockup() {
         </div>
         <div className="floating-pill-text">
           <strong className="pill-title">Payment received!</strong>
-          <span className="pill-desc">Arjun has paid <strong>₹1,500</strong></span>
+          <span className="pill-desc">Ananya paid <strong>₹1,20,000</strong></span>
           <span className="pill-time">2 minutes ago</span>
         </div>
       </div>

@@ -24,9 +24,14 @@ export default function Sidebar() {
         </div>
         
         <div className="club-switcher">
-          <div className="club-avatar">PD</div>
-          <div><strong>Pingdues</strong><small>Admin account</small></div>
-          <ChevronDown />
+          <div className="club-avatar">NV</div>
+          <div style={{ minWidth: 0, overflow: 'hidden' }}>
+            <strong style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', display: 'block' }}>
+              Nritya Veda Academy
+            </strong>
+            <small>Dance & Arts Academy</small>
+          </div>
+          <ChevronDown size={14} style={{ flexShrink: 0 }} />
         </div>
         
         <nav>

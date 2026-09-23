@@ -508,7 +508,7 @@ function GroupFormModal() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
                   <input
                     type="text"
-                    placeholder="Enter group name (e.g. Morning Yoga)"
+                    placeholder="Enter group name (e.g. Bharatanatyam Arangetram)"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="group-name-input"

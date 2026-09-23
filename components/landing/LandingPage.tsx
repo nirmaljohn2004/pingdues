@@ -58,11 +58,11 @@ export default function LandingPage() {
       <header className="landing-nav">
         <div className="landing-nav-inner">
           <div className="landing-nav-brand">
-            <img 
-              src="/logo.png" 
-              alt="Pingdues" 
-              className="landing-logo-img"
-            />
+            {/* White Pingdues logo for dark background */}
+            <div className="landing-logo-brand-wrap">
+              <span className="landing-logo-icon">⬡</span>
+              <span className="landing-logo-text">pingdues<span className="landing-logo-dot">.</span></span>
+            </div>
           </div>
 
           <nav className="landing-nav-links">
@@ -92,7 +92,7 @@ export default function LandingPage() {
 
           {/* Mobile hamburger */}
           <button 
-            type="button"
+            type="button" 
             className="landing-mobile-menu-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
@@ -117,60 +117,84 @@ export default function LandingPage() {
         )}
       </header>
 
-      {/* 2. Hero Section */}
-      <section className="landing-hero-section">
-        <div className="landing-hero-grid">
-          {/* Left Text & CTA */}
-          <div className="landing-hero-content">
-            <div className="landing-hero-eyebrow">FEES MADE SIMPLE</div>
-            <h1 className="landing-hero-title">
-              Every member.<br />
-              <span className="accent-crimson">On time.</span>
-            </h1>
-            <p className="landing-hero-subtitle">
-              Smart fee collection and member management for modern clubs. Automate. Simplify. Grow.
-            </p>
+      {/* Hero Outer Wrapper with Rich Crimson Background */}
+      <div className="landing-hero-backdrop-wrapper">
+        <div className="landing-hero-ambient-glow" />
+        
+        {/* 2. Hero Section */}
+        <section className="landing-hero-section">
+          <div className="landing-hero-grid">
+            {/* Left Text & CTA */}
+            <div className="landing-hero-content">
+              <h1 className="landing-hero-title">
+                Every<br />
+                member.<br />
+                <span className="accent-hero-white">On time.</span>
+              </h1>
+              <p className="landing-hero-subtitle">
+                Smart fee collection for modern clubs.
+              </p>
 
-            <div className="landing-hero-buttons">
-              <button 
-                type="button" 
-                onClick={handleRegister} 
-                className="landing-hero-primary-btn"
-              >
-                Get Started <ArrowRight size={16} />
-              </button>
-              <button 
-                type="button" 
-                onClick={() => setDemoModalOpen(true)}
-                className="landing-hero-secondary-btn"
-              >
-                Book a Demo
-              </button>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="landing-trust-badges">
-              <div className="trust-badge-item">
-                <Check size={14} className="trust-check" />
-                <span>No credit card required</span>
+              <div className="landing-hero-buttons">
+                <button 
+                  type="button" 
+                  onClick={handleRegister} 
+                  className="landing-hero-primary-btn"
+                >
+                  Get Started <ArrowRight size={16} />
+                </button>
               </div>
-              <div className="trust-badge-item">
-                <Check size={14} className="trust-check" />
+
+              {/* Sub-text under button */}
+              <div className="landing-hero-subnotes">
+                <span>No credit card required</span>
+                <span className="dot-sep">•</span>
                 <span>Setup in 5 minutes</span>
               </div>
-              <div className="trust-badge-item">
-                <Check size={14} className="trust-check" />
-                <span>Loved by 2,000+ clubs</span>
-              </div>
+            </div>
+
+            {/* Right Live 3D Perspective Showcase with 3D Embossed Shield */}
+            <div className="landing-hero-showcase">
+              <LandingHeroMockup />
             </div>
           </div>
 
-          {/* Right Live 3D Perspective Showcase */}
-          <div className="landing-hero-showcase">
-            <LandingHeroMockup />
+          {/* Social Proof Strip on Crimson Background */}
+          <div className="landing-hero-metrics-strip">
+            <div className="metric-pill">
+              <div className="metric-pill-icon"><Users size={16} /></div>
+              <div className="metric-pill-text">
+                <span className="metric-pill-val">2,000+</span>
+                <span className="metric-pill-lbl">Clubs & Academies</span>
+              </div>
+            </div>
+
+            <div className="metric-pill">
+              <div className="metric-pill-icon"><CreditCard size={16} /></div>
+              <div className="metric-pill-text">
+                <span className="metric-pill-val">₹500Cr+</span>
+                <span className="metric-pill-lbl">Fees Processed</span>
+              </div>
+            </div>
+
+            <div className="metric-pill">
+              <div className="metric-pill-icon"><ShieldCheck size={16} /></div>
+              <div className="metric-pill-text">
+                <span className="metric-pill-val">99.9%</span>
+                <span className="metric-pill-lbl">Secure & Reliable</span>
+              </div>
+            </div>
+
+            <div className="metric-pill">
+              <div className="metric-pill-icon"><Zap size={16} /></div>
+              <div className="metric-pill-text">
+                <span className="metric-pill-val">Save Hours</span>
+                <span className="metric-pill-lbl">Every Month</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* 3. Features Section: "Built for clubs. Designed for simplicity." */}
       <section id="features" className="landing-features-section">
@@ -350,8 +374,8 @@ export default function LandingPage() {
                 <div className="wa-chat-body">
                   <div className="wa-bubble received">
                     <p className="wa-msg-text">
-                      Hi Arjun,<br /><br />
-                      Your monthly fee of <strong>₹1,500</strong> is due for <strong>Football Academy</strong>.<br /><br />
+                      Hi Ananya,<br /><br />
+                      Your annual fee of <strong>₹1,20,000</strong> is due for <strong>Bharatanatyam Arangetram</strong>.<br /><br />
                       Click below to pay securely ⚡
                     </p>
                     <button type="button" className="wa-pay-btn">Pay Now</button>
@@ -372,7 +396,7 @@ export default function LandingPage() {
                 <Check size={20} color="#fff" />
               </div>
               <div className="receipt-status-text">Payment Successful</div>
-              <div className="receipt-amount-text">₹1,500</div>
+              <div className="receipt-amount-text">₹1,20,000</div>
               <div className="receipt-meta">12 Sep 2024, 10:29 AM<br/>Txn ID: PD928374928</div>
               <div className="receipt-footer-text">
                 <strong>Thank you!</strong>

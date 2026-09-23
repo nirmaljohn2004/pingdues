@@ -152,13 +152,13 @@ export default function Overview() {
   const formattedCollected = `₹${collectedAmount.toLocaleString('en-IN')}`
   const formattedPending = `₹${pendingAmount.toLocaleString('en-IN')}`
 
-  // Mock data for Recharts
+  // Mock data for Recharts scaled to realistic Lakh+ academy revenue
   const data = [
-    { name: 'Apr', collections: 4000, pending: 2400 },
-    { name: 'May', collections: 3000, pending: 1398 },
-    { name: 'Jun', collections: 2000, pending: 9800 },
-    { name: 'Jul', collections: 2780, pending: 3908 },
-    { name: 'Aug', collections: 1890, pending: 4800 },
+    { name: 'Apr', collections: 145000, pending: 35000 },
+    { name: 'May', collections: 180000, pending: 42000 },
+    { name: 'Jun', collections: 160000, pending: 65000 },
+    { name: 'Jul', collections: 210000, pending: 48000 },
+    { name: 'Aug', collections: 195000, pending: 52000 },
     { name: 'Sep', collections: collectedAmount, pending: pendingAmount },
   ]
 

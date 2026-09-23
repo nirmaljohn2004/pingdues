@@ -36,42 +36,42 @@ export type Member = {
 
 export const seedMembers: Member[] = [
   {
-    id: 1, name: 'Maya Patel', initials: 'MP', plan: 'Premium monthly', amount: '₹2,400',
+    id: 1, name: 'Ananya Sharma', initials: 'AS', plan: 'Bharatanatyam Arangetram', amount: '₹1,20,000',
     due: 'Paid via Online Link, 9:42 AM', status: 'Paid', color: 'peach',
-    phone: '+91 98765 43210', email: 'maya.patel@example.com', joined: '12 Jan 2024',
-    memberGroups: ['Premium monthly', 'Coaching centre'],
+    phone: '+91 98765 43210', email: 'ananya.sharma@nritya.com', joined: '12 Jan 2024',
+    memberGroups: ['Bharatanatyam Arangetram', 'Carnatic Music & Nattuvangam'],
     groupPayments: {
-      'Premium monthly':  { amount: '₹2,400', status: 'Paid',    due: 'Paid via Online Link, 9:42 AM' },
-      'Coaching centre':  { amount: '₹1,200', status: 'Pending', due: 'Due in 3 days' },
+      'Bharatanatyam Arangetram': { amount: '₹1,20,000', status: 'Paid', due: 'Paid via Online Link, 9:42 AM' },
+      'Carnatic Music & Nattuvangam': { amount: '₹25,000', status: 'Pending', due: 'Due in 3 days' },
     },
   },
   {
-    id: 2, name: 'Arjun Mehta', initials: 'AM', plan: 'Standard monthly', amount: '₹1,800',
+    id: 2, name: 'Rohan Varma', initials: 'RV', plan: 'Kathak Senior Diploma', amount: '₹85,000',
     due: 'Due today', status: 'Pending', color: 'lavender',
-    phone: '+91 98123 45678', email: 'arjun.mehta@example.com', joined: '04 Mar 2024',
-    memberGroups: ['Standard monthly'],
+    phone: '+91 98123 45678', email: 'rohan.varma@nritya.com', joined: '04 Mar 2024',
+    memberGroups: ['Kathak Senior Diploma'],
     groupPayments: {
-      'Standard monthly': { amount: '₹1,800', status: 'Pending', due: 'Due today' },
+      'Kathak Senior Diploma': { amount: '₹85,000', status: 'Pending', due: 'Due today' },
     },
   },
   {
-    id: 3, name: 'Sana Khan', initials: 'SK', plan: 'Premium monthly', amount: '₹2,400',
+    id: 3, name: 'Pooja Iyer', initials: 'PI', plan: 'Odissi Intensive Classical', amount: '₹95,000',
     due: 'Due in 2 days', status: 'Pending', color: 'mint',
-    phone: '+91 99887 66554', email: 'sana.khan@example.com', joined: '21 Apr 2024',
-    memberGroups: ['Premium monthly', 'Student monthly'],
+    phone: '+91 99887 66554', email: 'pooja.iyer@nritya.com', joined: '21 Apr 2024',
+    memberGroups: ['Odissi Intensive Classical', 'Kuchipudi Fellowship'],
     groupPayments: {
-      'Premium monthly': { amount: '₹2,400', status: 'Pending', due: 'Due in 2 days' },
-      'Student monthly': { amount: '₹900',   status: 'Overdue', due: 'Overdue by 1 day' },
+      'Odissi Intensive Classical': { amount: '₹95,000', status: 'Pending', due: 'Due in 2 days' },
+      'Kuchipudi Fellowship': { amount: '₹45,000', status: 'Overdue', due: 'Overdue by 1 day' },
     },
   },
   {
-    id: 4, name: 'Rohan Desai', initials: 'RD', plan: 'Standard monthly', amount: '₹1,800',
+    id: 4, name: 'Devendra Nair', initials: 'DN', plan: 'Contemporary Fusion Batch', amount: '₹60,000',
     due: 'Overdue by 5 days', status: 'Overdue', color: 'sky',
-    phone: '+91 97654 32109', email: 'rohan.desai@example.com', joined: '17 Jun 2024',
-    memberGroups: ['Standard monthly', 'Annual membership'],
+    phone: '+91 97654 32109', email: 'devendra.nair@nritya.com', joined: '17 Jun 2024',
+    memberGroups: ['Contemporary Fusion Batch', 'Bharatanatyam Arangetram'],
     groupPayments: {
-      'Standard monthly':   { amount: '₹1,800', status: 'Overdue', due: 'Overdue by 5 days' },
-      'Annual membership':  { amount: '₹15,000', status: 'Paid',   due: 'Paid on 01 Sep 2024' },
+      'Contemporary Fusion Batch': { amount: '₹60,000', status: 'Overdue', due: 'Overdue by 5 days' },
+      'Bharatanatyam Arangetram': { amount: '₹1,20,000', status: 'Paid', due: 'Paid on 01 Sep 2024' },
     },
   },
 ]
@@ -107,31 +107,88 @@ export interface GroupDetails {
 
 export const seedGroups: GroupDetails[] = [
   {
-    id: '1', name: 'Standard monthly', billingType: 'Recurring', feeAmount: '₹1,800', recursEvery: 'Monthly', dueDate: '1st of every month', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Standard gym access plan',
+    id: '1', 
+    name: 'Bharatanatyam Arangetram', 
+    billingType: 'Recurring', 
+    feeAmount: '₹1,20,000', 
+    recursEvery: 'Yearly', 
+    dueDate: '1st of every month', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Advanced Margam preparation, live orchestra rehearsal & performance repertoire',
     reminders: [
-      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 1, time: '09:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, friendly reminder that your monthly fee of {amount} for {group} is due today.' },
-      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 5, time: '10:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your monthly fee of {amount} for {group} is currently pending. Please pay at your earliest.' },
+      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 1, time: '09:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, friendly reminder that your academy fee of {amount} for {group} is due today.' },
+      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 5, time: '10:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your academy fee of {amount} for {group} is currently pending. Please settle at your earliest.' },
       { id: 'rem-3', stage: 3, title: '3rd & Final Reminder (Urgent Warning)', dayOfMonth: 10, time: '06:00 PM', channel: 'WhatsApp', enabled: true, messageTemplate: 'URGENT: Hi {name}, fee of {amount} for {group} is overdue. Please complete payment immediately.' }
     ]
   },
   {
-    id: '2', name: 'Premium monthly', billingType: 'Recurring', feeAmount: '₹2,400', recursEvery: 'Monthly', dueDate: '1st of every month', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Includes personal trainer & spa access',
+    id: '2', 
+    name: 'Kathak Senior Diploma', 
+    billingType: 'Recurring', 
+    feeAmount: '₹85,000', 
+    recursEvery: 'Yearly', 
+    dueDate: '1st of every month', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Lucknow & Jaipur gharana tatkar, thumri abhinaya, and bandish compositions',
     reminders: [
-      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 1, time: '09:30 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your monthly fee of {amount} for {group} is due today.' },
-      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 7, time: '11:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your monthly fee of {amount} for {group} is pending.' },
+      { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 1, time: '09:30 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your annual fee of {amount} for {group} is due today.' },
+      { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 7, time: '11:00 AM', channel: 'WhatsApp', enabled: true, messageTemplate: 'Hi {name}, your annual fee of {amount} for {group} is pending.' },
       { id: 'rem-3', stage: 3, title: '3rd & Final Reminder (Urgent Warning)', dayOfMonth: 12, time: '05:00 PM', channel: 'WhatsApp', enabled: false, messageTemplate: 'URGENT: Hi {name}, fee of {amount} is overdue. Please pay now.' }
     ]
   },
   {
-    id: '3', name: 'Student monthly', billingType: 'Recurring', feeAmount: '₹900', recursEvery: 'Monthly', dueDate: '5th of every month', startDate: '01 Feb 2024', createdOn: '01 Feb 2024', description: 'Discounted rate for students with ID',
+    id: '3', 
+    name: 'Odissi Intensive Classical', 
+    billingType: 'Recurring', 
+    feeAmount: '₹95,000', 
+    recursEvery: 'Yearly', 
+    dueDate: '5th of every month', 
+    startDate: '01 Feb 2024', 
+    createdOn: '01 Feb 2024', 
+    description: 'Chowka, Tribhanga posture techniques & Ashtapadi abhinaya training',
     reminders: [
       { id: 'rem-1', stage: 1, title: '1st Reminder (Initial Notice)', dayOfMonth: 5, time: '09:00 AM', channel: 'WhatsApp', enabled: true },
       { id: 'rem-2', stage: 2, title: '2nd Reminder (Follow-up Notice)', dayOfMonth: 10, time: '10:00 AM', channel: 'WhatsApp', enabled: true },
       { id: 'rem-3', stage: 3, title: '3rd & Final Reminder (Urgent Warning)', dayOfMonth: 15, time: '06:00 PM', channel: 'WhatsApp', enabled: true }
     ]
   },
-  { id: '4', name: 'Annual membership', billingType: 'Recurring', feeAmount: '₹15,000', recursEvery: 'Yearly', dueDate: '01 Jan every year', startDate: '01 Jan 2024', createdOn: '01 Jan 2024', description: 'Full year access with 2 months free', reminders: [] },
-  { id: '5', name: 'Coaching centre', billingType: 'One-time', feeAmount: '₹1,200', dueDate: 'On admission', startDate: '15 Jan 2024', createdOn: '15 Jan 2024', description: 'Specialized group coaching sessions', reminders: [] },
+  { 
+    id: '4', 
+    name: 'Kuchipudi Fellowship', 
+    billingType: 'Recurring', 
+    feeAmount: '₹1,50,000', 
+    recursEvery: 'Yearly', 
+    dueDate: '01 Jan every year', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Full-year Tarangam brass plate dance & classical Yakshagana masterclasses', 
+    reminders: [] 
+  },
+  { 
+    id: '5', 
+    name: 'Contemporary Fusion Batch', 
+    billingType: 'One-time', 
+    feeAmount: '₹60,000', 
+    dueDate: 'On admission', 
+    startDate: '15 Jan 2024', 
+    createdOn: '15 Jan 2024', 
+    description: 'Modern choreography, stage aesthetics and physical movement arts', 
+    reminders: [] 
+  },
+  { 
+    id: '6', 
+    name: 'Carnatic Music & Nattuvangam', 
+    billingType: 'Recurring', 
+    feeAmount: '₹40,000', 
+    recursEvery: 'Quarterly', 
+    dueDate: '10th of every quarter', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Rhythm cymbals, tala patterns & vocal accompaniment for dancers', 
+    reminders: [] 
+  },
 ]
 
 export interface UserProfile {
@@ -150,11 +207,11 @@ export interface UserProfile {
 
 export const initialUserProfile: UserProfile = {
   name: 'Riya Kapoor',
-  email: 'riya.kapoor@pulseclub.in',
+  email: 'riya.kapoor@nrityaveda.in',
   phone: '+91 98765 12345',
-  gymName: 'Pulse Club Gym & Fitness',
+  gymName: 'Nritya Veda Academy of Fine Arts',
   gstin: '27AAAAA0000A1Z5',
-  address: 'Plot 42, Sector 18, Business Hub, Mumbai, MH',
+  address: 'Plot 42, Cultural Enclave, Nritya Bhavan, Bangalore, KA',
   kycStatus: 'Verified',
   panNo: 'ABCDE1234F',
   aadhaarNo: 'XXXX-XXXX-9821',
@@ -247,7 +304,14 @@ export const useStore = create<AppState>((set) => ({
   })),
 
   members: seedMembers,
-  groups: ['Standard monthly', 'Premium monthly', 'Student monthly', 'Annual membership', 'Coaching centre'],
+  groups: [
+    'Bharatanatyam Arangetram', 
+    'Kathak Senior Diploma', 
+    'Odissi Intensive Classical', 
+    'Kuchipudi Fellowship', 
+    'Contemporary Fusion Batch',
+    'Carnatic Music & Nattuvangam'
+  ],
   groupDetailsList: seedGroups,
   setMembers: (updater) => set((state) => ({ members: typeof updater === 'function' ? updater(state.members) : updater })),
   setGroups: (updater) => set((state) => ({ groups: typeof updater === 'function' ? updater(state.groups) : updater })),
