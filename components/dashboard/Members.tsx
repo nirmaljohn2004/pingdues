@@ -7,7 +7,7 @@ function Summary({
   icon: Icon, 
   label, 
   value, 
-  accentColor,
+  accentColor, 
   bgLight 
 }: { 
   icon: any
@@ -18,14 +18,17 @@ function Summary({
 }) {
   return (
     <article 
+      className="member-summary-card"
       style={{
         background: '#ffffff',
         border: '1px solid #e2e8f0',
         borderRadius: '14px',
-        padding: '18px 20px',
+        padding: '16px 14px',
         display: 'flex',
         alignItems: 'center',
-        gap: '14px',
+        gap: '12px',
+        minWidth: 0,
+        boxSizing: 'border-box',
         boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.04)',
         transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease'
       }}
@@ -40,40 +43,55 @@ function Summary({
         e.currentTarget.style.boxShadow = '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.04)'
       }}
     >
-      <div style={{
-        width: '42px',
-        height: '42px',
-        borderRadius: '11px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: bgLight,
-        color: accentColor,
-        border: `1px solid ${accentColor}18`,
-        flexShrink: 0
-      }}>
-        <Icon size={20} strokeWidth={2.2} />
+      <div 
+        className="member-summary-card-icon"
+        style={{
+          width: '38px',
+          height: '38px',
+          borderRadius: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: bgLight,
+          color: accentColor,
+          border: `1px solid ${accentColor}18`,
+          flexShrink: 0
+        }}
+      >
+        <Icon size={18} strokeWidth={2.2} />
       </div>
-      <div>
-        <small style={{ 
-          display: 'block', 
-          fontSize: '11px', 
-          fontWeight: 600, 
-          color: '#64748b', 
-          textTransform: 'uppercase', 
-          letterSpacing: '0.02em',
-          marginBottom: '2px' 
-        }}>
+      <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+        <small 
+          className="member-summary-card-label"
+          style={{ 
+            display: 'block', 
+            fontSize: '10.5px', 
+            fontWeight: 600, 
+            color: '#64748b', 
+            textTransform: 'uppercase', 
+            letterSpacing: '0.02em',
+            marginBottom: '2px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
           {label}
         </small>
-        <strong style={{ 
-          display: 'block', 
-          fontSize: '22px', 
-          fontWeight: 800, 
-          color: '#0f172a', 
-          letterSpacing: '-0.02em', 
-          lineHeight: 1.15 
-        }}>
+        <strong 
+          className="member-summary-card-value"
+          style={{ 
+            display: 'block', 
+            fontSize: '18px', 
+            fontWeight: 800, 
+            color: '#0f172a', 
+            letterSpacing: '-0.02em', 
+            lineHeight: 1.15,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
           {value}
         </strong>
       </div>

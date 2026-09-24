@@ -58,10 +58,13 @@ export default function LandingPage() {
       <header className="landing-nav">
         <div className="landing-nav-inner">
           <div className="landing-nav-brand">
-            {/* White Pingdues logo for dark background */}
-            <div className="landing-logo-brand-wrap">
-              <span className="landing-logo-icon">⬡</span>
-              <span className="landing-logo-text">pingdues<span className="landing-logo-dot">.</span></span>
+            {/* Official Pingdues logo badge matching app & auth */}
+            <div className="landing-logo-badge-link" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <img 
+                src="/logo.png" 
+                alt="pingdues" 
+                className="landing-nav-logo-img" 
+              />
             </div>
           </div>
 

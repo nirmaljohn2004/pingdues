@@ -4,7 +4,13 @@ import { useStore } from '@/store/useStore'
 const navItems = ['Overview', 'Members', 'Groups', 'Collections']
 
 export default function Sidebar() {
-  const { menuOpen, setMenuOpen, activeTab, setActiveTab } = useStore()
+  const { menuOpen, setMenuOpen, activeTab, setActiveTab, setModal } = useStore()
+
+  const handleNavClick = (item: string) => {
+    setActiveTab(item)
+    setMenuOpen(false)
+    setModal(null)
+  }
 
   return (
     <>
@@ -39,7 +45,7 @@ export default function Sidebar() {
             <button 
               key={item} 
               className={activeTab === item ? 'nav-item active' : 'nav-item'} 
-              onClick={() => { setActiveTab(item); setMenuOpen(false) }}
+              onClick={() => handleNavClick(item)}
             >
               {item === 'Overview' ? <LayoutDashboard /> : 
                item === 'Members' ? <Users /> : 

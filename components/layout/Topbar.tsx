@@ -103,20 +103,26 @@ export default function Topbar() {
             </button>
             
             {notificationsOpen && (
-              <div className="notifications-dropdown" style={{ zIndex: 120 }}>
-                <div className="notifications-header">Recent Activity</div>
-                {members.filter(m => m.status === 'Paid').slice(0, 5).map(m => (
-                  <div key={m.id} className="notification-item">
-                    <div className={`member-avatar ${m.color}`} style={{ width: 32, height: 32, fontSize: 12 }}>
-                      {m.initials}
+              <>
+                <div 
+                  onClick={() => setNotificationsOpen(false)}
+                  style={{ position: 'fixed', inset: 0, zIndex: 110, background: 'transparent' }} 
+                />
+                <div className="notifications-dropdown" style={{ zIndex: 120 }}>
+                  <div className="notifications-header">Recent Activity</div>
+                  {members.filter(m => m.status === 'Paid').slice(0, 5).map(m => (
+                    <div key={m.id} className="notification-item">
+                      <div className={`member-avatar ${m.color}`} style={{ width: 32, height: 32, fontSize: 12 }}>
+                        {m.initials}
+                      </div>
+                      <div className="notification-content">
+                        <strong>{m.name}</strong> paid <span>{m.amount}</span>
+                        <small>{m.due}</small>
+                      </div>
                     </div>
-                    <div className="notification-content">
-                      <strong>{m.name}</strong> paid <span>{m.amount}</span>
-                      <small>{m.due}</small>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
           
@@ -136,14 +142,19 @@ export default function Topbar() {
 
             {/* Profile & KYC Popover Dropdown */}
             {profileMenuOpen && (
-              <div 
-                className="top-profile-dropdown"
-                style={{
-                  position: 'absolute', right: 0, top: 'calc(100% + 8px)', width: '310px',
-                  background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.12)', padding: '16px', zIndex: 150
-                }}
-              >
+              <>
+                <div 
+                  onClick={() => setProfileMenuOpen(false)}
+                  style={{ position: 'fixed', inset: 0, zIndex: 140, background: 'transparent' }} 
+                />
+                <div 
+                  className="top-profile-dropdown"
+                  style={{
+                    position: 'absolute', right: 0, top: 'calc(100% + 8px)', width: '310px',
+                    background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.12)', padding: '16px', zIndex: 150
+                  }}
+                >
                 {/* Profile Header */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingBottom: '12px', borderBottom: '1px solid #f1f5f9' }}>
                   <div className="profile-avatar" style={{ width: 42, height: 42, fontSize: '15px', fontWeight: 700 }}>
@@ -223,8 +234,9 @@ export default function Topbar() {
                   </button>
                 </div>
               </div>
-            )}
-          </div>
+            </>
+          )}
+        </div>
         </div>
       </header>
 

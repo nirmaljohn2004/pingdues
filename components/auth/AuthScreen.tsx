@@ -21,7 +21,7 @@ export default function AuthScreen() {
     <div className="auth-split">
       <div className="auth-brand">
         <div className="auth-brand-content">
-          <div className="brand" style={{ color: '#fff', padding: '0 0 20px', display: 'flex', alignItems: 'center' }}>
+          <div className="brand auth-brand-logo" style={{ color: '#fff', padding: '0 0 20px', display: 'flex', alignItems: 'center' }}>
             <div 
               onClick={() => setShowLanding(true)}
               style={{ background: '#fff', borderRadius: '12px', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', cursor: 'pointer' }}
@@ -38,8 +38,10 @@ export default function AuthScreen() {
               />
             </div>
           </div>
-          <h1>Manage your workspace seamlessly.</h1>
-          <p>Automate fee collection, track payments, and send WhatsApp reminders effortlessly.</p>
+          <div className="auth-brand-text">
+            <h1>Manage your workspace seamlessly.</h1>
+            <p>Automate fee collection, track payments, and send WhatsApp reminders effortlessly.</p>
+          </div>
         </div>
       </div>
       <div className="auth-form-container">

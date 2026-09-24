@@ -195,7 +195,6 @@ export default function MemberModals() {
     <div
       className="modal-backdrop"
       onClick={closeModal}
-      style={{ padding: '20px' }}
     >
       <div
         className="member-modal-inner"

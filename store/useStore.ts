@@ -295,7 +295,7 @@ export const useStore = create<AppState>((set) => ({
 
   activeTab: 'Overview',
   menuOpen: false,
-  setActiveTab: (tab) => set({ activeTab: tab }),
+  setActiveTab: (tab) => set({ activeTab: tab, modal: null }),
   setMenuOpen: (open) => set({ menuOpen: open }),
 
   userProfile: initialUserProfile,
