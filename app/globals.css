@@ -1574,21 +1574,21 @@ body {
 .landing-logo-badge-link {
   display: inline-flex;
   align-items: center;
-  background: #ffffff;
+  background: transparent;
   border-radius: 12px;
-  padding: 6px 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  padding: 4px 0;
+  box-shadow: none;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .landing-logo-badge-link:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  opacity: 0.9;
 }
 
 .landing-nav-logo-img {
-  height: 28px;
+  height: 38px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -3666,5 +3666,270 @@ body {
   }
 }
 
+/* ============================================================
+   PINGDUES — PREMIUM CHERRY RED × WHITE DESIGN SYSTEM
+   Applied globally to dashboard shell (non-landing pages)
+   ============================================================ */
 
+/* ── 1. DESIGN TOKENS ────────────────────────────────────────── */
+:root {
+  --cherry:        #be123c;
+  --cherry-dark:   #9f1239;
+  --cherry-deeper: #7f0f30;
+  --cherry-light:  #fff1f2;
+  --cherry-pale:   #ffeef1;
+  --cherry-mid:    #fecdd3;
+  --cherry-glow:   rgba(190, 18, 60, 0.18);
+  --cherry-ring:   rgba(190, 18, 60, 0.25);
+  --app-bg:        #faf8f8;
+}
 
+/* ── 2. APP SHELL ─────────────────────────────────────────────── */
+.app-shell {
+  background: var(--app-bg) !important;
+  min-height: 100vh;
+}
+
+/* ── 3. SIDEBAR — Cherry Red Gradient ───────────────────────── */
+.sidebar {
+  background: linear-gradient(165deg, #8b0e25 0%, #be123c 40%, #a01230 70%, #7a0e26 100%) !important;
+  border-right: none !important;
+  box-shadow: 4px 0 24px rgba(159, 18, 57, 0.22) !important;
+}
+
+.sidebar .brand,
+.sidebar .mobile-brand {
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  margin-bottom: 6px;
+  padding-bottom: 20px !important;
+}
+
+.sidebar .club-switcher {
+  background: rgba(255,255,255,0.10) !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+.sidebar .club-switcher:hover {
+  background: rgba(255,255,255,0.18) !important;
+  border-color: rgba(255,255,255,0.28) !important;
+}
+.sidebar .club-switcher strong { color: #ffffff !important; font-size: 12.5px !important; }
+.sidebar .club-switcher small { color: rgba(255,255,255,0.65) !important; }
+.sidebar .club-avatar { background: rgba(255,255,255,0.2) !important; color: #ffffff !important; font-weight: 800 !important; }
+
+.sidebar .nav-item {
+  color: rgba(255,255,255,0.72) !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+.sidebar .nav-item svg { opacity: 0.8; }
+.sidebar .nav-item:hover { background: rgba(255,255,255,0.14) !important; color: #ffffff !important; }
+.sidebar .nav-item:hover svg { opacity: 1; }
+.sidebar .nav-item.active {
+  background: #ffffff !important;
+  color: var(--cherry) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18) !important;
+}
+.sidebar .nav-item.active svg { opacity: 1 !important; color: var(--cherry) !important; }
+
+.sidebar .help-card {
+  background: rgba(255,255,255,0.12) !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  color: rgba(255,255,255,0.85) !important;
+}
+.sidebar .help-card:hover { background: rgba(255,255,255,0.2) !important; }
+.sidebar .help-card strong { color: #ffffff !important; }
+.sidebar .help-card small { color: rgba(255,255,255,0.6) !important; }
+.sidebar .help-card svg { color: rgba(255,255,255,0.9) !important; }
+
+.sidebar .profile strong { color: rgba(255,255,255,0.92) !important; }
+.sidebar .profile small { color: rgba(255,255,255,0.6) !important; }
+.sidebar .profile-avatar { background: rgba(255,255,255,0.2) !important; color: #ffffff !important; }
+.sidebar .profile { border-top: 1px solid rgba(255,255,255,0.12) !important; }
+
+/* ── 4. TOPBAR ───────────────────────────────────────────────── */
+.topbar {
+  background: rgba(255,255,255,0.97) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid var(--cherry-mid) !important;
+  box-shadow: 0 1px 0 rgba(190,18,60,0.06) !important;
+}
+.topbar .icon-button {
+  border: 1px solid var(--cherry-mid) !important;
+  color: var(--cherry) !important;
+  background: var(--cherry-light) !important;
+}
+.topbar .icon-button:hover {
+  background: var(--cherry-mid) !important;
+  border-color: var(--cherry) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px var(--cherry-glow) !important;
+}
+.topbar .icon-button i {
+  background: var(--cherry) !important;
+  border: 2px solid #ffffff !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+.topbar .profile-avatar {
+  background: var(--cherry) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 8px var(--cherry-glow) !important;
+}
+
+/* ── 5. BUTTONS ──────────────────────────────────────────────── */
+.primary-button {
+  background: linear-gradient(135deg, #be123c 0%, #9f1239 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(190, 18, 60, 0.28) !important;
+  font-weight: 700 !important;
+}
+.primary-button:hover {
+  background: linear-gradient(135deg, #a01230 0%, #7f0f30 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(190, 18, 60, 0.36) !important;
+}
+.primary-button:active { transform: translateY(0) !important; }
+
+.secondary-button {
+  background: #ffffff !important;
+  color: var(--cherry) !important;
+  border: 1.5px solid var(--cherry-mid) !important;
+  font-weight: 600 !important;
+}
+.secondary-button:hover {
+  background: var(--cherry-light) !important;
+  border-color: var(--cherry) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 10px var(--cherry-glow) !important;
+}
+
+/* ── 6. STAT + PANEL CARDS ────────────────────────────────────── */
+.stat-card {
+  background: #ffffff !important;
+  border: 1px solid #f0e8ea !important;
+  box-shadow: 0 2px 12px rgba(190, 18, 60, 0.04), 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+.stat-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 28px rgba(190, 18, 60, 0.10), 0 4px 8px rgba(0,0,0,0.05) !important;
+  border-color: var(--cherry-mid) !important;
+}
+.panel, .payment-link-callout {
+  background: #ffffff !important;
+  border: 1px solid #f0e8ea !important;
+  box-shadow: 0 2px 12px rgba(190, 18, 60, 0.03) !important;
+}
+.reminder-hero {
+  background: linear-gradient(135deg, #fff1f2, #ffeef1) !important;
+  border: 1px solid var(--cherry-mid) !important;
+}
+.reminder-hero strong { color: var(--cherry-deeper) !important; }
+.reminder-hero span { color: var(--cherry) !important; }
+.payment-link-callout {
+  background: linear-gradient(135deg, #fff8f8, #fff1f2) !important;
+  border: 1px solid var(--cherry-mid) !important;
+}
+
+/* ── 7. STATUS BADGES ────────────────────────────────────────── */
+.status-badge.paid { background: #dcfce7 !important; color: #15803d !important; border: 1px solid #bbf7d0 !important; }
+.status-badge.pending { background: #fff7ed !important; color: #c2410c !important; border: 1px solid #fed7aa !important; }
+.status-badge.overdue { background: var(--cherry-light) !important; color: var(--cherry) !important; border: 1px solid var(--cherry-mid) !important; }
+
+/* ── 8. SEARCH + FORM INPUTS ─────────────────────────────────── */
+.search-box { background: #ffffff !important; border: 1.5px solid #e9dfe1 !important; }
+.search-box:focus-within { border-color: var(--cherry) !important; box-shadow: 0 0 0 3px var(--cherry-ring) !important; }
+.member-form input:focus, .member-form select:focus,
+.form-label input:focus, .form-label select:focus,
+.settings-card input:focus, .time-input:focus-within {
+  border-color: var(--cherry) !important;
+  box-shadow: 0 0 0 3px var(--cherry-ring) !important;
+  outline: none !important;
+}
+
+/* ── 9. TOGGLES + STEP NUMBERS ───────────────────────────────── */
+.toggle.on { background: linear-gradient(135deg, var(--cherry) 0%, var(--cherry-dark) 100%) !important; box-shadow: 0 2px 6px var(--cherry-glow) !important; }
+.step-number { background: linear-gradient(135deg, var(--cherry) 0%, var(--cherry-dark) 100%) !important; box-shadow: 0 2px 8px var(--cherry-glow) !important; }
+
+/* ── 10. DONUT + LEGEND ──────────────────────────────────────── */
+.donut { position: relative !important; box-shadow: 0 4px 20px rgba(190, 18, 60, 0.12) !important; }
+.legend-dot.paid { background: var(--cherry) !important; box-shadow: 0 0 0 3px var(--cherry-ring) !important; }
+
+/* ── 11. ACTION LINKS & BUTTONS ──────────────────────────────── */
+.settings-link, .configure-link, .send-button,
+.member-actions button, .copy-link, .row-action, .mobile-view-all { color: var(--cherry) !important; }
+.settings-link:hover, .configure-link:hover, .send-button:hover { background: var(--cherry-light) !important; }
+.copy-link { border: 1.5px solid var(--cherry-mid) !important; background: #ffffff !important; }
+.copy-link:hover { background: var(--cherry-light) !important; border-color: var(--cherry) !important; box-shadow: 0 3px 10px var(--cherry-glow) !important; }
+.row-action { border: 1.5px solid var(--cherry-mid) !important; background: #ffffff !important; }
+.row-action:hover { background: var(--cherry-light) !important; border-color: var(--cherry) !important; }
+
+/* ── 12. COLLECTION PANEL ACCENT ─────────────────────────────── */
+.collection-panel { position: relative; }
+.collection-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cherry) 0%, var(--cherry-dark) 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+/* ── 13. MEMBER SUMMARIES ─────────────────────────────────────── */
+.member-summary {
+  background: #ffffff !important;
+  border: 1px solid #f0e8ea !important;
+  box-shadow: 0 2px 12px rgba(190, 18, 60, 0.04) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.member-summary:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 22px rgba(190, 18, 60, 0.10) !important; border-color: var(--cherry-mid) !important; }
+
+/* ── 14. MODAL ────────────────────────────────────────────────── */
+.modal { background: #ffffff !important; border: 1px solid #f0e8ea !important; box-shadow: 0 24px 60px -12px rgba(159, 18, 57, 0.18) !important; }
+.modal-kicker { color: var(--cherry) !important; font-weight: 700 !important; }
+
+/* ── 15. NOTIFICATIONS ────────────────────────────────────────── */
+.notifications-dropdown { border: 1px solid #f0e8ea !important; box-shadow: 0 16px 48px -12px rgba(159, 18, 57, 0.16) !important; }
+.notifications-header { background: linear-gradient(135deg, #fff8f8, var(--cherry-light)) !important; color: var(--cherry-dark) !important; border-bottom: 1px solid var(--cherry-mid) !important; font-weight: 700 !important; }
+.notification-item:hover { background: #fff8f8 !important; }
+.notification-content span { color: var(--cherry) !important; font-weight: 700 !important; }
+
+/* ── 16. VIEW BANNERS ─────────────────────────────────────────── */
+.view-banner { background: linear-gradient(135deg, var(--cherry-light), var(--cherry-pale)) !important; border: 1px solid var(--cherry-mid) !important; }
+.view-banner span { color: var(--cherry) !important; }
+.view-banner button { background: #ffffff !important; border: 1.5px solid var(--cherry-mid) !important; color: var(--cherry) !important; font-weight: 700 !important; }
+.view-banner button:hover { background: var(--cherry-light) !important; }
+
+/* ── 17. AUTH BRAND PANEL ─────────────────────────────────────── */
+.auth-brand { background: linear-gradient(145deg, #7f0f30 0%, #9f1239 30%, #be123c 65%, #a01230 100%) !important; }
+.auth-footer button { color: var(--cherry) !important; font-weight: 700 !important; }
+
+/* ── 18. PROFILE DROPDOWN ─────────────────────────────────────── */
+.top-profile-dropdown { border: 1px solid #f0e8ea !important; box-shadow: 0 16px 48px -12px rgba(159, 18, 57, 0.16) !important; }
+
+/* ── 19. CONTENT + MAIN BACKGROUND ────────────────────────────── */
+.main-content { background: var(--app-bg) !important; }
+
+/* ── 20. SCROLLBAR ────────────────────────────────────────────── */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 4px; }
+.sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+/* ── 21. MOBILE SCRIM ─────────────────────────────────────────── */
+.mobile-scrim { background: rgba(127, 15, 48, 0.45) !important; }
+
+/* ── 22. TEXT SELECTION ───────────────────────────────────────── */
+::selection { background: var(--cherry-mid); color: var(--cherry-deeper); }
+
+/* ── 23. MOBILE TOPBAR ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .topbar { border-bottom: 1px solid var(--cherry-mid) !important; box-shadow: 0 2px 12px rgba(190, 18, 60, 0.08) !important; }
+}

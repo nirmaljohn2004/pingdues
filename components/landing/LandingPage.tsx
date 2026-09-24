@@ -61,7 +61,7 @@ export default function LandingPage() {
             {/* Official Pingdues logo badge matching app & auth */}
             <div className="landing-logo-badge-link" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <img 
-                src="/logo.png" 
+                src="/logo-white.png" 
                 alt="pingdues" 
                 className="landing-nav-logo-img" 
               />

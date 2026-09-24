@@ -17,7 +17,7 @@ export default function Sidebar() {
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <div className="brand" style={{ padding: '0 4px 20px' }}>
           <img 
-            src="/logo.png" 
+            src="/logo-white.png" 
             alt="pingdues" 
             style={{ 
               height: '46px', 

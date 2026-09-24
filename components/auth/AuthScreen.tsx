@@ -24,14 +24,14 @@ export default function AuthScreen() {
           <div className="brand auth-brand-logo" style={{ color: '#fff', padding: '0 0 20px', display: 'flex', alignItems: 'center' }}>
             <div 
               onClick={() => setShowLanding(true)}
-              style={{ background: '#fff', borderRadius: '12px', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+              style={{ background: 'transparent', borderRadius: '12px', padding: '0', display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
               title="Back to Pingdues Home"
             >
               <img 
-                src="/logo.png" 
+                src="/logo-white.png" 
                 alt="pingdues" 
                 style={{ 
-                  height: '32px', 
+                  height: '42px', 
                   width: 'auto', 
                   objectFit: 'contain' 
                 }} 
