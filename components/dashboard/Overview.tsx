@@ -304,7 +304,7 @@ export default function Overview() {
           
           <div className="chart-wrap" style={{ height: '200px', marginTop: '20px' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data}>
+              <BarChart data={data} accessibilityLayer={false}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} dy={10} />
                 <Tooltip cursor={{fill: 'rgba(0,0,0,0.02)'}} />
@@ -421,6 +421,7 @@ export default function Overview() {
                 <div className="overview-comparison-chart-wrap" style={{ height: Math.max(groupData.length * 60 + 40, 200) }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
+                      accessibilityLayer={false}
                       layout="vertical"
                       data={groupData}
                       margin={{ top: 0, right: 10, left: -10, bottom: 0 }}

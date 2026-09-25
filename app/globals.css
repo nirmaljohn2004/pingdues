@@ -3933,3 +3933,39 @@ body {
 @media (max-width: 640px) {
   .topbar { border-bottom: 1px solid var(--cherry-mid) !important; box-shadow: 0 2px 12px rgba(190, 18, 60, 0.08) !important; }
 }
+
+/* ── 24. RECHARTS FOCUS & SELECTION BOX REMOVAL ──────────────── */
+.recharts-wrapper,
+.recharts-surface,
+.recharts-responsive-container,
+.recharts-wrapper *,
+.recharts-surface *,
+.recharts-responsive-container * {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible,
+.recharts-wrapper:active,
+.recharts-surface:focus,
+.recharts-surface:focus-visible,
+.recharts-surface:active,
+.recharts-responsive-container:focus,
+.recharts-responsive-container:focus-visible,
+.recharts-responsive-container:active,
+svg.recharts-surface:focus,
+svg.recharts-surface:focus-visible,
+svg.recharts-surface:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+.chart-wrap,
+.overview-comparison-chart-wrap {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
