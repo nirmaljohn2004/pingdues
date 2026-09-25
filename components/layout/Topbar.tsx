@@ -67,11 +67,11 @@ export default function Topbar() {
     <>
       <header className="topbar">
         <button 
-          className="icon-button mobile-menu" 
+          className="topbar-plain-icon-btn mobile-menu" 
           aria-label="Open menu" 
           onClick={() => setMenuOpen(true)}
         >
-          <Menu />
+          <Menu size={22} strokeWidth={2.2} />
         </button>
         
         <div className="mobile-brand">
@@ -79,10 +79,12 @@ export default function Topbar() {
             src="/logo.png" 
             alt="pingdues" 
             style={{ 
-              height: '32px', 
+              height: '35px', 
+              maxHeight: '36px',
               width: 'auto', 
+              maxWidth: '145px',
               objectFit: 'contain',
-              display: 'block' 
+              display: 'block'
             }} 
           />
         </div>
@@ -91,15 +93,15 @@ export default function Topbar() {
           {/* Notifications Dropdown */}
           <div style={{ position: 'relative' }}>
             <button 
-              className="icon-button" 
+              className="topbar-plain-icon-btn" 
               aria-label="Notifications" 
               onClick={() => {
                 setNotificationsOpen(!notificationsOpen)
                 setProfileMenuOpen(false)
               }}
             >
-              <Bell />
-              <i />
+              <Bell size={20} strokeWidth={2} />
+              <span className="topbar-notification-dot" />
             </button>
             
             {notificationsOpen && (
@@ -137,7 +139,7 @@ export default function Topbar() {
               style={{ cursor: 'pointer', userSelect: 'none' }}
             >
               <div className="profile-avatar">{initials}</div>
-              <ChevronDown size={14} style={{ transition: 'transform 0.2s ease', transform: profileMenuOpen ? 'rotate(180deg)' : 'none' }} />
+              <ChevronDown size={12} style={{ color: '#64748b', transition: 'transform 0.2s ease', transform: profileMenuOpen ? 'rotate(180deg)' : 'none', flexShrink: 0 }} />
             </div>
 
             {/* Profile & KYC Popover Dropdown */}

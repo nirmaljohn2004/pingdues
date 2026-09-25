@@ -209,21 +209,73 @@ body {
     cursor: pointer;
   }
   .topbar { 
-    height: 60px; 
-    padding: 0 16px; 
-    justify-content: space-between; 
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid #e2e8f0;
+    height: 60px !important; 
+    padding: 0 16px !important; 
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; 
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
   }
-  .mobile-menu, .mobile-brand { display: flex; }
-  .mobile-brand { padding: 0; font-size: 18px; gap: 7px; }
-  .mobile-brand .brand-mark { width: 26px; height: 26px; border-radius: 7px; }
-  .top-profile { display: flex; }
+  .mobile-menu { 
+    display: inline-flex !important; 
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 2 !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+  }
+  .mobile-brand { 
+    display: flex !important; 
+    align-items: center !important;
+    justify-content: center !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+  }
+  .mobile-brand img {
+    height: 35px !important;
+    max-height: 36px !important;
+    width: auto !important;
+    max-width: 145px !important;
+    object-fit: contain !important;
+    display: block !important;
+    pointer-events: auto !important;
+  }
+  .topbar-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-left: auto !important;
+    z-index: 2 !important;
+  }
+  .top-profile { 
+    display: inline-flex !important; 
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 2px !important;
+    border-radius: 20px !important;
+  }
+  .top-profile .profile-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
   .content-wrap { padding: 20px 16px 36px; }
   .page-heading { display: block; margin-bottom: 24px; }
   .page-heading h1 { font-size: 24px; }
@@ -3758,22 +3810,26 @@ body {
   border-bottom: 1px solid var(--cherry-mid) !important;
   box-shadow: 0 1px 0 rgba(190,18,60,0.06) !important;
 }
+.topbar-plain-icon-btn,
 .topbar .icon-button {
   border: none !important;
   background: transparent !important;
+  background-color: transparent !important;
   box-shadow: none !important;
   color: #1e293b !important;
-  width: 36px;
-  height: 36px;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
+  width: 38px !important;
+  height: 38px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
   padding: 0 !important;
-  cursor: pointer;
+  cursor: pointer !important;
   outline: none !important;
-  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent !important;
+  transition: all 0.15s ease !important;
 }
+.topbar-plain-icon-btn:hover,
 .topbar .icon-button:hover {
   background: rgba(15, 23, 42, 0.05) !important;
   color: var(--cherry) !important;
@@ -3781,27 +3837,53 @@ body {
   transform: none !important;
   box-shadow: none !important;
 }
+.topbar-plain-icon-btn:active,
 .topbar .icon-button:active {
   background: rgba(15, 23, 42, 0.1) !important;
-  transform: scale(0.94) !important;
+  transform: scale(0.95) !important;
 }
+.topbar-notification-dot,
 .topbar .icon-button i {
   background: var(--cherry) !important;
   border: 2px solid #ffffff !important;
   width: 7px !important;
   height: 7px !important;
-  position: absolute;
-  top: 6px;
-  right: 6px;
+  position: absolute !important;
+  top: 7px !important;
+  right: 7px !important;
   border-radius: 50% !important;
 }
 .topbar .profile-avatar {
   background: var(--cherry) !important;
   color: #ffffff !important;
-  font-weight: 800 !important;
-  font-size: 13px !important;
-  border-radius: 10px !important;
-  box-shadow: 0 2px 8px var(--cherry-glow) !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  border-radius: 50% !important;
+  width: 30px !important;
+  height: 30px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 1px 3px rgba(190, 18, 60, 0.2) !important;
+}
+
+/* Ensure mobile elements are strictly hidden on laptop/desktop */
+.topbar .mobile-menu,
+.mobile-menu,
+.topbar .mobile-brand,
+.mobile-brand {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  .topbar .mobile-menu,
+  .mobile-menu {
+    display: inline-flex !important;
+  }
+  .topbar .mobile-brand,
+  .mobile-brand {
+    display: flex !important;
+  }
 }
 
 /* ── 5. BUTTONS ──────────────────────────────────────────────── */
