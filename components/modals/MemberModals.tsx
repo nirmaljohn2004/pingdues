@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, User, Phone, Mail, Calendar, Hash, MapPin, Filter, Check, Users, Edit3 } from 'lucide-react'
+import { X, User, Phone, Mail, Calendar, Hash, MapPin, Filter, Check, Users, Edit3, AlertTriangle } from 'lucide-react'
 import { DatePicker } from '@/components/ui/DatePicker'
 import { useStore, Member } from '@/store/useStore'
 
@@ -70,7 +70,7 @@ function TxTab({ label, active, onClick }: { label: string; active: boolean; onC
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function MemberModals() {
-  const { modal, setModal, members, setMembers, groups, selectedMember, updateMember, archiveMember, notify } = useStore()
+  const { modal, setModal, members, setMembers, groups, selectedMember, updateMember, archiveMember, settleMonthDue, settleAllArrears, notify } = useStore()
 
   // add / edit form state
   const [name, setName]                   = useState('')
@@ -187,8 +187,11 @@ export default function MemberModals() {
     return allGroupRows   // 'recent' = all
   })()
 
-  // ── Summary totals across all groups ───────────────────────────────────────
-  const totalDue       = allGroupRows.filter(r => r.status !== 'Paid').reduce((s, r) => s + parseAmount(r.amount), 0)
+  // ── Summary totals across all groups & unpaid months ───────────────────────
+  const arrearsList = selectedMember?.unpaidMonthsList || []
+  const arrearsTotal = arrearsList.reduce((sum, item) => sum + parseAmount(item.amount), 0)
+  const groupDueTotal = allGroupRows.filter(r => r.status !== 'Paid').reduce((s, r) => s + parseAmount(r.amount), 0)
+  const totalDue = arrearsList.length > 0 ? arrearsTotal : groupDueTotal
   const totalCollected = allGroupRows.filter(r => r.status === 'Paid') .reduce((s, r) => s + parseAmount(r.amount), 0)
 
   return (
@@ -411,7 +414,25 @@ export default function MemberModals() {
                 {selectedMember.initials}
               </div>
               <div className="member-detail-modal-title" style={{ flex: 1, minWidth: 0 }}>
-                <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>{selectedMember.name}</h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>{selectedMember.name}</h2>
+                  {arrearsList.length >= 2 && (
+                    <span style={{
+                      background: '#fff1f2',
+                      color: '#be123c',
+                      border: '1px solid #fecdd3',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      padding: '3px 8px',
+                      borderRadius: '12px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}>
+                      <AlertTriangle size={11} /> {arrearsList.length} Months Overdue (₹{arrearsTotal.toLocaleString('en-IN')})
+                    </span>
+                  )}
+                </div>
                 <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>{selectedMember.phone}</span>
               </div>
               <div className="member-detail-modal-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -609,6 +630,146 @@ export default function MemberModals() {
                       )}
                     </div>
                   </div>
+
+                  {/* Multi-Month Arrears Statement Section */}
+                  {arrearsList.length > 0 ? (
+                    <div style={{
+                      background: '#fff1f2',
+                      border: '1.5px solid #fecdd3',
+                      borderRadius: '14px',
+                      padding: '18px 20px',
+                      marginBottom: '26px',
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <div style={{
+                            width: 34, height: 34, borderRadius: '8px', background: '#ffe4e6', color: '#be123c',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+                          }}>
+                            <AlertTriangle size={18} />
+                          </div>
+                          <div>
+                            <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#9f1239' }}>
+                              Multi-Month Overdue Arrears ({arrearsList.length} Unpaid Month{arrearsList.length > 1 ? 's' : ''})
+                            </h4>
+                            <span style={{ fontSize: '12px', color: '#be123c' }}>
+                              Outstanding past dues detected • Total Accumulated: <strong>₹{arrearsTotal.toLocaleString('en-IN')}</strong>
+                            </span>
+                          </div>
+                        </div>
+
+                        {arrearsList.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              settleAllArrears(selectedMember.id)
+                              notify(`All ${arrearsList.length} months arrears marked settled for ${selectedMember.name}`)
+                            }}
+                            style={{
+                              background: '#be123c',
+                              color: '#ffffff',
+                              border: 'none',
+                              padding: '8px 16px',
+                              borderRadius: '8px',
+                              fontSize: '12px',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              boxShadow: '0 2px 6px rgba(190,18,60,0.2)',
+                              transition: 'all 0.15s ease'
+                            }}
+                          >
+                            Settle All Arrears (₹{arrearsTotal.toLocaleString('en-IN')})
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Month by month breakdown */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {arrearsList.map((item) => (
+                          <div
+                            key={item.id}
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              background: '#ffffff',
+                              borderRadius: '10px',
+                              padding: '12px 16px',
+                              border: '1px solid #fecdd3',
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <div style={{
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                background: '#fff1f2',
+                                color: '#be123c',
+                                fontWeight: 800,
+                                fontSize: '11px',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.04em'
+                              }}>
+                                {item.month}
+                              </div>
+                              <div>
+                                <strong style={{ display: 'block', fontSize: '13px', color: '#0f172a' }}>
+                                  {item.groupName}
+                                </strong>
+                                <small style={{ color: '#64748b', fontSize: '11px' }}>
+                                  Due Date: {item.dueDate} • <span style={{ color: '#be123c', fontWeight: 600 }}>{item.overdueDays} days overdue</span>
+                                </small>
+                              </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                              <strong style={{ fontSize: '14px', color: '#be123c', fontWeight: 700 }}>
+                                {item.amount}
+                              </strong>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  settleMonthDue(selectedMember.id, item.id)
+                                  notify(`Cleared fee for ${item.month} (${selectedMember.name})`)
+                                }}
+                                style={{
+                                  padding: '6px 12px',
+                                  borderRadius: '6px',
+                                  border: '1px solid #cbd5e1',
+                                  background: '#f8fafc',
+                                  color: '#334155',
+                                  fontSize: '11px',
+                                  fontWeight: 600,
+                                  cursor: 'pointer',
+                                  transition: 'all 0.15s ease'
+                                }}
+                                onMouseEnter={e => { e.currentTarget.style.background = '#059669'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#059669' }}
+                                onMouseLeave={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#334155'; e.currentTarget.style.borderColor = '#cbd5e1' }}
+                              >
+                                Settle Month
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      background: '#f0fdf4',
+                      border: '1px solid #bbf7d0',
+                      borderRadius: '10px',
+                      padding: '10px 16px',
+                      marginBottom: '24px',
+                      fontSize: '12px',
+                      color: '#166534',
+                      fontWeight: 600
+                    }}>
+                      <Check size={16} color="#16a34a" />
+                      <span>Zero Outstanding Arrears — Prior and current billing periods are fully settled.</span>
+                    </div>
+                  )}
 
                   {/* Transactions */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>

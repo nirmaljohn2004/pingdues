@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Modal, ModalHead } from '@/components/ui/Modal'
 import { useStore } from '@/store/useStore'
-import { CreditCard, Banknote, QrCode, CheckCircle, User, Layers, IndianRupee } from 'lucide-react'
+import { CreditCard, Banknote, QrCode, CheckCircle, User, Layers, IndianRupee, AlertTriangle } from 'lucide-react'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 
 export function RecordPaymentModal() {
@@ -88,6 +88,8 @@ export function RecordPaymentModal() {
 
   const selectedMemberObj = members.find(m => m.id === Number(selectedMemberId))
   const memberGroupsList = selectedMemberObj?.memberGroups || (selectedMemberObj?.plan ? [selectedMemberObj.plan] : groups)
+  const arrearsList = selectedMemberObj?.unpaidMonthsList || []
+  const arrearsTotal = arrearsList.reduce((s, u) => s + Number(u.amount.replace(/[^0-9]/g, '')), 0)
 
   return (
     <Modal close={closeModal}>
@@ -99,6 +101,24 @@ export function RecordPaymentModal() {
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px', padding: '24px 0 0' }}>
         
+        {/* Multi-Month Arrears Notice */}
+        {arrearsList.length >= 2 && (
+          <div style={{
+            background: '#fff1f2', border: '1.5px solid #fecdd3', borderRadius: '10px',
+            padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: '10px'
+          }}>
+            <AlertTriangle size={18} color="#be123c" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <strong style={{ fontSize: '13px', color: '#9f1239', display: 'block' }}>
+                Multi-Month Overdue Arrears Detected ({arrearsList.length} Months)
+              </strong>
+              <span style={{ fontSize: '11.5px', color: '#be123c' }}>
+                Unpaid billing cycles: {arrearsList.map(u => u.month).join(', ')}. Total Outstanding: ₹{arrearsTotal.toLocaleString('en-IN')}.
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Select Member */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <label style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -113,9 +133,11 @@ export function RecordPaymentModal() {
               const pendingGroups = (m.memberGroups || (m.plan ? [m.plan] : [])).filter(g => m.groupPayments?.[g]?.status !== 'Paid')
               const isUnpaid = pendingGroups.length > 0 || m.status !== 'Paid'
               const pendingGroupText = pendingGroups.length > 0 ? ` (${pendingGroups.join(', ')})` : ''
+              const mArrears = m.unpaidMonthsList || []
+              const arrearsTag = mArrears.length >= 2 ? ` · ⚠️ ${mArrears.length} Mos Overdue` : ''
               return {
                 value: String(m.id),
-                label: `${m.name} · ${m.phone} · ${isUnpaid ? `Unpaid ${m.amount || ''}${pendingGroupText}` : 'Settled'}`
+                label: `${m.name} · ${m.phone} · ${isUnpaid ? `Unpaid ${m.amount || ''}${pendingGroupText}` : 'Settled'}${arrearsTag}`
               }
             })}
           />

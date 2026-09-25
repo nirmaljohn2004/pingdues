@@ -10,6 +10,16 @@ export type GroupPayment = {
   startDate?: string
 }
 
+export interface UnpaidMonthRecord {
+  id: string
+  month: string          // e.g. "September 2026", "August 2026", "July 2026"
+  groupName: string      // e.g. "Contemporary Fusion Batch"
+  amount: string         // e.g. "₹60,000"
+  dueDate: string        // e.g. "05 Aug 2026"
+  overdueDays: number    // e.g. 51
+  status: 'Overdue' | 'Pending'
+}
+
 export type Member = {
   id: number
   name: string
@@ -25,6 +35,7 @@ export type Member = {
   memberGroups?: string[]
   groupPayments?: Record<string, GroupPayment>  // per-group payment info
   groupStatus?: Record<string, 'Active' | 'On Gap'> // Active or On Gap status per group
+  unpaidMonthsList?: UnpaidMonthRecord[]         // Multi-month dues / arrears history
   alternatePhone?: string
   admissionNo?: string
   dob?: string
@@ -44,6 +55,7 @@ export const seedMembers: Member[] = [
       'Bharatanatyam Arangetram': { amount: '₹1,20,000', status: 'Paid', due: 'Paid via Online Link, 9:42 AM' },
       'Carnatic Music & Nattuvangam': { amount: '₹25,000', status: 'Pending', due: 'Due in 3 days' },
     },
+    unpaidMonthsList: [],
   },
   {
     id: 2, name: 'Rohan Varma', initials: 'RV', plan: 'Kathak Senior Diploma', amount: '₹85,000',
@@ -53,6 +65,9 @@ export const seedMembers: Member[] = [
     groupPayments: {
       'Kathak Senior Diploma': { amount: '₹85,000', status: 'Pending', due: 'Due today' },
     },
+    unpaidMonthsList: [
+      { id: 'rv-sep', month: 'September 2026', groupName: 'Kathak Senior Diploma', amount: '₹85,000', dueDate: '25 Sep 2026', overdueDays: 0, status: 'Pending' }
+    ],
   },
   {
     id: 3, name: 'Pooja Iyer', initials: 'PI', plan: 'Odissi Intensive Classical', amount: '₹95,000',
@@ -63,16 +78,38 @@ export const seedMembers: Member[] = [
       'Odissi Intensive Classical': { amount: '₹95,000', status: 'Pending', due: 'Due in 2 days' },
       'Kuchipudi Fellowship': { amount: '₹45,000', status: 'Overdue', due: 'Overdue by 1 day' },
     },
+    unpaidMonthsList: [
+      { id: 'pi-sep1', month: 'September 2026', groupName: 'Odissi Intensive Classical', amount: '₹95,000', dueDate: '27 Sep 2026', overdueDays: 0, status: 'Pending' },
+      { id: 'pi-sep2', month: 'September 2026', groupName: 'Kuchipudi Fellowship', amount: '₹45,000', dueDate: '24 Sep 2026', overdueDays: 1, status: 'Overdue' }
+    ],
   },
   {
     id: 4, name: 'Devendra Nair', initials: 'DN', plan: 'Contemporary Fusion Batch', amount: '₹60,000',
-    due: 'Overdue by 5 days', status: 'Overdue', color: 'sky',
+    due: '2 Months Overdue (Aug, Sep)', status: 'Overdue', color: 'sky',
     phone: '+91 97654 32109', email: 'devendra.nair@nritya.com', joined: '17 Jun 2024',
     memberGroups: ['Contemporary Fusion Batch', 'Bharatanatyam Arangetram'],
     groupPayments: {
-      'Contemporary Fusion Batch': { amount: '₹60,000', status: 'Overdue', due: 'Overdue by 5 days' },
+      'Contemporary Fusion Batch': { amount: '₹60,000', status: 'Overdue', due: '2 Months Overdue' },
       'Bharatanatyam Arangetram': { amount: '₹1,20,000', status: 'Paid', due: 'Paid on 01 Sep 2024' },
     },
+    unpaidMonthsList: [
+      { id: 'dn-aug', month: 'August 2026', groupName: 'Contemporary Fusion Batch', amount: '₹60,000', dueDate: '05 Aug 2026', overdueDays: 51, status: 'Overdue' },
+      { id: 'dn-sep', month: 'September 2026', groupName: 'Contemporary Fusion Batch', amount: '₹60,000', dueDate: '05 Sep 2026', overdueDays: 20, status: 'Overdue' }
+    ],
+  },
+  {
+    id: 5, name: 'Kavita Krishnan', initials: 'KK', plan: 'Carnatic Music & Nattuvangam', amount: '₹25,000',
+    due: '3 Months Overdue (Jul, Aug, Sep)', status: 'Overdue', color: 'peach',
+    phone: '+91 98450 99881', email: 'kavita.krishnan@nritya.com', joined: '10 Feb 2024',
+    memberGroups: ['Carnatic Music & Nattuvangam'],
+    groupPayments: {
+      'Carnatic Music & Nattuvangam': { amount: '₹25,000', status: 'Overdue', due: '3 Months Overdue' },
+    },
+    unpaidMonthsList: [
+      { id: 'kk-jul', month: 'July 2026', groupName: 'Carnatic Music & Nattuvangam', amount: '₹25,000', dueDate: '10 Jul 2026', overdueDays: 77, status: 'Overdue' },
+      { id: 'kk-aug', month: 'August 2026', groupName: 'Carnatic Music & Nattuvangam', amount: '₹25,000', dueDate: '10 Aug 2026', overdueDays: 46, status: 'Overdue' },
+      { id: 'kk-sep', month: 'September 2026', groupName: 'Carnatic Music & Nattuvangam', amount: '₹25,000', dueDate: '10 Sep 2026', overdueDays: 15, status: 'Overdue' }
+    ],
   },
 ]
 
@@ -156,6 +193,42 @@ export const seedGroups: GroupDetails[] = [
   },
   { 
     id: '4', 
+    name: 'Bollywood Dance', 
+    billingType: 'Recurring', 
+    feeAmount: '₹5,000', 
+    recursEvery: 'Monthly', 
+    dueDate: '1st of every month', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Contemporary, hip-hop, and Bollywood choreography classes.', 
+    reminders: [] 
+  },
+  { 
+    id: '5', 
+    name: 'Kids Dance Batch', 
+    billingType: 'Recurring', 
+    feeAmount: '₹3,000', 
+    recursEvery: 'Monthly', 
+    dueDate: '5th of every month', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Beginner level for kids with fun and expressive dance sessions.', 
+    reminders: [] 
+  },
+  { 
+    id: '6', 
+    name: 'Vocal Music', 
+    billingType: 'Recurring', 
+    feeAmount: '₹25,000', 
+    recursEvery: 'Yearly', 
+    dueDate: '10th of every month', 
+    startDate: '01 Jan 2024', 
+    createdOn: '01 Jan 2024', 
+    description: 'Carnatic vocal training with structured lessons and performances.', 
+    reminders: [] 
+  },
+  { 
+    id: '7', 
     name: 'Kuchipudi Fellowship', 
     billingType: 'Recurring', 
     feeAmount: '₹1,50,000', 
@@ -167,7 +240,7 @@ export const seedGroups: GroupDetails[] = [
     reminders: [] 
   },
   { 
-    id: '5', 
+    id: '8', 
     name: 'Contemporary Fusion Batch', 
     billingType: 'One-time', 
     feeAmount: '₹60,000', 
@@ -178,7 +251,7 @@ export const seedGroups: GroupDetails[] = [
     reminders: [] 
   },
   { 
-    id: '6', 
+    id: '9', 
     name: 'Carnatic Music & Nattuvangam', 
     billingType: 'Recurring', 
     feeAmount: '₹40,000', 
@@ -273,11 +346,16 @@ interface AppState {
   selectedMember: Member | null
   selectedGroup: GroupDetails | null
   selectedTransaction: TransactionItem | null
+  selectedMonthFilter: string
+  customDateLabel?: string
+  setSelectedMonthFilter: (filter: string, customDateLabel?: string) => void
   setModal: (modal: ModalType) => void
   setSelectedMember: (member: Member | null) => void
   setSelectedGroup: (group: GroupDetails | null) => void
   setSelectedTransaction: (txn: TransactionItem | null) => void
   recordPayment: (memberId: number, groupName: string, amount: string, paymentMethod: string, remarks?: string) => void
+  settleMonthDue: (memberId: number, monthId: string, paymentMethod?: string) => void
+  settleAllArrears: (memberId: number, paymentMethod?: string) => void
   archiveMember: (memberId: number) => void
 
   toast: string
@@ -303,11 +381,18 @@ export const useStore = create<AppState>((set) => ({
     userProfile: { ...state.userProfile, ...updated }
   })),
 
+  selectedMonthFilter: 'this-month',
+  customDateLabel: undefined,
+  setSelectedMonthFilter: (filter, customDateLabel) => set({ selectedMonthFilter: filter, customDateLabel }),
+
   members: seedMembers,
   groups: [
     'Bharatanatyam Arangetram', 
     'Kathak Senior Diploma', 
     'Odissi Intensive Classical', 
+    'Bollywood Dance',
+    'Kids Dance Batch',
+    'Vocal Music',
     'Kuchipudi Fellowship', 
     'Contemporary Fusion Batch',
     'Carnatic Music & Nattuvangam'
@@ -433,6 +518,13 @@ export const useStore = create<AppState>((set) => ({
     const updatedMembers = state.members.map(m => {
       if (m.id !== memberId) return m
 
+      // Settle oldest unpaid month for this group if exists
+      let remainingUnpaid = [...(m.unpaidMonthsList || [])]
+      const idx = remainingUnpaid.findIndex(r => r.groupName === groupName)
+      if (idx !== -1) {
+        remainingUnpaid.splice(idx, 1)
+      }
+
       const updatedGroupPayments = {
         ...(m.groupPayments || {}),
         [groupName]: {
@@ -442,19 +534,83 @@ export const useStore = create<AppState>((set) => ({
         }
       }
 
-      // Check if all groups are now paid
-      const allGroupsPaid = Object.values(updatedGroupPayments).every(p => p.status === 'Paid')
+      // Check if all groups and months are now paid
+      const allGroupsPaid = Object.values(updatedGroupPayments).every(p => p.status === 'Paid') && remainingUnpaid.length === 0
 
       return {
         ...m,
-        status: allGroupsPaid ? ('Paid' as const) : m.status,
-        due: allGroupsPaid ? `Paid via ${paymentMethod}` : m.due,
+        unpaidMonthsList: remainingUnpaid,
+        status: allGroupsPaid ? ('Paid' as const) : (remainingUnpaid.length === 0 ? ('Paid' as const) : m.status),
+        due: allGroupsPaid ? `Paid via ${paymentMethod}` : (remainingUnpaid.length > 0 ? `${remainingUnpaid.length} Month${remainingUnpaid.length > 1 ? 's' : ''} Overdue` : `Paid via ${paymentMethod}`),
         groupPayments: updatedGroupPayments,
         remarks: remarks ? (m.remarks ? `${m.remarks}\nNote: ${remarks}` : remarks) : m.remarks
       }
     })
 
-    return { members: updatedMembers }
+    const updatedSelected = state.selectedMember && state.selectedMember.id === memberId
+      ? updatedMembers.find(m => m.id === memberId) || null
+      : state.selectedMember
+
+    return { members: updatedMembers, selectedMember: updatedSelected }
+  }),
+
+  settleMonthDue: (memberId, monthId, paymentMethod = 'UPI / Online Link') => set((state) => {
+    const updatedMembers = state.members.map(m => {
+      if (m.id !== memberId) return m
+      const currentList = m.unpaidMonthsList || []
+      const remainingList = currentList.filter(item => item.id !== monthId)
+      const allPaid = remainingList.length === 0
+
+      // Also update groupPayments if no more unpaid months for this group
+      const settledItem = currentList.find(item => item.id === monthId)
+      let updatedGroupPayments = { ...(m.groupPayments || {}) }
+      if (settledItem && remainingList.filter(r => r.groupName === settledItem.groupName).length === 0) {
+        if (updatedGroupPayments[settledItem.groupName]) {
+          updatedGroupPayments[settledItem.groupName] = {
+            ...updatedGroupPayments[settledItem.groupName],
+            status: 'Paid',
+            due: `Paid via ${paymentMethod}`
+          }
+        }
+      }
+
+      return {
+        ...m,
+        unpaidMonthsList: remainingList,
+        status: allPaid ? ('Paid' as const) : m.status,
+        due: allPaid ? `Paid via ${paymentMethod}` : `${remainingList.length} Month${remainingList.length > 1 ? 's' : ''} Overdue`,
+        groupPayments: updatedGroupPayments
+      }
+    })
+    const updatedSelected = state.selectedMember && state.selectedMember.id === memberId
+      ? updatedMembers.find(m => m.id === memberId) || null
+      : state.selectedMember
+    return { members: updatedMembers, selectedMember: updatedSelected }
+  }),
+
+  settleAllArrears: (memberId, paymentMethod = 'Direct Bank Transfer') => set((state) => {
+    const updatedMembers = state.members.map(m => {
+      if (m.id !== memberId) return m
+      const updatedGroupPayments: Record<string, GroupPayment> = {}
+      Object.keys(m.groupPayments || {}).forEach(k => {
+        updatedGroupPayments[k] = {
+          ...m.groupPayments![k],
+          status: 'Paid',
+          due: `Paid via ${paymentMethod}`
+        }
+      })
+      return {
+        ...m,
+        status: 'Paid' as const,
+        due: `All arrears settled via ${paymentMethod}`,
+        unpaidMonthsList: [],
+        groupPayments: updatedGroupPayments
+      }
+    })
+    const updatedSelected = state.selectedMember && state.selectedMember.id === memberId
+      ? updatedMembers.find(m => m.id === memberId) || null
+      : state.selectedMember
+    return { members: updatedMembers, selectedMember: updatedSelected }
   }),
 
   archiveMember: (memberId) => set((state) => ({

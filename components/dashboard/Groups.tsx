@@ -1,13 +1,234 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Search, Users, X, Check, Edit3, Trash2, Calendar, CreditCard, Clock, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, UserPlus, Info, LayoutDashboard, Receipt, TrendingUp, DollarSign, PieChart as PieChartIcon, Bell } from 'lucide-react'
+import { Plus, Search, Users, X, Check, Edit3, Trash2, Calendar, CreditCard, Clock, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, UserPlus, Info, LayoutDashboard, Receipt, TrendingUp, DollarSign, PieChart as PieChartIcon, Bell, AlertTriangle, SlidersHorizontal } from 'lucide-react'
 import { useStore, GroupDetails, Member, GroupReminder } from '@/store/useStore'
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { CustomSelect } from '@/components/ui/CustomSelect'
+import { MonthFilterDropdown } from '@/components/ui/MonthFilterDropdown'
+
+/* ── 3D Isometric Group Stack Emblem matching mockup ────────────── */
+function Group3DIsometricBadge({ size = 100 }: { size?: number }) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: `${size * 1.3}px`,
+        height: `${size}px`,
+        flexShrink: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {/* Radiant Pink Ambient Glow */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: '-20%',
+          background: 'radial-gradient(circle, rgba(244, 63, 94, 0.28) 0%, rgba(251, 113, 133, 0.12) 45%, transparent 75%)',
+          borderRadius: '50%',
+          filter: 'blur(16px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <svg
+        viewBox="0 0 160 120"
+        width={size * 1.3}
+        height={size}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+          display: 'block',
+          overflow: 'visible',
+          filter: 'drop-shadow(0 14px 24px rgba(190, 18, 60, 0.28))',
+        }}
+      >
+        <defs>
+          {/* Card Gradients */}
+          <linearGradient id="groupCardGradFront" x1="20" y1="20" x2="110" y2="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#fb7185" />
+            <stop offset="35%" stopColor="#e11d48" />
+            <stop offset="100%" stopColor="#9f1239" />
+          </linearGradient>
+
+          <linearGradient id="groupCardDepthGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#be123c" />
+            <stop offset="100%" stopColor="#700926" />
+          </linearGradient>
+
+          <linearGradient id="groupCardBackGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#ffe4e6" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#fda4af" stopOpacity="0.4" />
+          </linearGradient>
+
+          <linearGradient id="groupCardMidGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#fecdd3" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#f43f5e" stopOpacity="0.6" />
+          </linearGradient>
+
+          {/* Cube Gradients */}
+          <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="100%" stopColor="#fecdd3" />
+          </linearGradient>
+          <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#fb7185" />
+            <stop offset="100%" stopColor="#e11d48" />
+          </linearGradient>
+          <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#be123c" />
+            <stop offset="100%" stopColor="#881337" />
+          </linearGradient>
+
+          {/* Specular Edge Highlight */}
+          <linearGradient id="specularRim" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
+            <stop offset="60%" stopColor="#ffffff" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.75" />
+          </linearGradient>
+
+          {/* Drop shadow */}
+          <filter id="softGroupShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#9f1239" floodOpacity="0.3" />
+          </filter>
+        </defs>
+
+        {/* Floating Wavy Ribbon Sweep */}
+        <path
+          d="M 5 95 C 40 85, 70 115, 120 70 C 145 45, 155 35, 160 25"
+          stroke="url(#groupCardBackGrad)"
+          strokeWidth="12"
+          strokeLinecap="round"
+          opacity="0.3"
+          fill="none"
+        />
+
+        {/* Back Card (Layer 1) */}
+        <g transform="translate(68, 12) rotate(-14) skewX(18) scale(0.9)">
+          <rect
+            x="0"
+            y="0"
+            width="64"
+            height="64"
+            rx="16"
+            fill="url(#groupCardBackGrad)"
+            stroke="#ffffff"
+            strokeWidth="1.5"
+            strokeOpacity="0.5"
+            filter="url(#softGroupShadow)"
+          />
+        </g>
+
+        {/* Middle Card (Layer 2) */}
+        <g transform="translate(56, 20) rotate(-14) skewX(18) scale(0.96)">
+          <rect
+            x="0"
+            y="0"
+            width="64"
+            height="64"
+            rx="16"
+            fill="url(#groupCardMidGrad)"
+            stroke="#ffffff"
+            strokeWidth="1.5"
+            strokeOpacity="0.6"
+            filter="url(#softGroupShadow)"
+          />
+        </g>
+
+        {/* Front 3D Card Extrusion Depth (Layer 3 base) */}
+        <g transform="translate(42, 33) rotate(-14) skewX(18)">
+          <rect
+            x="0"
+            y="6"
+            width="64"
+            height="64"
+            rx="16"
+            fill="url(#groupCardDepthGrad)"
+          />
+        </g>
+
+        {/* Front 3D Card Top Face (Layer 3) */}
+        <g transform="translate(42, 28) rotate(-14) skewX(18)">
+          <rect
+            x="0"
+            y="0"
+            width="64"
+            height="64"
+            rx="16"
+            fill="url(#groupCardGradFront)"
+            stroke="url(#specularRim)"
+            strokeWidth="1.5"
+            filter="url(#softGroupShadow)"
+          />
+
+          {/* White Specular Rim Arc */}
+          <path
+            d="M 6 18 C 6 10, 10 6, 18 6 L 50 6"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeOpacity="0.8"
+            fill="none"
+          />
+
+          {/* White Users Monogram on Front Face */}
+          <g transform="translate(14, 16) scale(0.75)">
+            {/* Center User Silhouette */}
+            <circle cx="24" cy="14" r="6" fill="#ffffff" />
+            <path
+              d="M 12 36 C 12 28, 17 24, 24 24 C 31 24, 36 28, 36 36 Z"
+              fill="#ffffff"
+            />
+            {/* Left User Silhouette */}
+            <circle cx="11" cy="17" r="4.5" fill="#ffffff" fillOpacity="0.85" />
+            <path
+              d="M 2 34 C 2 29, 6 25, 11 25 C 13.5 25, 15.8 26.1, 17.5 28 C 16.5 30, 16 32.5, 16 34 Z"
+              fill="#ffffff"
+              fillOpacity="0.85"
+            />
+            {/* Right User Silhouette */}
+            <circle cx="37" cy="17" r="4.5" fill="#ffffff" fillOpacity="0.85" />
+            <path
+              d="M 32 34 C 32 32.5, 31.5 30, 30.5 28 C 32.2 26.1, 34.5 25, 37 25 C 42 25, 46 29, 46 34 Z"
+              fill="#ffffff"
+              fillOpacity="0.85"
+            />
+          </g>
+        </g>
+
+        {/* Floating Mini 3D Isometric Gem 1 (Top Left) */}
+        <g transform="translate(24, 20) scale(0.65)">
+          <path d="M 12 2 L 22 7 L 12 12 L 2 7 Z" fill="url(#cubeTop)" />
+          <path d="M 2 7 L 12 12 L 12 22 L 2 17 Z" fill="url(#cubeLeft)" />
+          <path d="M 12 12 L 22 7 L 22 17 L 12 22 Z" fill="url(#cubeRight)" />
+        </g>
+
+        {/* Floating Mini 3D Isometric Gem 2 (Bottom Right) */}
+        <g transform="translate(124, 68) scale(0.8)">
+          <path d="M 12 2 L 22 7 L 12 12 L 2 7 Z" fill="url(#cubeTop)" />
+          <path d="M 2 7 L 12 12 L 12 22 L 2 17 Z" fill="url(#cubeLeft)" />
+          <path d="M 12 12 L 22 7 L 22 17 L 12 22 Z" fill="url(#cubeRight)" />
+        </g>
+
+        {/* Floating Small Diamond Particle (Mid Left) */}
+        <g transform="translate(32, 76) scale(0.45)">
+          <path d="M 12 2 L 22 7 L 12 12 L 2 7 Z" fill="#ffffff" />
+          <path d="M 2 7 L 12 12 L 12 22 L 2 17 Z" fill="#fb7185" />
+          <path d="M 12 12 L 22 7 L 22 17 L 12 22 Z" fill="#e11d48" />
+        </g>
+
+        {/* Floating Small Specular Particles */}
+        <circle cx="138" cy="28" r="3" fill="#fb7185" opacity="0.6" />
+        <circle cx="28" cy="52" r="2.5" fill="#fda4af" opacity="0.7" />
+      </svg>
+    </div>
+  )
+}
 
 export default function GroupsTab() {
-  const { groups, groupDetailsList, members, setMembers, setModal, setSelectedGroup, deleteGroup, toggleMemberGroupStatus, addOrUpdateGroupReminder, deleteGroupReminder, toggleGroupReminder, triggerGroupReminderNow, notify } = useStore()
+  const { groups, groupDetailsList, members, setMembers, setModal, setSelectedGroup, setSelectedMember, deleteGroup, toggleMemberGroupStatus, addOrUpdateGroupReminder, deleteGroupReminder, toggleGroupReminder, triggerGroupReminderNow, selectedMonthFilter, customDateLabel, setSelectedMonthFilter, notify } = useStore()
   const [search, setSearch] = useState('')
 
   // Which group is currently expanded in full detail view
@@ -22,8 +243,8 @@ export default function GroupsTab() {
   // Staged members for adding to group
   const [staged, setStaged] = useState<number[]>([])
 
-  // Inner sub-tab filter for Transactions: 'Recent' | 'Paid' | 'Pending'
-  const [txnFilter, setTxnFilter] = useState<'Recent' | 'Paid' | 'Pending'>('Recent')
+  // Inner sub-tab filter for Transactions: 'Recent' | 'Paid' | 'Pending' | 'Arrears'
+  const [txnFilter, setTxnFilter] = useState<'Recent' | 'Paid' | 'Pending' | 'Arrears'>('Recent')
   const [txnSearch, setTxnSearch] = useState('')
 
   // Group Reminder Modal state
@@ -48,13 +269,42 @@ export default function GroupsTab() {
     existingRemId?: string
   } | null>(null)
 
-  // Filter groups
-  const filteredGroups = useMemo(() => {
-    return groupDetailsList.filter(g => 
-      g.name.toLowerCase().includes(search.toLowerCase()) ||
-      (g.description && g.description.toLowerCase().includes(search.toLowerCase()))
-    )
-  }, [groupDetailsList, search])
+  // Sort and Filter state for Groups directory
+  const [sortBy, setSortBy] = useState<'recent' | 'name' | 'members' | 'fee'>('recent')
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false)
+  const [filterType, setFilterType] = useState<'all' | 'recurring' | 'one-time'>('all')
+  const [filterOpen, setFilterOpen] = useState(false)
+
+  // Filter and sort groups
+  const displayedGroups = useMemo(() => {
+    let list = groupDetailsList.filter(g => {
+      const matchesSearch = g.name.toLowerCase().includes(search.toLowerCase()) ||
+        (g.description && g.description.toLowerCase().includes(search.toLowerCase()))
+      if (!matchesSearch) return false
+      if (filterType === 'recurring') return g.billingType === 'Recurring'
+      if (filterType === 'one-time') return g.billingType === 'One-time'
+      return true
+    })
+
+    if (sortBy === 'name') {
+      list = [...list].sort((a, b) => a.name.localeCompare(b.name))
+    } else if (sortBy === 'members') {
+      list = [...list].sort((a, b) => {
+        const aCount = members.filter(m => (m.memberGroups || []).includes(a.name)).length || a.memberCount || 0
+        const bCount = members.filter(m => (m.memberGroups || []).includes(b.name)).length || b.memberCount || 0
+        return bCount - aCount
+      })
+    } else if (sortBy === 'fee') {
+      list = [...list].sort((a, b) => {
+        const aFee = Number(a.feeAmount.replace(/[^0-9]/g, '')) || 0
+        const bFee = Number(b.feeAmount.replace(/[^0-9]/g, '')) || 0
+        return bFee - aFee
+      })
+    }
+    return list
+  }, [groupDetailsList, search, filterType, sortBy, members])
+
+  const filteredGroups = displayedGroups
 
   const getGroupMembers = (groupName: string) =>
     members.filter(m => (m.memberGroups || []).includes(groupName))
@@ -224,9 +474,9 @@ export default function GroupsTab() {
           </div>
 
           {/* Main Detail Content Panel */}
-          <section className="panel" style={{ padding: 0, overflow: 'hidden' }}>
+          <section className="panel" style={{ padding: 0, overflow: 'visible' }}>
             {/* Tabs Header */}
-            <div className="group-detail-tabs" style={{ display: 'flex', borderBottom: '1px solid #f1f5f9', padding: '0 24px', background: '#f8fafc', gap: '28px' }}>
+            <div className="group-detail-tabs" style={{ display: 'flex', borderBottom: '1px solid #f1f5f9', padding: '0 24px', background: '#f8fafc', gap: '28px', borderTopLeftRadius: 'inherit', borderTopRightRadius: 'inherit' }}>
               <button
                 onClick={() => setActiveGroupTab('overview')}
                 className={activeGroupTab === 'overview' ? 'active' : ''}
@@ -448,6 +698,17 @@ export default function GroupsTab() {
                             </div>
 
                             <div className="group-member-row-badges" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              {/* Multi-Month Arrears Alert Badge */}
+                              {(m.unpaidMonthsList || []).length >= 2 && (
+                                <span style={{
+                                  fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '6px',
+                                  background: '#fff1f2', color: '#be123c', border: '1px solid #fecdd3',
+                                  display: 'flex', alignItems: 'center', gap: '4px'
+                                }}>
+                                  <AlertTriangle size={11} /> {(m.unpaidMonthsList || []).length} Mos Arrears
+                                </span>
+                              )}
+
                               {/* Active / On Gap Status Badge */}
                               <span style={{
                                 fontSize: '11px', fontWeight: 700, padding: '4px 12px', borderRadius: '20px',
@@ -493,76 +754,179 @@ export default function GroupsTab() {
               {/* TAB 3: TRANSACTIONS & GROUP PAYMENT STATUS */}
               {activeGroupTab === 'transactions' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {/* Search Bar matching reference image */}
-                  <div style={{ position: 'relative', width: 'min(360px, 100%)' }}>
-                    <Search size={16} color="#94a3b8" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      value={txnSearch}
-                      onChange={e => setTxnSearch(e.target.value)}
-                      style={{
-                        width: '100%', padding: '9px 14px 9px 38px', borderRadius: '10px',
-                        border: '1px solid #e2e8f0', fontSize: '13px', outline: 'none', background: '#fff'
-                      }}
-                    />
+                  {/* Search and Month Filter Toolbar */}
+                  <div className="group-txn-toolbar" style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div className="group-txn-search-wrap" style={{ position: 'relative', width: 'min(320px, 100%)' }}>
+                      <Search size={16} color="#94a3b8" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        value={txnSearch}
+                        onChange={e => setTxnSearch(e.target.value)}
+                        style={{
+                          width: '100%', padding: '9px 14px 9px 38px', borderRadius: '10px',
+                          border: '1px solid #e2e8f0', fontSize: '13px', outline: 'none', background: '#fff'
+                        }}
+                      />
+                    </div>
+
+                    <div className="group-txn-month-wrap" style={{ minWidth: '190px' }}>
+                      <MonthFilterDropdown
+                        value={selectedMonthFilter}
+                        onChange={(val, label) => setSelectedMonthFilter(val, label)}
+                        customLabel={customDateLabel}
+                        width="100%"
+                      />
+                    </div>
                   </div>
 
-                  {/* Segmented Filter Pills matching reference UI */}
-                  <div style={{
-                    display: 'inline-flex', background: '#f1f5f9', padding: '4px',
-                    borderRadius: '12px', gap: '4px', alignSelf: 'flex-start'
-                  }}>
-                    {(['Recent', 'Paid', 'Pending'] as const).map(tab => {
-                      const isActive = txnFilter === tab
-                      return (
-                        <button
-                          key={tab}
-                          type="button"
-                          onClick={() => setTxnFilter(tab)}
-                          style={{
-                            padding: '8px 20px', borderRadius: '8px', border: 0, fontSize: '13px',
-                            fontWeight: 600, cursor: 'pointer', transition: 'all 0.15s ease',
-                            background: isActive ? '#ffffff' : 'transparent',
-                            color: isActive ? '#059669' : '#64748b',
-                            boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.08)' : 'none'
-                          }}
-                        >
-                          {tab}
-                        </button>
-                      )
-                    })}
-                  </div>
+                  {/* Segmented Filter Pills */}
+                  {(() => {
+                    const groupArrearsCount = groupMembers.filter(m => (m.unpaidMonthsList || []).length >= 2).length
+                    return (
+                      <div className="group-txn-pills-bar" style={{
+                        display: 'inline-flex', background: '#f1f5f9', padding: '4px',
+                        borderRadius: '12px', gap: '4px', alignSelf: 'flex-start', flexWrap: 'wrap'
+                      }}>
+                        {(['Recent', 'Paid', 'Pending', 'Arrears'] as const).map(tab => {
+                          const isActive = txnFilter === tab
+                          const label = tab === 'Arrears' ? `🚨 Prior Dues (${groupArrearsCount})` : tab
+                          return (
+                            <button
+                              key={tab}
+                              type="button"
+                              onClick={() => setTxnFilter(tab)}
+                              style={{
+                                padding: '8px 16px', borderRadius: '8px', border: 0, fontSize: '13px',
+                                fontWeight: 600, cursor: 'pointer', transition: 'all 0.15s ease',
+                                background: isActive ? (tab === 'Arrears' ? '#fff1f2' : '#ffffff') : 'transparent',
+                                color: isActive ? (tab === 'Arrears' ? '#be123c' : '#059669') : '#64748b',
+                                boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.08)' : 'none'
+                              }}
+                            >
+                              {label}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )
+                  })()}
 
                   {/* Filter Content Area */}
                   {(() => {
                     const query = txnSearch.toLowerCase().trim()
 
+                    // Map member statuses according to selected month
+                    const effectiveGroupMembers: Member[] = groupMembers.map(m => {
+                      if (selectedMonthFilter === 'this-month') return m
+                      const groupAmount = m.groupPayments?.[group.name]?.amount || group.feeAmount || m.amount || '₹0'
+                      
+                      if (selectedMonthFilter === 'prev-month') {
+                        const augUnpaid = (m.unpaidMonthsList || []).find(u => u.month.includes('August'))
+                        if (augUnpaid) {
+                          return {
+                            ...m,
+                            status: 'Overdue' as const,
+                            due: 'Missed Aug 2026 fee',
+                            amount: augUnpaid.amount,
+                            groupPayments: {
+                              ...(m.groupPayments || {}),
+                              [group.name]: {
+                                amount: augUnpaid.amount,
+                                status: 'Overdue' as const,
+                                due: 'Missed Aug 2026 fee'
+                              }
+                            }
+                          }
+                        }
+                        return {
+                          ...m,
+                          status: 'Paid' as const,
+                          due: 'Settled for Aug 2026',
+                          groupPayments: {
+                            ...(m.groupPayments || {}),
+                            [group.name]: {
+                              amount: groupAmount,
+                              status: 'Paid' as const,
+                              due: 'Settled for Aug 2026'
+                            }
+                          }
+                        }
+                      }
+                      
+                      if (selectedMonthFilter === 'jul-2026' || selectedMonthFilter.includes('2026-07')) {
+                        const julUnpaid = (m.unpaidMonthsList || []).find(u => u.month.includes('July'))
+                        if (julUnpaid) {
+                          return {
+                            ...m,
+                            status: 'Overdue' as const,
+                            due: 'Missed Jul 2026 fee',
+                            amount: julUnpaid.amount,
+                            groupPayments: {
+                              ...(m.groupPayments || {}),
+                              [group.name]: {
+                                amount: julUnpaid.amount,
+                                status: 'Overdue' as const,
+                                due: 'Missed Jul 2026 fee'
+                              }
+                            }
+                          }
+                        }
+                        return {
+                          ...m,
+                          status: 'Paid' as const,
+                          due: 'Settled for Jul 2026',
+                          groupPayments: {
+                            ...(m.groupPayments || {}),
+                            [group.name]: {
+                              amount: groupAmount,
+                              status: 'Paid' as const,
+                              due: 'Settled for Jul 2026'
+                            }
+                          }
+                        }
+                      }
+                      return m
+                    })
+
                     // Paid members
-                    const paidMembers = groupMembers.filter(m => {
+                    const paidMembers = effectiveGroupMembers.filter(m => {
                       const s = m.groupPayments?.[group.name]?.status || m.status
                       const matches = m.name.toLowerCase().includes(query) || m.phone.includes(query)
                       return s === 'Paid' && matches
                     })
 
                     // Pending / Overdue members
-                    const pendingMembers = groupMembers.filter(m => {
+                    const pendingMembers = effectiveGroupMembers.filter(m => {
                       const s = m.groupPayments?.[group.name]?.status || m.status
                       const matches = m.name.toLowerCase().includes(query) || m.phone.includes(query)
                       return s !== 'Paid' && matches
                     })
 
+                    // Members with 2+ unpaid months (prior arrears)
+                    const arrearsMembers = groupMembers.filter(m => {
+                      const unpaidList = m.unpaidMonthsList || []
+                      const matches = m.name.toLowerCase().includes(query) || m.phone.includes(query)
+                      return unpaidList.length >= 2 && matches
+                    })
+
                     // Recent transaction receipts list
-                    const allPaid = groupMembers.filter(m => (m.groupPayments?.[group.name]?.status || m.status) === 'Paid')
+                    const allPaid = effectiveGroupMembers.filter(m => (m.groupPayments?.[group.name]?.status || m.status) === 'Paid')
+                    const isPrevMonth = selectedMonthFilter === 'prev-month'
+                    const isJulMonth = selectedMonthFilter === 'jul-2026' || selectedMonthFilter.includes('2026-07')
                     const recentTxns = allPaid.map((m, idx) => ({
-                      id: `rec-${m.id}`,
+                      id: `rec-${m.id}-${isPrevMonth ? 'aug' : isJulMonth ? 'jul' : 'sep'}`,
                       memberName: m.name,
                       initials: m.initials,
                       color: m.color,
                       amount: m.groupPayments?.[group.name]?.amount || group.feeAmount,
-                      date: idx === 0 ? 'Today, 09:42 AM' : idx === 1 ? 'Yesterday, 04:15 PM' : '18 Sep 2026',
+                      date: isPrevMonth
+                        ? (idx === 0 ? '10 Aug 2026, 11:15 AM' : '05 Aug 2026, 04:20 PM')
+                        : isJulMonth
+                        ? (idx === 0 ? '08 Jul 2026, 10:30 AM' : '03 Jul 2026, 02:45 PM')
+                        : (idx === 0 ? 'Today, 09:42 AM' : idx === 1 ? 'Yesterday, 04:15 PM' : '18 Sep 2026'),
                       method: idx % 2 === 0 ? 'UPI / Online Link' : 'Cash Receipt',
-                      txnId: `TXN-${88241 + idx * 17}`,
+                      txnId: `TXN-${isPrevMonth ? 78241 : isJulMonth ? 68241 : 88241 + idx * 17}`,
                       status: 'Completed'
                     })).filter(t => t.memberName.toLowerCase().includes(query) || t.txnId.toLowerCase().includes(query))
 
@@ -588,7 +952,7 @@ export default function GroupsTab() {
                             {recentTxns.length > 0 ? (
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                 {recentTxns.map(rec => (
-                                  <div key={rec.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                                  <div key={rec.id} className="group-recent-txn-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                       <div className={`member-avatar ${rec.color}`} style={{ width: 36, height: 36, fontSize: 13, fontWeight: 700 }}>{rec.initials}</div>
                                       <div>
@@ -626,7 +990,7 @@ export default function GroupsTab() {
                                 {paidMembers.map(m => {
                                   const payInfo = m.groupPayments?.[group.name] || { amount: group.feeAmount, status: 'Paid', due: m.due }
                                   return (
-                                    <div key={m.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                                    <div key={m.id} className="group-paid-member-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
                                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                         <div className={`member-avatar ${m.color}`} style={{ width: 36, height: 36, fontSize: 13, fontWeight: 700 }}>{m.initials}</div>
                                         <div>
@@ -662,30 +1026,70 @@ export default function GroupsTab() {
                               </span>
                             </div>
 
-                            {pendingMembers.length > 0 ? (
+                             {pendingMembers.length > 0 ? (
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                 {pendingMembers.map(m => {
                                   const payInfo = m.groupPayments?.[group.name] || { amount: group.feeAmount, status: m.status, due: m.due }
                                   const isOverdue = payInfo.status === 'Overdue'
+                                  const unpaidList = m.unpaidMonthsList || []
+                                  const hasMultiMonth = unpaidList.length >= 2
+                                  const totalOwed = hasMultiMonth
+                                    ? unpaidList.reduce((s, u) => s + Number((u.amount || '0').replace(/[^0-9]/g, '')), 0)
+                                    : Number((payInfo.amount || '0').replace(/[^0-9]/g, ''))
+
                                   return (
-                                    <div key={m.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '10px', background: isOverdue ? '#fff1f2' : '#fffbeb', border: isOverdue ? '1px solid #fecdd3' : '1px solid #fef3c7' }}>
+                                    <div key={m.id} className="group-pending-member-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '10px', background: isOverdue || hasMultiMonth ? '#fff1f2' : '#fffbeb', border: isOverdue || hasMultiMonth ? '1px solid #fecdd3' : '1px solid #fef3c7' }}>
                                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                         <div className={`member-avatar ${m.color}`} style={{ width: 36, height: 36, fontSize: 13, fontWeight: 700 }}>{m.initials}</div>
                                         <div>
-                                          <strong style={{ display: 'block', fontSize: '14px', color: '#0f172a' }}>{m.name}</strong>
-                                          <small style={{ color: isOverdue ? '#e11d48' : '#b45309', fontSize: '11px', fontWeight: 600 }}>{payInfo.due || 'Due soon'}</small>
+                                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                            <strong style={{ fontSize: '14px', color: '#0f172a' }}>{m.name}</strong>
+                                            {hasMultiMonth && (
+                                              <span style={{ fontSize: '10px', fontWeight: 800, padding: '2px 7px', borderRadius: '4px', background: '#be123c', color: '#ffffff', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                                                <AlertTriangle size={10} /> {unpaidList.length} Mos Arrears
+                                              </span>
+                                            )}
+                                          </div>
+                                          <small style={{ color: isOverdue || hasMultiMonth ? '#e11d48' : '#b45309', fontSize: '11px', fontWeight: 600 }}>
+                                            {hasMultiMonth
+                                              ? `Unpaid: ${unpaidList.map(u => u.month).join(', ')}`
+                                              : (payInfo.due || 'Due soon')}
+                                          </small>
                                         </div>
                                       </div>
                                       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                                        <span style={{ fontWeight: 700, fontSize: '14px', color: '#0f172a' }}>{payInfo.amount}</span>
-                                        <span style={{
-                                          fontSize: '11px', fontWeight: 700, padding: '3px 10px', borderRadius: '20px',
-                                          background: isOverdue ? '#fee2e2' : '#fff7ed',
-                                          color: isOverdue ? '#dc2626' : '#c2410c',
-                                          display: 'flex', alignItems: 'center', gap: '4px'
-                                        }}>
-                                          <AlertCircle size={12} /> {payInfo.status}
-                                        </span>
+                                        <div style={{ textAlign: 'right' }}>
+                                          <span style={{ fontWeight: 700, fontSize: '14px', color: hasMultiMonth ? '#be123c' : '#0f172a', display: 'block' }}>
+                                            ₹{totalOwed.toLocaleString('en-IN')}
+                                          </span>
+                                          <span style={{
+                                            fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '20px',
+                                            background: isOverdue || hasMultiMonth ? '#fee2e2' : '#fff7ed',
+                                            color: isOverdue || hasMultiMonth ? '#dc2626' : '#c2410c',
+                                            display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '2px'
+                                          }}>
+                                            <AlertCircle size={11} /> {hasMultiMonth ? 'Arrears' : payInfo.status}
+                                          </span>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setSelectedMember(m)
+                                            setModal('details')
+                                          }}
+                                          style={{
+                                            padding: '6px 12px',
+                                            borderRadius: '6px',
+                                            border: '1px solid #cbd5e1',
+                                            background: '#ffffff',
+                                            color: '#334155',
+                                            fontSize: '11px',
+                                            fontWeight: 600,
+                                            cursor: 'pointer'
+                                          }}
+                                        >
+                                          Details
+                                        </button>
                                       </div>
                                     </div>
                                   )
@@ -693,6 +1097,89 @@ export default function GroupsTab() {
                               </div>
                             ) : (
                               <p style={{ margin: 0, fontSize: '13px', color: '#94a3b8', fontStyle: 'italic', padding: '12px 0' }}>All members have paid their fees!</p>
+                            )}
+                          </div>
+                        )}
+
+                        {/* 4. ARREARS (PRIOR MONTHS DUES) FILTER */}
+                        {txnFilter === 'Arrears' && (
+                          <div style={{ border: '1.5px solid #fecdd3', borderRadius: '12px', padding: '20px', background: '#fff1f2' }}>
+                            <div className="group-arrears-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+                              <div>
+                                <h5 style={{ margin: 0, fontSize: '14px', color: '#9f1239', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                  <AlertTriangle size={15} color="#be123c" /> Prior Months Overdue & Arrears ({arrearsMembers.length})
+                                </h5>
+                                <span style={{ fontSize: '11px', color: '#be123c' }}>
+                                  Clients who missed previous billing periods (2+ months unpaid)
+                                </span>
+                              </div>
+                              <span style={{ fontSize: '11px', color: '#9f1239', background: '#ffe4e6', padding: '3px 10px', borderRadius: '6px', fontWeight: 700, border: '1px solid #fecdd3' }}>
+                                Priority Collection
+                              </span>
+                            </div>
+
+                            {arrearsMembers.length > 0 ? (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                {arrearsMembers.map(m => {
+                                  const list = m.unpaidMonthsList || []
+                                  const totalOwed = list.reduce((s, u) => s + Number(u.amount.replace(/[^0-9]/g, '')), 0)
+                                  return (
+                                    <div key={m.id} className="group-arrears-member-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '10px', background: '#ffffff', border: '1px solid #fecdd3', boxShadow: '0 1px 3px rgba(190, 18, 60, 0.05)' }}>
+                                      <div className="group-arrears-info-wrap" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <div className={`member-avatar ${m.color}`} style={{ width: 40, height: 40, fontSize: 14, fontWeight: 700 }}>{m.initials}</div>
+                                        <div>
+                                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <strong style={{ fontSize: '14px', color: '#0f172a' }}>{m.name}</strong>
+                                            <span style={{ fontSize: '11px', color: '#64748b' }}>{m.phone}</span>
+                                          </div>
+                                          <div style={{ display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' }}>
+                                            {list.map(u => (
+                                              <span key={u.id} style={{
+                                                fontSize: '10.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px',
+                                                background: '#fff1f2', color: '#be123c', border: '1px solid #fecdd3'
+                                              }}>
+                                                {u.month}: {u.amount} ({u.overdueDays}d overdue)
+                                              </span>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="group-arrears-actions-wrap" style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                        <div style={{ textAlign: 'right' }}>
+                                          <span style={{ fontWeight: 800, fontSize: '16px', color: '#be123c', display: 'block' }}>
+                                            ₹{totalOwed.toLocaleString('en-IN')}
+                                          </span>
+                                          <span style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: 600 }}>Total Balance</span>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setSelectedMember(m)
+                                            setModal('details')
+                                          }}
+                                          style={{
+                                            padding: '8px 14px',
+                                            borderRadius: '8px',
+                                            border: 'none',
+                                            background: '#be123c',
+                                            color: '#ffffff',
+                                            fontSize: '12px',
+                                            fontWeight: 700,
+                                            cursor: 'pointer',
+                                            boxShadow: '0 2px 4px rgba(190, 18, 60, 0.2)'
+                                          }}
+                                        >
+                                          View & Settle
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            ) : (
+                              <p style={{ margin: 0, fontSize: '13px', color: '#9f1239', fontStyle: 'italic', padding: '12px 0' }}>
+                                No members with 2+ months arrears in this group! All members are up to date.
+                              </p>
                             )}
                           </div>
                         )}
@@ -792,7 +1279,7 @@ export default function GroupsTab() {
                                     fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: '12px',
                                     background: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0'
                                   }}>
-                                    Sent ({existingRem.lastSentAt || 'Today'})
+                                    Sent ({existingRem?.lastSentAt || 'Today'})
                                   </span>
                                 ) : (
                                   <span style={{
@@ -890,7 +1377,6 @@ export default function GroupsTab() {
                                     channel: 'WhatsApp',
                                     enabled: true,
                                     quotaConsumed: isQuotaUsed,
-                                    lastSentAt: existingRem?.lastSentAt
                                   }
                                   setEditingReminder(remToEdit)
                                   setRemTitle(remToEdit.title)
@@ -1018,6 +1504,31 @@ export default function GroupsTab() {
                     </div>
                   )}
                 </div>
+
+                {/* Multi-Month Arrears in Member Popover */}
+                {activeMemberDetailPopover.unpaidMonthsList && activeMemberDetailPopover.unpaidMonthsList.length > 0 && (
+                  <div style={{
+                    background: '#fff1f2', border: '1px solid #fecdd3', borderRadius: '12px',
+                    padding: '12px 14px', marginBottom: '18px'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 700, color: '#9f1239', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <AlertTriangle size={12} color="#be123c" /> Prior Unpaid Months ({activeMemberDetailPopover.unpaidMonthsList.length})
+                      </span>
+                      <strong style={{ fontSize: '12px', color: '#be123c' }}>
+                        Total: ₹{activeMemberDetailPopover.unpaidMonthsList.reduce((s, u) => s + Number(u.amount.replace(/[^0-9]/g, '')), 0).toLocaleString('en-IN')}
+                      </strong>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      {activeMemberDetailPopover.unpaidMonthsList.map(u => (
+                        <div key={u.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', padding: '6px 10px', borderRadius: '6px', fontSize: '12px' }}>
+                          <span style={{ fontWeight: 600, color: '#0f172a' }}>{u.month}</span>
+                          <span style={{ color: '#be123c', fontWeight: 700 }}>{u.amount}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Sleek & Minimal Status Toggle Switch */}
                 {(() => {
@@ -1330,197 +1841,817 @@ export default function GroupsTab() {
     }
   }
 
-  // ── VIEW 1: ALL GROUPS OVERVIEW (LARGE TILES GRID) ──────────────────────────
+  // Theme color palettes for group cards matching mockup aesthetics
+  const cardThemeTints = [
+    {
+      avatarBg: '#ffe4e6',
+      avatarColor: '#e11d48',
+      cornerWash: 'radial-gradient(circle at 100% 0%, rgba(244, 63, 94, 0.12) 0%, rgba(254, 205, 211, 0.04) 50%, transparent 75%)',
+      metricSquircleBg: '#fef2f2',
+      metricIconColor: '#475569',
+    },
+    {
+      avatarBg: '#e0f2fe',
+      avatarColor: '#0284c7',
+      cornerWash: 'radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.14) 0%, rgba(186, 230, 253, 0.04) 50%, transparent 75%)',
+      metricSquircleBg: '#f0f9ff',
+      metricIconColor: '#0284c7',
+    },
+    {
+      avatarBg: '#dcfce7',
+      avatarColor: '#16a34a',
+      cornerWash: 'radial-gradient(circle at 100% 0%, rgba(34, 197, 94, 0.12) 0%, rgba(187, 247, 208, 0.04) 50%, transparent 75%)',
+      metricSquircleBg: '#f0fdf4',
+      metricIconColor: '#16a34a',
+    },
+    {
+      avatarBg: '#f3e8ff',
+      avatarColor: '#9333ea',
+      cornerWash: 'radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.12) 0%, rgba(233, 213, 255, 0.04) 50%, transparent 75%)',
+      metricSquircleBg: '#faf5ff',
+      metricIconColor: '#9333ea',
+    },
+    {
+      avatarBg: '#fef3c7',
+      avatarColor: '#d97706',
+      cornerWash: 'radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.14) 0%, rgba(254, 243, 199, 0.04) 50%, transparent 75%)',
+      metricSquircleBg: '#fffbeb',
+      metricIconColor: '#d97706',
+    },
+    {
+      avatarBg: '#ffe4e6',
+      avatarColor: '#be123c',
+      cornerWash: 'radial-gradient(circle at 100% 0%, rgba(244, 63, 94, 0.12) 0%, rgba(254, 205, 211, 0.04) 50%, transparent 75%)',
+      metricSquircleBg: '#fef2f2',
+      metricIconColor: '#be123c',
+    },
+  ]
+
+  // ── VIEW 1: ALL GROUPS OVERVIEW (DECORATED TILES GRID) ──────────────────────────
   return (
     <>
-      <div className="page-heading simple">
-        <div>
-          <p className="eyebrow">Group management</p>
-          <h1>Groups & Memberships</h1>
-          <p className="subheading">Configure membership groups, manage billing settings, and monitor member status per group.</p>
+      {/* ── Decorated Hero Banner matching mockup ── */}
+      <div
+        className="groups-hero-banner"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '20px',
+          marginBottom: '20px',
+          position: 'relative',
+        }}
+      >
+        <div style={{ maxWidth: '580px', zIndex: 1 }}>
+          <p
+            style={{
+              margin: '0 0 4px',
+              fontSize: '11px',
+              fontWeight: 700,
+              color: '#64748b',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Group Management
+          </p>
+          <h1
+            style={{
+              margin: '0 0 6px',
+              fontSize: '32px',
+              fontWeight: 800,
+              color: '#0f172a',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.15,
+            }}
+          >
+            Groups & <span style={{ color: '#be123c' }}>Memberships</span>
+          </h1>
+          <p style={{ margin: 0, fontSize: '13px', color: '#64748b', lineHeight: 1.45 }}>
+            Configure membership groups, manage billing settings, and monitor member status per group.
+          </p>
         </div>
-        <button 
-          className="primary-button" 
-          onClick={() => {
-            setSelectedGroup(null)
-            setModal('add-group')
-          }}
-        >
-          <Plus size={16} /> New Group
-        </button>
+
+        {/* Right Art & Action Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1 }}>
+          {/* 3D Isometric Cards Stack Art */}
+          <div className="groups-hero-badge-wrap">
+            <Group3DIsometricBadge size={92} />
+          </div>
+
+          {/* + New Group Button */}
+          <button
+            onClick={() => {
+              setSelectedGroup(null)
+              setModal('add-group')
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '12px',
+              padding: '11px 22px',
+              fontSize: '14px',
+              fontWeight: 700,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 14px rgba(190, 18, 60, 0.28)',
+              transition: 'all 0.15s ease',
+              whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)'
+              e.currentTarget.style.boxShadow = '0 6px 18px rgba(190, 18, 60, 0.38)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'none'
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(190, 18, 60, 0.28)'
+            }}
+          >
+            <Plus size={16} strokeWidth={2.5} />
+            <span>New Group</span>
+          </button>
+        </div>
       </div>
 
-      <div className="directory-toolbar" style={{ marginBottom: '24px' }}>
-        <div className="search-box">
-          <Search size={16} />
+      {/* ── Toolbar: Search + Sort Dropdown + Filter Icon ── */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '14px',
+          marginBottom: '22px',
+          flexWrap: 'wrap',
+          position: 'relative',
+        }}
+      >
+        {/* Search */}
+        <div style={{ position: 'relative', flex: '1 1 280px', maxWidth: '440px' }}>
+          <Search size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by group name or description..."
             aria-label="Search groups"
+            style={{
+              width: '100%',
+              height: '42px',
+              paddingLeft: '40px',
+              paddingRight: '14px',
+              borderRadius: '12px',
+              border: '1px solid #e2e8f0',
+              background: '#ffffff',
+              fontSize: '13px',
+              color: '#0f172a',
+              outline: 'none',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
+              transition: 'border-color 0.15s ease',
+            }}
+            onFocus={(e) => (e.target.style.borderColor = '#be123c')}
+            onBlur={(e) => (e.target.style.borderColor = '#e2e8f0')}
           />
+        </div>
+
+        {/* Sort & Filter */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Sort Dropdown */}
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => {
+                setSortDropdownOpen(!sortDropdownOpen)
+                setFilterOpen(false)
+              }}
+              style={{
+                height: '42px',
+                padding: '0 16px',
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                color: '#334155',
+                fontSize: '13px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
+              }}
+            >
+              <span>
+                {sortBy === 'recent'
+                  ? 'Recently Created'
+                  : sortBy === 'name'
+                  ? 'Group Name (A-Z)'
+                  : sortBy === 'members'
+                  ? 'Most Members'
+                  : 'Highest Fee'}
+              </span>
+              <ChevronDown size={14} style={{ color: '#64748b' }} />
+            </button>
+
+            {sortDropdownOpen && (
+              <>
+                <div
+                  style={{ position: 'fixed', inset: 0, zIndex: 40 }}
+                  onClick={() => setSortDropdownOpen(false)}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '48px',
+                    width: '180px',
+                    background: '#ffffff',
+                    borderRadius: '12px',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)',
+                    padding: '6px',
+                    zIndex: 50,
+                  }}
+                >
+                  {[
+                    { key: 'recent', label: 'Recently Created' },
+                    { key: 'name', label: 'Group Name (A-Z)' },
+                    { key: 'members', label: 'Most Members' },
+                    { key: 'fee', label: 'Highest Fee' },
+                  ].map((item) => (
+                    <button
+                      key={item.key}
+                      onClick={() => {
+                        setSortBy(item.key as any)
+                        setSortDropdownOpen(false)
+                      }}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '8px 12px',
+                        borderRadius: '8px',
+                        border: 'none',
+                        background: sortBy === item.key ? '#fff1f2' : 'transparent',
+                        color: sortBy === item.key ? '#be123c' : '#334155',
+                        fontSize: '12.5px',
+                        fontWeight: sortBy === item.key ? 700 : 500,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {item.label}
+                      {sortBy === item.key && <Check size={14} />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Filter Button */}
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => {
+                setFilterOpen(!filterOpen)
+                setSortDropdownOpen(false)
+              }}
+              title="Filter by billing type"
+              style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '12px',
+                border: `1px solid ${filterType !== 'all' ? '#be123c' : '#e2e8f0'}`,
+                background: filterType !== 'all' ? '#fff1f2' : '#ffffff',
+                color: filterType !== 'all' ? '#be123c' : '#475569',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
+              }}
+            >
+              <SlidersHorizontal size={16} />
+            </button>
+
+            {filterOpen && (
+              <>
+                <div
+                  style={{ position: 'fixed', inset: 0, zIndex: 40 }}
+                  onClick={() => setFilterOpen(false)}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '48px',
+                    width: '160px',
+                    background: '#ffffff',
+                    borderRadius: '12px',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)',
+                    padding: '6px',
+                    zIndex: 50,
+                  }}
+                >
+                  {[
+                    { key: 'all', label: 'All Groups' },
+                    { key: 'recurring', label: 'Recurring Only' },
+                    { key: 'one-time', label: 'One-time Only' },
+                  ].map((item) => (
+                    <button
+                      key={item.key}
+                      onClick={() => {
+                        setFilterType(item.key as any)
+                        setFilterOpen(false)
+                      }}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '8px 12px',
+                        borderRadius: '8px',
+                        border: 'none',
+                        background: filterType === item.key ? '#fff1f2' : 'transparent',
+                        color: filterType === item.key ? '#be123c' : '#334155',
+                        fontSize: '12.5px',
+                        fontWeight: filterType === item.key ? 700 : 500,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {item.label}
+                      {filterType === item.key && <Check size={14} />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Large Group Tiles Grid */}
-      <div className="groups-tiles-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
-        {filteredGroups.map((group, idx) => {
+      {/* ── Large Decorated Group Tiles Grid (3 Columns) ── */}
+      <div className="groups-tiles-grid">
+        {displayedGroups.map((group, idx) => {
+          const theme = cardThemeTints[idx % cardThemeTints.length]
           const groupMembers = getGroupMembers(group.name)
-          const bgColor = groupColors[idx % groupColors.length]
-          const textColor = groupTextColors[idx % groupTextColors.length]
-
-          const totalPaid = groupMembers.filter(m => m.groupPayments?.[group.name]?.status === 'Paid').length
-          const totalPending = groupMembers.filter(m => m.groupPayments?.[group.name]?.status === 'Pending' || m.groupPayments?.[group.name]?.status === 'Overdue').length
-          const isRecurring = group.billingType === 'Recurring'
 
           const unitFee = Number(group.feeAmount.replace(/[^0-9]/g, '')) || 0
-          const monthlyEst = unitFee * groupMembers.length
+          const enrolledCount = groupMembers.length > 0 ? groupMembers.length : (group.memberCount || 0)
+          const monthlyEst = unitFee * enrolledCount
+
+          // Calculate payment status counts:
+          let totalPaid = 0
+          let totalPending = 0
+          let priorDues = 0
+
+          if (groupMembers.length > 0) {
+            totalPaid = groupMembers.filter(m => m.groupPayments?.[group.name]?.status === 'Paid').length
+            totalPending = groupMembers.filter(m => m.groupPayments?.[group.name]?.status === 'Pending').length
+            priorDues = groupMembers.filter(m => (m.unpaidMonthsList || []).length > 0 || m.groupPayments?.[group.name]?.status === 'Overdue').length
+          } else {
+            totalPaid = group.paidCount ?? 0
+            totalPending = group.pendingCount ?? 0
+            priorDues = group.priorDuesCount ?? 0
+          }
+
+          // Progress bar percentage segments:
+          const totalStatus = totalPaid + totalPending + priorDues
+          const paidPct = totalStatus > 0 ? (totalPaid / totalStatus) * 100 : 0
+          const pendingPct = totalStatus > 0 ? (totalPending / totalStatus) * 100 : 0
+          const priorPct = totalStatus > 0 ? (priorDues / totalStatus) * 100 : 0
+
+          // Member initials avatar roster
+          const realAvatars = groupMembers.slice(0, 3).map(m => ({
+            initials: m.initials,
+            name: m.name,
+            bg: m.color === 'peach' ? '#ffe4e6' : m.color === 'lavender' ? '#ede9fe' : m.color === 'mint' ? '#dcfce7' : '#dbeafe',
+            color: m.color === 'peach' ? '#be123c' : m.color === 'lavender' ? '#6d28d9' : m.color === 'mint' ? '#15803d' : '#1d4ed8',
+          }))
+
+          const fallbackAvatarsMap: Record<string, { initials: string; name: string; bg: string; color: string }[]> = {
+            'Bollywood Dance': [
+              { initials: 'AS', name: 'Ananya Sharma', bg: '#fef3c7', color: '#b45309' },
+              { initials: 'DN', name: 'Devendra Nair', bg: '#dbeafe', color: '#1d4ed8' },
+            ],
+            'Kids Dance Batch': [
+              { initials: 'TK', name: 'Tanvi Kapoor', bg: '#fef3c7', color: '#d97706' },
+            ],
+            'Vocal Music': [
+              { initials: 'KK', name: 'Kavita Krishnan', bg: '#ffe4e6', color: '#be123c' },
+            ],
+          }
+
+          const displayAvatars = realAvatars.length > 0 ? realAvatars : (fallbackAvatarsMap[group.name] || [])
+          const extraAvatarCount = enrolledCount > displayAvatars.length ? enrolledCount - displayAvatars.length : 0
 
           return (
             <div
               key={group.id}
-              className="group-tile-card"
+              className="group-decorated-card"
               onClick={() => {
                 setExpandedGroupId(group.id)
                 setActiveGroupTab('overview')
               }}
+              style={{
+                background: '#ffffff',
+                borderRadius: '18px',
+                border: '1px solid #f1f5f9',
+                padding: '20px 22px',
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02)',
+              }}
             >
-              {/* Tile Header: Clean Icon/Image Avatar, Name, Schedule Badge, Actions */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              {/* Top-Right Corner Pastel Wash */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  width: '180px',
+                  height: '140px',
+                  background: theme.cornerWash,
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                }}
+              />
+
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                {/* Header: Squircle Avatar, Name, Recurrence Badge, Actions */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
                     {group.groupImage ? (
                       <img
                         src={group.groupImage}
                         alt={group.name}
                         style={{
-                          width: 44, height: 44, borderRadius: '10px',
-                          objectFit: 'cover', flexShrink: 0,
-                          border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                          width: 44,
+                          height: 44,
+                          borderRadius: '12px',
+                          objectFit: 'cover',
+                          flexShrink: 0,
+                          border: '1px solid #e2e8f0',
                         }}
                       />
                     ) : (
                       <div
-                        className="group-avatar-badge"
-                        style={{ background: bgColor, color: textColor }}
+                        style={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: '12px',
+                          background: theme.avatarBg,
+                          color: theme.avatarColor,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          flexShrink: 0,
+                          border: `1px solid ${theme.avatarColor}20`,
+                        }}
                       >
                         {group.name.charAt(0).toUpperCase()}
                       </div>
                     )}
 
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.25 }}>
+                    <div style={{ minWidth: 0, flex: 1, paddingRight: '8px' }}>
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: '15.5px',
+                          fontWeight: 700,
+                          color: '#0f172a',
+                          letterSpacing: '-0.015em',
+                          lineHeight: 1.25,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                        title={group.name}
+                      >
                         {group.name}
                       </h3>
-                      <span className={`group-badge-pill ${isRecurring ? 'recurring' : 'one-time'}`} style={{ marginTop: '5px' }}>
-                        {group.billingType} {group.recursEvery ? `· ${group.recursEvery}` : ''}
-                      </span>
+                      <div style={{ marginTop: '4px' }}>
+                        <span
+                          style={{
+                            fontSize: '10.5px',
+                            fontWeight: 600,
+                            padding: '2px 8px',
+                            borderRadius: '6px',
+                            background: '#f1f5f9',
+                            color: '#475569',
+                            border: '1px solid #e2e8f0',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                          }}
+                        >
+                          {group.billingType} {group.recursEvery ? `· ${group.recursEvery}` : ''}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div style={{ display: 'flex', gap: '6px' }} onClick={e => e.stopPropagation()}>
+                  {/* Actions: Edit & Trash */}
+                  <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
                     <button
-                      onClick={() => { setSelectedGroup(group); setModal('edit-group') }}
-                      title="Edit group details"
-                      style={{
-                        border: '1px solid #e2e8f0', background: '#fff', color: '#475569',
-                        width: 32, height: 32, borderRadius: '8px', cursor: 'pointer',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'all 0.15s ease'
+                      onClick={() => {
+                        setSelectedGroup(group)
+                        setModal('edit-group')
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#0f172a'; e.currentTarget.style.color = '#0f172a' }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#475569' }}
+                      title="Edit group details"
+                      className="group-action-btn edit"
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: '8px',
+                        border: '1px solid #e2e8f0',
+                        background: '#ffffff',
+                        color: '#64748b',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
                     >
-                      <Edit3 size={14} />
+                      <Edit3 size={13} />
                     </button>
                     <button
                       onClick={() => handleDeleteGroupClick(group)}
                       title="Delete group"
+                      className="group-action-btn delete"
                       style={{
-                        border: '1px solid #fee2e2', background: '#fff', color: '#dc2626',
-                        width: 32, height: 32, borderRadius: '8px', cursor: 'pointer',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'all 0.15s ease'
+                        width: 32,
+                        height: 32,
+                        borderRadius: '8px',
+                        border: '1px solid #fee2e2',
+                        background: '#ffffff',
+                        color: '#ef4444',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
                       }}
-                      onMouseEnter={e => e.currentTarget.style.background = '#fef2f2'}
-                      onMouseLeave={e => e.currentTarget.style.background = '#fff'}
                     >
-                      <Trash2 size={14} />
+                      <Trash2 size={13} />
                     </button>
                   </div>
                 </div>
 
-                {group.description && (
-                  <p style={{ margin: '0 0 16px', fontSize: '13px', color: '#475569', lineHeight: '1.5' }}>
-                    {group.description}
-                  </p>
-                )}
+                {/* 2-line Description */}
+                <p
+                  style={{
+                    margin: '0 0 14px',
+                    fontSize: '12.5px',
+                    color: '#64748b',
+                    lineHeight: 1.45,
+                    minHeight: '36px',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {group.description || 'Comprehensive training schedule and syllabus repertoire for active batch members.'}
+                </p>
 
-                {/* Structured Metrics Card */}
-                <div className="group-tile-metrics-box">
+                {/* Structured 2-Col Metrics Container */}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '12px',
+                    background: '#f8fafc',
+                    padding: '11px 13px',
+                    borderRadius: '12px',
+                    border: '1px solid #f1f5f9',
+                    marginBottom: '14px',
+                  }}
+                >
+                  {/* Fee Amount */}
                   <div>
-                    <span className="metric-label">Fee Amount</span>
-                    <strong className="metric-val">{group.feeAmount}</strong>
-                    <span className="metric-sub">{group.dueDate || '1st of every month'}</span>
-                  </div>
-
-                  <div>
-                    <span className="metric-label">Enrolled Members</span>
-                    <strong className="metric-val" style={{ color: '#0f172a' }}>
-                      {groupMembers.length}
-                    </strong>
-                    <span className="metric-sub">₹{monthlyEst.toLocaleString('en-IN')}/mo volume</span>
-                  </div>
-                </div>
-
-                {/* Progress Bar & Breakdown */}
-                <div style={{ marginBottom: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', marginBottom: '8px' }}>
-                    <span style={{ color: '#64748b', fontWeight: 600 }}>Payment Status</span>
-                    <div style={{ display: 'flex', gap: '8px', fontSize: '11px', fontWeight: 600 }}>
-                      <span style={{ color: '#059669', background: '#ecfdf5', padding: '2px 8px', borderRadius: '4px' }}>
-                        {totalPaid} paid
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
+                      <div
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          borderRadius: '4px',
+                          background: '#ffffff',
+                          border: '1px solid #e2e8f0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: theme.metricIconColor || '#475569',
+                          boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                        }}
+                      >
+                        ₹
+                      </div>
+                      <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#64748b' }}>
+                        Fee Amount
                       </span>
-                      <span style={{ color: '#b45309', background: '#fef3c7', padding: '2px 8px', borderRadius: '4px' }}>
-                        {totalPending} pending
-                      </span>
+                    </div>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                      {group.feeAmount}
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, marginTop: '2px' }}>
+                      {group.dueDate || '1st of every month'}
                     </div>
                   </div>
 
-                  <div style={{ width: '100%', height: 6, borderRadius: 3, background: '#f1f5f9', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                    <div style={{
-                      height: '100%',
-                      width: groupMembers.length > 0 ? `${Math.round((totalPaid / groupMembers.length) * 100)}%` : '0%',
-                      background: '#059669',
-                      borderRadius: 3,
-                      transition: 'width 0.3s ease'
-                    }} />
+                  {/* Enrolled Members */}
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
+                      <div
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          borderRadius: '4px',
+                          background: '#ffffff',
+                          border: '1px solid #e2e8f0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: theme.metricIconColor || '#475569',
+                          boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                        }}
+                      >
+                        <Users size={10} />
+                      </div>
+                      <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#64748b' }}>
+                        Enrolled Members
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                      {enrolledCount}
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, marginTop: '2px' }}>
+                      ₹{monthlyEst.toLocaleString('en-IN')}/mo volume
+                    </div>
                   </div>
                 </div>
 
-                {/* Footer: Member Roster Thumbnails & Action Link */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '14px', borderTop: '1px solid #f1f5f9' }}>
-                  <span className="group-tile-link-arrow">
-                    Manage group →
-                  </span>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    {groupMembers.slice(0, 4).map((m, i) => (
-                      <div
-                        key={m.id}
-                        className={`member-avatar ${m.color}`}
-                        style={{ width: 28, height: 28, fontSize: 10, marginLeft: i > 0 ? -6 : 0, border: '2px solid #fff', boxShadow: '0 1px 2px rgba(0,0,0,0.06)', zIndex: 4 - i }}
-                        title={m.name}
-                      >
-                        {m.initials}
-                      </div>
-                    ))}
-                    {groupMembers.length > 4 && (
-                      <div style={{ width: 28, height: 28, borderRadius: 8, background: '#f1f5f9', color: '#475569', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: -6, border: '2px solid #fff', boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
-                        +{groupMembers.length - 4}
-                      </div>
+                {/* Payment Status Segmented Bar & Pills */}
+                <div style={{ marginBottom: '4px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '6px' }}>
+                    Payment Status
+                  </div>
+
+                  {/* Segmented Progress Bar */}
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '5px',
+                      borderRadius: '3px',
+                      background: '#f1f5f9',
+                      display: 'flex',
+                      overflow: 'hidden',
+                      gap: '2px',
+                      marginBottom: '8px',
+                    }}
+                  >
+                    {totalStatus === 0 ? (
+                      <div style={{ width: '100%', height: '100%', background: '#e2e8f0', borderRadius: '2px' }} />
+                    ) : (
+                      <>
+                        {paidPct > 0 && (
+                          <div
+                            style={{
+                              width: `${paidPct}%`,
+                              height: '100%',
+                              background: '#10b981',
+                              borderRadius: '2px',
+                              transition: 'width 0.3s ease',
+                            }}
+                          />
+                        )}
+                        {pendingPct > 0 && (
+                          <div
+                            style={{
+                              width: `${pendingPct}%`,
+                              height: '100%',
+                              background: '#f59e0b',
+                              borderRadius: '2px',
+                              transition: 'width 0.3s ease',
+                            }}
+                          />
+                        )}
+                        {priorPct > 0 && (
+                          <div
+                            style={{
+                              width: `${priorPct}%`,
+                              height: '100%',
+                              background: '#f43f5e',
+                              borderRadius: '2px',
+                              transition: 'width 0.3s ease',
+                            }}
+                          />
+                        )}
+                      </>
                     )}
                   </div>
+
+                  {/* Status Pills */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '10.5px', fontWeight: 600 }}>
+                    <span style={{ color: '#059669', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                      <span style={{ fontSize: '9px' }}>●</span> {totalPaid} paid
+                    </span>
+                    <span style={{ color: '#d97706', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                      <span style={{ fontSize: '9px' }}>●</span> {totalPending} pending
+                    </span>
+                    <span style={{ color: '#e11d48', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                      <span style={{ fontSize: '8px' }}>▲</span> {priorDues} prior dues
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer: Manage Group Link & Overlapping Member Avatars */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingTop: '12px',
+                  borderTop: '1px solid #f1f5f9',
+                  marginTop: '12px',
+                  position: 'relative',
+                  zIndex: 1,
+                }}
+              >
+                <span
+                  className="group-manage-link"
+                  style={{
+                    fontSize: '12.5px',
+                    color: '#be123c',
+                    fontWeight: 700,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    transition: 'gap 0.15s ease',
+                  }}
+                >
+                  Manage group →
+                </span>
+
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {displayAvatars.map((av, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: '50%',
+                        background: av.bg,
+                        color: av.color,
+                        fontSize: 10,
+                        fontWeight: 700,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginLeft: i > 0 ? -6 : 0,
+                        border: '2px solid #ffffff',
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                        zIndex: displayAvatars.length - i,
+                      }}
+                      title={av.name}
+                    >
+                      {av.initials}
+                    </div>
+                  ))}
+                  {extraAvatarCount > 0 && (
+                    <div
+                      style={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: '50%',
+                        background: '#f1f5f9',
+                        color: '#475569',
+                        fontSize: 9.5,
+                        fontWeight: 700,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginLeft: -6,
+                        border: '2px solid #ffffff',
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                      }}
+                    >
+                      +{extraAvatarCount}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -1528,7 +2659,7 @@ export default function GroupsTab() {
         })}
       </div>
 
-      {filteredGroups.length === 0 && (
+      {displayedGroups.length === 0 && (
         <div style={{ padding: '48px', textAlign: 'center', background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', color: '#94a3b8', fontSize: '14px' }}>
           No groups found matching "{search}"
         </div>
